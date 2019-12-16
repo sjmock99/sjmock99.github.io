@@ -177,9 +177,6 @@ a:hover, a:focus, a:active {
 
 
 .row {
-  width: auto;
-  max-width: 100%;
-  height: auto;
   display: flex;
   flex-wrap: wrap;
   padding: 0 4px;
