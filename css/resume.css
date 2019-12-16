@@ -188,11 +188,9 @@ a:hover, a:focus, a:active {
   padding: 0 4px;
 }
 
-.img {
-  margin-top: 8px;
+.pictureFrame {
   vertical-align: middle;
-	max-width:100%;
-	max-height:100%;
-	height: auto;
-	width:auto;  
+  filter: invert(100%);
+  max-width:100%;
+  width:auto;  
 }
