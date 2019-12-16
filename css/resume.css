@@ -191,7 +191,9 @@ a:hover, a:focus, a:active {
   padding: 0 4px;
 }
 
-.column img {
+.img {
   margin-top: 8px;
   vertical-align: middle;
+  max-width: 100%;
+  height: auto;
 }
