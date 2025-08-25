@@ -920,11 +920,23 @@
 
       </div>
 
-        <div class="col-md-8 portfolio-item pdf-item mx-auto">
-          <div class="portfolio-entry">
-            <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://sjmock99.github.io/assets/docs/portfolio.pdf" width="100%" height="600px"></iframe>
-          </div>
+      <div class="col-md-8 portfolio-item pdf-item mx-auto">
+        <!-- PDF iframe for desktop/tablet -->
+        <div class="portfolio-entry d-none d-md-block">
+          <iframe 
+            src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://sjmock99.github.io/assets/docs/portfolio.pdf" 
+            width="100%" 
+            height="600px">
+          </iframe>
         </div>
+
+        <!-- Alternative link for mobile -->
+        <div class="d-block d-md-none text-center">
+          <a href="https://sjmock99.github.io/assets/docs/portfolio.pdf" target="_blank" rel="noopener" style="font-size: 1.5rem; font-weight: bold;">
+            Open Portfolio PDF (for mobile)
+          </a>
+        </div>
+      </div>
 
     </section><!-- /Portfolio Section -->
 
