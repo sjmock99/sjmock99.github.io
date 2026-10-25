@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Graph Admin</title>
+<style>
+  :root {
+    --bg: #f7faff; --surface: #fff; --ink: #13253a; --muted: #5d6f84; --line: #d6e0ec; --faint: #eef3f9;
+    --accent: #065cc2; --ok: #2c8a5a; --err: #c0392b;
+    --c-mech: #c4541c; --c-elec: #b08a00; --c-soft: #1f6fb8; --c-sys: #7a4bb3; --c-oth: #2c8a5a;
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); padding: 24px max(16px, 3vw) 60px; }
+  .wrap { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+  h1 { margin: 0; font-size: 26px; color: #13447f; }
+  h2 { margin: 8px 0 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .muted { color: var(--muted); }
+  button, select, input { font: inherit; color: inherit; }
+  button { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .5; cursor: wait; }
+  select, input[type=search], input[list] { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--faint); position: sticky; top: 0; }
+  td { padding: 5px 10px; border-bottom: 1px solid var(--faint); vertical-align: middle; }
+  tr.hub td { background: var(--faint); font-weight: 700; }
+  .name { display: flex; align-items: center; gap: 6px; }
+  .name a { color: var(--muted); text-decoration: none; font-size: 12px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .status { font-size: 12px; min-width: 56px; }
+  .status.ok { color: var(--ok); } .status.err { color: var(--err); } .status.busy { color: var(--muted); }
+  .parent-input { width: 220px; }
+  .proj { padding: 14px 16px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+  .proj:last-child { border-bottom: 0; }
+  .proj-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .proj-head strong { font-size: 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 4px 2px 10px; background: var(--surface); font-size: 13px; }
+  .chip button { border: 0; padding: 0 6px; border-radius: 999px; line-height: 1.4; color: var(--muted); }
+  .chip button:hover { color: var(--err); }
+  #log { white-space: pre-wrap; font: 12px ui-monospace, Menlo, monospace; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; }
+  .add-form { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .add-form strong { margin-right: 4px; }
+  .add-form.flash { border-color: var(--accent); box-shadow: 0 0 0 3px #065cc222; }
+  button.add-child, button.trash { padding: 0 7px; line-height: 1.4; color: var(--muted); }
+  button.trash:hover { color: var(--err); border-color: var(--err); }
+  button.trash.armed { background: var(--err); border-color: var(--err); color: #fff; }
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; white-space: nowrap; }
+  /* Blurb: wraps and grows to fit its text (autosize() below; field-sizing where supported). */
+  textarea.blurb { display: block; width: calc(100% - 15px); min-width: 240px; max-width: 560px; margin-top: 3px; font: 400 12.5px/1.45 inherit; font-family: inherit; color: var(--muted); background: transparent; border: 1px dashed transparent; border-radius: 4px; padding: 2px 6px; resize: none; overflow: hidden; field-sizing: content; }
+  textarea.blurb:hover { border-color: var(--line); }
+  textarea.blurb:focus { color: var(--ink); background: var(--surface); border: 1px solid var(--accent); }
+  textarea.blurb:placeholder-shown { font-style: italic; }
+  table td:first-child { width: 42%; }
+  .levels { margin: 0; font-size: 12.5px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Skill Graph Admin</h1>
+      <div class="muted">Edits save to Notion as soon as you change them. Running only on this computer.</div>
+    </div>
+    <div class="bar">
+      <button id="reloadBtn" title="Fetch everything again from Notion">Reload from Notion</button>
+      <label class="muted" title="For previewing on this computer. The live site's GitHub sync uses its own SHOW_ALL setting."><input type="checkbox" id="showAll" checked> include non-Public</label>
+      <button id="syncBtn" class="primary" title="Rebuild assets/data/skills.json for the site">Update site data</button>
+    </div>
+  </header>
+  <pre id="log" hidden></pre>
+
+  <div class="bar">
+    <div class="bar tabs" role="tablist">
+      <button role="tab" data-tab="skills" aria-selected="true">Skills</button>
+      <button role="tab" data-tab="projects" aria-selected="false">Projects</button>
+    </div>
+    <input type="search" id="filter" placeholder="Filter by name…" style="flex:1;min-width:180px">
+  </div>
+
+  <p class="levels muted"><b>Levels:</b> 1 Aware (limited, know the concept) · 2 Beginner (basics with guides) · 3 Proficient (use it on my own) · 4 Advanced (complex problems, can teach) · 5 Expert (go-to person). Half steps sit between.</p>
+
+  <section id="skillsTab">
+    <form class="add-form" id="addForm" autocomplete="off">
+      <strong>New skill</strong>
+      <input id="newName" placeholder="Skill name" required style="width:220px" aria-label="New skill name">
+      <span class="muted">under</span>
+      <input id="newParent" list="skillNames" placeholder="Parent skill…" required style="width:220px" aria-label="Parent skill">
+      <select id="newRating" aria-label="Rating"></select>
+      <label class="muted"><input type="checkbox" id="newPublic"> Public</label>
+      <button class="primary" id="addBtn">Add to Notion</button>
+      <span class="status" id="addStatus"></span>
+      <span class="muted" style="flex-basis:100%;font-size:12px">Created with your Reference template. Open it in Notion (↗) to write notes.</span>
+    </form>
+    <div class="card"><table>
+      <thead><tr><th>Skill</th><th>Rating</th><th>Target</th><th>Parent skill</th><th>Public</th><th></th><th></th></tr></thead>
+      <tbody id="skillRows"><tr><td colspan="7" class="muted">Loading…</td></tr></tbody>
+    </table></div>
+    <h2 id="looseTitle" hidden>Not in the tree <span class="muted" style="font-weight:400">Reference pages with no Parent skill. Give them one to add them to the graph.</span></h2>
+    <div class="card" id="looseCard" hidden><table><tbody id="looseRows"></tbody></table></div>
+  </section>
+
+  <section id="projectsTab" hidden>
+    <form class="add-form" id="addProjectForm" autocomplete="off">
+      <strong>New project</strong>
+      <input id="newProjName" placeholder="Project name" required style="width:260px" aria-label="New project name">
+      <label class="muted"><input type="checkbox" id="newProjPublic"> Public</label>
+      <button class="primary" id="addProjBtn">Add to Notion</button>
+      <span class="status" id="addProjStatus"></span>
+      <span class="muted" style="flex-basis:100%;font-size:12px">Created with your Project template. Then add the skills it used below.</span>
+    </form>
+    <div class="card" id="projectList"></div>
+  </section>
+</div>
+
+<datalist id="skillNames"></datalist>
+
+<script>
+(() => {
+  const HUB_KEYS = { Mechanical: "mech", Electrical: "elec", Software: "soft", Systems: "sys", Other: "oth" };
+  const HUB_ORDER = ["Mechanical", "Electrical", "Software", "Systems", "Other"];
+  const RATING_OPTS = [null, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+  // Same scale as the public skill graph (assets/js/skill-graph.js LEVELS).
+  const LEVELS = { 1: "Aware", 2: "Beginner", 3: "Proficient", 4: "Advanced", 5: "Expert" };
+  // Short form for the dropdowns: a half step reads "Proficient+" (between Proficient and Advanced).
+  const levelName = v => v == null ? "not rated" : Number.isInteger(v) ? LEVELS[v] : `${LEVELS[Math.floor(v)]}+`;
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  let recs = new Map(), hubs = {}, labelToId = new Map(), idToLabel = new Map();
+
+  async function api(path, body) {
+    const r = await fetch("/api/" + path, body === undefined ? {} : {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || r.status);
+    return data;
+  }
+
+  async function load() {
+    const data = await api("data");
+    hubs = data.hubs;
+    recs = new Map(data.records.map(r => [r.id, r]));
+    render();
+  }
+
+  // Same rule as sync_notion.is_skill: Reference, or no Type but a Parent skill.
+  const isSkill = r => r.types.includes("Reference") || (!r.types.length && !!r.parent);
+  const isProject = r => r.types.includes("Project") && !r.name.toLowerCase().startsWith("[old - delete]");
+
+  // Walk up Parent skill to find the hub; returns {disc, depth} or null if it doesn't reach one.
+  function place(r) {
+    let depth = 0, cur = r, seen = new Set();
+    while (cur && !hubs[cur.id]) {
+      if (seen.has(cur.id)) return null;
+      seen.add(cur.id); cur = recs.get(cur.parent); depth++;
+    }
+    return cur ? { disc: HUB_KEYS[hubs[cur.id]] || "oth", depth } : null;
+  }
+
+  function buildLabels() {
+    const skills = [...recs.values()].filter(isSkill);
+    const count = new Map();
+    skills.forEach(s => count.set(s.name, (count.get(s.name) || 0) + 1));
+    labelToId.clear(); idToLabel.clear();
+    skills.forEach(s => {
+      const p = recs.get(s.parent);
+      const label = count.get(s.name) > 1 ? `${s.name} (${p ? p.name : "no parent"})` : s.name;
+      labelToId.set(label, s.id); idToLabel.set(s.id, label);
+    });
+    $("#skillNames").innerHTML = [...labelToId.keys()].sort((a, b) => a.localeCompare(b))
+      .map(l => `<option value="${esc(l)}">`).join("");
+  }
+
+  const ratingSelect = (kind, value) => `<select data-act="${kind}" aria-label="${kind}">${RATING_OPTS.map(v =>
+    `<option value="${v ?? ""}"${v === value ? " selected" : ""} title="${levelName(v)}">${v == null ? "—" : `${v} · ${levelName(v)}`}</option>`).join("")}</select>`;
+
+  function skillRow(r, depth, disc) {
+    const hub = !!hubs[r.id];
+    return `<tr data-id="${r.id}" class="${hub ? "hub" : ""}">
+      <td><div class="name" style="padding-left:${Math.max(0, depth - 1) * 18}px">
+        ${disc ? `<span class="dot" style="background:var(--c-${disc})"></span>` : ""}
+        <span>${esc(r.name)}</span>${r.url ? `<a href="${esc(r.url)}" target="_blank" title="Open in Notion">↗</a>` : ""}</div>
+        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb…" aria-label="Public blurb for ${esc(r.name)}" style="margin-left:${Math.max(0, depth - 1) * 18 + 15}px">${esc(r.blurb)}</textarea></td>
+      <td>${hub ? "" : ratingSelect("rating", r.rating)}</td>
+      <td>${hub ? "" : ratingSelect("target", r.target)}</td>
+      <td>${hub ? "" : `<input class="parent-input" list="skillNames" data-act="parent" value="${esc(idToLabel.get(r.parent) || "")}" placeholder="(none)" aria-label="Parent skill">`}</td>
+      <td>${hub ? `<span class="muted" style="font-weight:400">always</span>` : `<input type="checkbox" data-act="public"${r.public ? " checked" : ""} aria-label="Public">`}</td>
+      <td class="status"></td>
+      <td><div class="row-actions"><button class="add-child" data-act="add-child" title="Add a skill under ${esc(r.name)}" aria-label="Add a skill under ${esc(r.name)}">+</button>${hub ? "" : `<button class="trash" data-act="trash" title="Move ${esc(r.name)} to Notion's Trash" aria-label="Delete ${esc(r.name)}">🗑</button>`}</div></td>
+    </tr>`;
+  }
+
+  function render() {
+    buildLabels();
+    const q = $("#filter").value.trim().toLowerCase();
+    const match = r => !q || r.name.toLowerCase().includes(q);
+    const skills = [...recs.values()].filter(isSkill);
+    const kids = new Map();
+    skills.forEach(s => { if (s.parent) { if (!kids.has(s.parent)) kids.set(s.parent, []); kids.get(s.parent).push(s); } });
+    kids.forEach(list => list.sort((a, b) => a.name.localeCompare(b.name)));
+
+    // Depth-first so children sit under their parent. When filtering, keep matches plus their ancestors.
+    const keep = s => match(s) || (kids.get(s.id) || []).some(keep);
+    const rows = [];
+    const walk = (s, depth, disc, seen) => {
+      if (seen.has(s.id) || !keep(s)) return;
+      seen.add(s.id);
+      rows.push(skillRow(s, depth, disc));
+      (kids.get(s.id) || []).forEach(k => walk(k, depth + 1, disc, seen));
+    };
+    const hubRecs = Object.keys(hubs).map(id => recs.get(id)).filter(Boolean)
+      .sort((a, b) => HUB_ORDER.indexOf(hubs[a.id]) - HUB_ORDER.indexOf(hubs[b.id]));
+    hubRecs.forEach(h => walk(h, 0, HUB_KEYS[hubs[h.id]], new Set()));
+    $("#skillRows").innerHTML = rows.join("") || `<tr><td colspan="7" class="muted">No matches.</td></tr>`;
+
+    const loose = skills.filter(s => !hubs[s.id] && !place(s) && match(s)).sort((a, b) => a.name.localeCompare(b.name));
+    $("#looseRows").innerHTML = loose.map(s => skillRow(s, 0, null)).join("");
+    $("#looseTitle").hidden = $("#looseCard").hidden = !loose.length;
+
+    const projects = [...recs.values()].filter(isProject).filter(match).sort((a, b) => a.name.localeCompare(b.name));
+    $("#projectList").innerHTML = projects.map(p => `
+      <div class="proj" data-id="${p.id}">
+        <div class="proj-head">
+          <strong>${esc(p.name)}</strong>${p.url ? `<a href="${esc(p.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
+          <label class="muted"><input type="checkbox" data-act="public"${p.public ? " checked" : ""}> Public</label>
+          <button class="trash" data-act="trash" title="Move ${esc(p.name)} to Notion's Trash" aria-label="Delete ${esc(p.name)}">🗑</button>
+          <span class="status"></span>
+        </div>
+        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb…" aria-label="Public blurb for ${esc(p.name)}" style="margin:0">${esc(p.blurb)}</textarea>
+        <div class="chips">${p.skills_used.map(id => {
+          const s = recs.get(id), pl = s && place(s);
+          return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
+        }).join("") || `<span class="muted">No skills linked yet.</span>`}</div>
+        <div class="bar"><input list="skillNames" data-act="add-skill" placeholder="Add a skill…" style="width:260px" aria-label="Add a skill"></div>
+      </div>`).join("") || `<p class="muted" style="padding:14px 16px;margin:0">No projects.</p>`;
+    autosizeAll();
+  }
+
+  function setStatus(el, cls, text) {
+    const s = el.closest("[data-id]").querySelector(".status");
+    s.className = "status " + cls; s.textContent = text;
+  }
+
+  async function save(el, action, value) {
+    const id = el.closest("[data-id]").dataset.id;
+    setStatus(el, "busy", "saving…");
+    try {
+      const rec = await api(action, { id, value });
+      recs.set(rec.id, rec);
+      const keepFocus = action === "skills-used" || action === "parent";
+      if (keepFocus) render();
+      const row = document.querySelector(`[data-id="${rec.id}"]`);
+      if (row) setStatus(row.querySelector(".status"), "ok", "saved ✓");
+      if (keepFocus && action === "skills-used") row?.querySelector('[data-act="add-skill"]')?.focus();
+    } catch (e) {
+      render();  // put the control back to the saved value
+      const row = document.querySelector(`[data-id="${id}"]`);
+      if (row) setStatus(row.querySelector(".status"), "err", e.message);
+    }
+  }
+
+  const autosize = el => { el.style.height = "auto"; el.style.height = el.scrollHeight + 2 + "px"; };
+  const autosizeAll = () => document.querySelectorAll("textarea.blurb").forEach(autosize);
+  document.addEventListener("input", e => { if (e.target.matches("textarea.blurb")) autosize(e.target); });
+  document.addEventListener("keydown", e => {
+    if (e.target.matches("textarea.blurb") && e.key === "Enter") { e.preventDefault(); e.target.blur(); }
+  });
+  window.addEventListener("resize", autosizeAll);
+
+  document.addEventListener("change", e => {
+    const el = e.target, act = el.dataset.act;
+    if (!act) return;
+    if (act === "rating" || act === "target") save(el, act, el.value === "" ? null : Number(el.value));
+    if (act === "public") save(el, "public", el.checked);
+    if (act === "blurb") save(el, "blurb", el.value);
+    if (act === "parent") {
+      const label = el.value.trim();
+      if (label && !labelToId.has(label)) { setStatus(el, "err", "pick a skill from the list"); return; }
+      save(el, "parent", label ? labelToId.get(label) : null);
+    }
+    if (act === "add-skill") {
+      const id = labelToId.get(el.value.trim());
+      if (!id) { setStatus(el, "err", "pick a skill from the list"); return; }
+      const p = recs.get(el.closest("[data-id]").dataset.id);
+      if (p.skills_used.includes(id)) { el.value = ""; return; }
+      save(el, "skills-used", [...p.skills_used, id]);
+    }
+  });
+
+  document.addEventListener("click", e => {
+    const el = e.target.closest("button");
+    if (!el) return;
+    if (el.dataset.act === "add-child") {
+      const r = recs.get(el.closest("[data-id]").dataset.id);
+      $("#newParent").value = idToLabel.get(r.id) || r.name;
+      addStatus("", "");
+      $("#addForm").scrollIntoView({ block: "nearest" });
+      $("#addForm").classList.add("flash"); setTimeout(() => $("#addForm").classList.remove("flash"), 900);
+      $("#newName").focus();
+    }
+    if (el.dataset.act === "trash") {
+      if (!el.classList.contains("armed")) {
+        // First click arms the button; a second click within 4 seconds deletes.
+        el.classList.add("armed"); el.textContent = "Delete?";
+        setTimeout(() => { if (el.isConnected) { el.classList.remove("armed"); el.textContent = "🗑"; } }, 4000);
+        return;
+      }
+      const id = el.closest("[data-id]").dataset.id;
+      el.disabled = true; setStatus(el, "busy", "deleting…");
+      api("trash", { id }).then(r => {
+        recs.delete(id);
+        recs.forEach(p => { if (p.skills_used.includes(id)) p.skills_used = p.skills_used.filter(x => x !== id); });
+        render();
+        showLog(`Moved "${r.name}" to Notion's Trash. Restore it from Trash in Notion if that was a mistake.`);
+      }).catch(err => { el.disabled = false; setStatus(el, "err", err.message); });
+    }
+    if (el.dataset.act === "remove-skill") {
+      const p = recs.get(el.closest("[data-id]").dataset.id);
+      save(el, "skills-used", p.skills_used.filter(id => id !== el.dataset.skill));
+    }
+    if (el.dataset.tab) {
+      document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b === el));
+      $("#skillsTab").hidden = el.dataset.tab !== "skills";
+      $("#projectsTab").hidden = el.dataset.tab !== "projects";
+      autosizeAll();
+    }
+  });
+
+  $("#filter").addEventListener("input", render);
+
+  $("#newRating").innerHTML = RATING_OPTS.map(v => `<option value="${v ?? ""}">${v == null ? "Rating —" : v}</option>`).join("");
+  const addStatus = (cls, text) => { $("#addStatus").className = "status " + cls; $("#addStatus").textContent = text; };
+
+  $("#addProjectForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const st = (cls, text) => { $("#addProjStatus").className = "status " + cls; $("#addProjStatus").textContent = text; };
+    const name = $("#newProjName").value.trim();
+    if (!name) return st("err", "give it a name");
+    $("#addProjBtn").disabled = true; st("busy", "adding…");
+    try {
+      const rec = await api("create-project", { name, public: $("#newProjPublic").checked });
+      recs.set(rec.id, rec);
+      $("#filter").value = "";
+      render();
+      $("#newProjName").value = "";
+      st("ok", `added "${rec.name}" ✓`);
+      const card = document.querySelector(`#projectList [data-id="${rec.id}"]`);
+      if (card) { card.scrollIntoView({ block: "center" }); card.querySelector('[data-act="add-skill"]').focus(); }
+    } catch (err) {
+      st("err", err.message);
+    } finally {
+      $("#addProjBtn").disabled = false;
+    }
+  });
+
+  $("#addForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = $("#newName").value.trim(), parent = labelToId.get($("#newParent").value.trim());
+    if (!name) return addStatus("err", "give it a name");
+    if (!parent) return addStatus("err", "pick a parent from the list");
+    $("#addBtn").disabled = true; addStatus("busy", "adding…");
+    try {
+      const rec = await api("create", {
+        name, parent, public: $("#newPublic").checked,
+        rating: $("#newRating").value === "" ? null : Number($("#newRating").value)
+      });
+      recs.set(rec.id, rec);
+      $("#filter").value = "";
+      render();
+      $("#newName").value = ""; $("#newRating").value = "";
+      addStatus("ok", `added "${rec.name}" ✓`);
+      const row = document.querySelector(`#skillRows [data-id="${rec.id}"]`);
+      if (row) { row.scrollIntoView({ block: "center" }); setStatus(row.querySelector(".status"), "ok", "new ✓"); }
+      $("#newName").focus();
+    } catch (err) {
+      addStatus("err", err.message);
+    } finally {
+      $("#addBtn").disabled = false;
+    }
+  });
+
+  async function busy(btn, fn) {
+    btn.disabled = true;
+    try { await fn(); } catch (e) { showLog("Error: " + e.message); } finally { btn.disabled = false; }
+  }
+  const showLog = t => { $("#log").hidden = false; $("#log").textContent = t; };
+
+  $("#reloadBtn").onclick = e => busy(e.target, async () => { await api("reload", {}); await load(); showLog("Reloaded from Notion."); });
+  $("#syncBtn").onclick = e => busy(e.target, async () => {
+    const r = await api("sync", { showAll: $("#showAll").checked });
+    showLog(r.message + "\nRefresh the Skill Graph page to see it. Commit and push to put it on the live site.");
+  });
+
+  load().catch(e => showLog("Couldn't load: " + e.message));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,847 @@
+{
+ "updated": "2026-10-25 07:26 UTC",
+ "source": "notion",
+ "skills": [
+  {
+   "id": "9ff7f497ae3b40dca64c9a8b8bdde978",
+   "name": "3D Printing / Plastics",
+   "parent": "4038f022083c81f9a056fadef2c6641a",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Designing for and producing parts with FDM/resin printers and common plastics."
+  },
+  {
+   "id": "4038f022083c81c1bb0ddb05b15f0516",
+   "name": "Agile & Execution",
+   "parent": "4038f022083c8173903ad60ffbc2786f",
+   "rating": 4,
+   "target": null,
+   "blurb": "Planning work in short iterations, tracking progress and shipping on schedule."
+  },
+  {
+   "id": "34a8f022083c801eadf6ed7f6411c2df",
+   "name": "Ansible",
+   "parent": "4038f022083c8194bfe6c41e49d56dfa",
+   "rating": 1,
+   "target": null,
+   "blurb": "Automation tool for configuring machines and deploying software over SSH with repeatable playbooks."
+  },
+  {
+   "id": "3af8f022083c80a283d1dc37e66276fe",
+   "name": "Autodesk",
+   "parent": "4038f022083c818085cbd9ee93062872",
+   "rating": 1,
+   "target": null,
+   "blurb": "Autodesk's design tools (Fusion 360, Inventor, AutoCAD) for modeling and drafting."
+  },
+  {
+   "id": "4038f022083c81ab933cca6199f6cb33",
+   "name": "Automation / PLCs",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 3,
+   "target": null,
+   "blurb": "Industrial control with programmable logic controllers running machines and production lines."
+  },
+  {
+   "id": "4038f022083c8185876fd9f684375f77",
+   "name": "Behavior Planning",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 2,
+   "target": null,
+   "blurb": "Deciding what a robot should do next: task logic, state machines and behavior trees."
+  },
+  {
+   "id": "4038f022083c81fcab31efabe32a1350",
+   "name": "BOM & Cost Management",
+   "parent": "4038f022083c8173903ad60ffbc2786f",
+   "rating": 2,
+   "target": null,
+   "blurb": "Tracking every part in a build, its source and cost, and keeping the budget in check."
+  },
+  {
+   "id": "21299b93bc724631a2263b552fc6a22c",
+   "name": "C++",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 3,
+   "target": null,
+   "blurb": "Fast, low-level language used for robotics, embedded systems and performance-critical code."
+  },
+  {
+   "id": "4038f022083c8126a288e714033ab8f2",
+   "name": "Cabinet Design",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Laying out electrical enclosures: power distribution, controllers, terminals and wiring."
+  },
+  {
+   "id": "4038f022083c818085cbd9ee93062872",
+   "name": "CAD",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Computer-aided design: modeling parts and assemblies in 3D and turning them into drawings."
+  },
+  {
+   "id": "2b98f022083c8008be27ede7a42be0fb",
+   "name": "CAN Communication",
+   "parent": "4038f022083c81fcb497e468bd286f47",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Robust two-wire bus used in vehicles and robots for devices to share messages."
+  },
+  {
+   "id": "2ba8f022083c80568714dce327b6773b",
+   "name": "Capcut",
+   "parent": "4038f022083c814ea232fdf49f25d945",
+   "rating": 3,
+   "target": null,
+   "blurb": "Video editing app for cutting, captioning and polishing short-form content."
+  },
+  {
+   "id": "2938f022083c80c0bcf6f83ff7ebab1e",
+   "name": "Circuit Components / Prototyping",
+   "parent": "4038f022083c813098f0e5c3d0ea5fdb",
+   "rating": 2,
+   "target": null,
+   "blurb": "Choosing resistors, ICs and connectors, and building circuits on breadboards and protoboards."
+  },
+  {
+   "id": "b30c71b9be8e4be08e5b80f4b73c7705",
+   "name": "CMake",
+   "parent": "4038f022083c8194bfe6c41e49d56dfa",
+   "rating": 2,
+   "target": null,
+   "blurb": "Build system generator that configures and compiles C/C++ projects across platforms."
+  },
+  {
+   "id": "4038f022083c81fcb497e468bd286f47",
+   "name": "Communication Protocols",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 4,
+   "target": null,
+   "blurb": "The rules devices use to talk: buses, serial links and network protocols."
+  },
+  {
+   "id": "009a07fef6c54471a2fa2a8d22009c5c",
+   "name": "Connectors, Cabling, and Fabrication",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 2,
+   "target": null,
+   "blurb": "Making reliable harnesses: crimping, connector selection, routing and strain relief."
+  },
+  {
+   "id": "4038f022083c81ea86e0fdc9312f1a92",
+   "name": "Control Theory",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Math for making systems follow commands: feedback loops, PID, stability and tuning."
+  },
+  {
+   "id": "4038f022083c814ea232fdf49f25d945",
+   "name": "Creative Tech",
+   "parent": "4038f022083c811fb594ceb95406688b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Using engineering tools for art, fashion, video and interactive experiences."
+  },
+  {
+   "id": "4048f022083c810db38ff7605a1f794a",
+   "name": "CREO",
+   "parent": "4038f022083c818085cbd9ee93062872",
+   "rating": 3,
+   "target": null,
+   "blurb": "PTC Creo, a parametric CAD package for detailed part and assembly design."
+  },
+  {
+   "id": "4038f022083c81f19ad9d866db99d2bc",
+   "name": "Data Analysis",
+   "parent": "4038f022083c811fb594ceb95406688b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Cleaning, plotting and interpreting data to find what's actually going on."
+  },
+  {
+   "id": "4038f022083c81c791e3d1d950b5750b",
+   "name": "Dev Environment",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Setting up editors, toolchains and OS environments so development runs smoothly."
+  },
+  {
+   "id": "4038f022083c8194bfe6c41e49d56dfa",
+   "name": "DevOps & Build",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Version control, builds, containers and deployment that keep software reproducible."
+  },
+  {
+   "id": "4038f022083c81ffa836f10151fd57a5",
+   "name": "Diagramming & Design Tools",
+   "parent": "4038f022083c81459069f73257199ab5",
+   "rating": 4,
+   "target": null,
+   "blurb": "Tools for drawing architecture, wiring and flow diagrams that explain a design."
+  },
+  {
+   "id": "11b8f022083c8041bd4df52dc526ef4d",
+   "name": "Docker",
+   "parent": "4038f022083c8194bfe6c41e49d56dfa",
+   "rating": 1,
+   "target": null,
+   "blurb": "Packages software and its dependencies into containers that run the same anywhere."
+  },
+  {
+   "id": "1968f022083c8024b141e06108fb45d8",
+   "name": "DrawIO",
+   "parent": "4038f022083c81ffa836f10151fd57a5",
+   "rating": 4,
+   "target": null,
+   "blurb": "Free diagramming tool (diagrams.net) for flowcharts, block diagrams and architectures."
+  },
+  {
+   "id": "4038f022083c81c989ddf4081df6500e",
+   "name": "Dynamics",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "How forces and torques make bodies move: accelerations, inertia and loads."
+  },
+  {
+   "id": "4038f022083c8166a9b2fcd4495d12d2",
+   "name": "Electrical",
+   "parent": null,
+   "rating": null,
+   "target": null,
+   "blurb": "Circuits, power, sensors and embedded hardware that make machines sense and move."
+  },
+  {
+   "id": "4038f022083c813ea390f5644e450c32",
+   "name": "Engineering Drawings",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 2,
+   "target": null,
+   "blurb": "2D drawings that communicate geometry, dimensions and tolerances for manufacturing."
+  },
+  {
+   "id": "3918f022083c80e7b949f46a1cd0f541",
+   "name": "EtherCAT",
+   "parent": "4038f022083c81fcb497e468bd286f47",
+   "rating": 4,
+   "target": null,
+   "blurb": "Real-time industrial Ethernet protocol for fast, synchronized motion control."
+  },
+  {
+   "id": "1638f022083c8094bc4fdb8dc1066af5",
+   "name": "Fashion + Robotics",
+   "parent": "4038f022083c814ea232fdf49f25d945",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Wearables and garments that blend clothing design with electronics and motion."
+  },
+  {
+   "id": "4038f022083c811e9ebcecf821d4c61b",
+   "name": "FEA",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Finite element analysis: simulating stress, deflection and heat in parts before building them."
+  },
+  {
+   "id": "2948f022083c80329423daeac748615c",
+   "name": "Flask",
+   "parent": "2568f022083c80279651d840430f61be",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Lightweight Python web framework for building small web apps and APIs."
+  },
+  {
+   "id": "1688f022083c80b69517ee999072f11a",
+   "name": "Foxglove Studios",
+   "parent": "5dcc4f8a8cf04917a44825b779c4cedf",
+   "rating": 4,
+   "target": null,
+   "blurb": "Visualization tool for ROS data: plots, 3D views and log playback."
+  },
+  {
+   "id": "8287e7d64ca04e7287d461bc635da4fa",
+   "name": "GD&T",
+   "parent": "4038f022083c813ea390f5644e450c32",
+   "rating": 2,
+   "target": null,
+   "blurb": "Geometric dimensioning and tolerancing: precise language for how much a part may vary."
+  },
+  {
+   "id": "0cff834551e0493d9aadc289902c7d9c",
+   "name": "Git",
+   "parent": "4038f022083c8194bfe6c41e49d56dfa",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Version control for tracking changes, branching and collaborating on code."
+  },
+  {
+   "id": "4038f022083c815781aeffd54bbafc59",
+   "name": "Hardware Drivers",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 4,
+   "target": null,
+   "blurb": "Low-level code that lets software talk to motors, sensors and other devices."
+  },
+  {
+   "id": "37b8f022083c80debd7ae981d8c5ce76",
+   "name": "Industrial Wiring Diagrams",
+   "parent": "4038f022083c8126a288e714033ab8f2",
+   "rating": 2,
+   "target": null,
+   "blurb": "Schematics and ladder-style drawings that document how industrial panels are wired."
+  },
+  {
+   "id": "4038f022083c81ba9768f25892925d70",
+   "name": "Integration & Bring-up",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 4.5,
+   "target": null,
+   "blurb": "Getting new hardware and software working together for the first time."
+  },
+  {
+   "id": "4038f022083c8159a802f55b200deeb1",
+   "name": "Kinematics",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "The geometry of motion: positions, velocities and how joints move an arm or mechanism."
+  },
+  {
+   "id": "4038f022083c81c9a227f11f5dfa1029",
+   "name": "Lab Tools",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 2,
+   "target": null,
+   "blurb": "Multimeters, oscilloscopes, power supplies and analyzers for testing electronics."
+  },
+  {
+   "id": "d3501bb2ec4045a6a41da1bd32a6debe",
+   "name": "Linux",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "The open-source OS behind most robots and servers: shell, services and system setup."
+  },
+  {
+   "id": "4038f022083c816eb3f7cf99088fe3b6",
+   "name": "Machine Design",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Designing mechanical systems from components like shafts, bearings, gears and fasteners."
+  },
+  {
+   "id": "4038f022083c8196a382ece7f1ba8fff",
+   "name": "Machine Learning",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 1,
+   "target": null,
+   "blurb": "Training models from data to recognize patterns and make predictions."
+  },
+  {
+   "id": "4038f022083c81e38b7be114e560096b",
+   "name": "Manufacturing (DFM)",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Design for manufacturing: shaping parts so they're easy and cheap to make."
+  },
+  {
+   "id": "4038f022083c81e69c7ace12f046a5f1",
+   "name": "Materials",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Choosing metals, plastics and composites by strength, weight, cost and process."
+  },
+  {
+   "id": "4038f022083c81189869f42fa0a06ba6",
+   "name": "Mechanical",
+   "parent": null,
+   "rating": null,
+   "target": null,
+   "blurb": "Designing, analyzing and building physical things: parts, mechanisms and machines."
+  },
+  {
+   "id": "74117136db1a419591201a04faefab03",
+   "name": "Mechanisms",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Linkages, cams, gears and other arrangements that turn one motion into another."
+  },
+  {
+   "id": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "name": "Microcontrollers / Embedded Systems",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Small computers inside devices that read sensors and drive hardware in real time."
+  },
+  {
+   "id": "63a707011be245f4bc0ce1c4c0968c0c",
+   "name": "Motors",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Selecting and driving DC, stepper, BLDC and servo motors for motion."
+  },
+  {
+   "id": "2fc8f022083c8004b515f1a4e3ecd6eb",
+   "name": "Multiprocessing / Multithreading",
+   "parent": "4038f022083c8191b4b1efb18f06c01e",
+   "rating": 2,
+   "target": null,
+   "blurb": "Running work in parallel across threads and processes without stepping on each other."
+  },
+  {
+   "id": "6b4e076b347b4e31a50148c0ac98f37a",
+   "name": "Networking",
+   "parent": "4038f022083c811fb594ceb95406688b",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "How devices connect and talk: IP, Wi-Fi, ports and troubleshooting connections."
+  },
+  {
+   "id": "12d8f022083c8047a12fdd4fd0e72dde",
+   "name": "Onshape",
+   "parent": "4038f022083c818085cbd9ee93062872",
+   "rating": 4,
+   "target": null,
+   "blurb": "Cloud-based CAD for modeling and collaborating on parts and assemblies in the browser."
+  },
+  {
+   "id": "1688f022083c809b8cedd86c37cc174f",
+   "name": "OpenCV",
+   "parent": "4038f022083c81d8a94be768ea0561d1",
+   "rating": 3,
+   "target": null,
+   "blurb": "Open-source computer vision library for image processing and camera-based detection."
+  },
+  {
+   "id": "4038f022083c811fb594ceb95406688b",
+   "name": "Other",
+   "parent": null,
+   "rating": null,
+   "target": null,
+   "blurb": "Creative and supporting skills that round out the engineering work."
+  },
+  {
+   "id": "4038f022083c8106b61ac630a92beb7d",
+   "name": "Path / Motion Planning",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Finding collision-free paths and smooth trajectories for robots to follow."
+  },
+  {
+   "id": "4038f022083c813098f0e5c3d0ea5fdb",
+   "name": "PCB Design",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 1,
+   "target": null,
+   "blurb": "Laying out printed circuit boards: schematics, footprints, routing and fabrication files."
+  },
+  {
+   "id": "4038f022083c81d8a94be768ea0561d1",
+   "name": "Perception / Computer Vision",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Helping robots understand the world from cameras and sensors."
+  },
+  {
+   "id": "4038f022083c81a6803cec2e8b7a0a8f",
+   "name": "PlatformIO",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Toolchain and IDE plugin for building and flashing embedded firmware across many boards."
+  },
+  {
+   "id": "2938f022083c809da0e2d19d5a48a4a2",
+   "name": "Power",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 1,
+   "target": null,
+   "blurb": "Supplying and distributing power safely: batteries, regulators, fusing and budgets."
+  },
+  {
+   "id": "4038f022083c81d6af80c9736fcf25ac",
+   "name": "Programming Languages",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "The languages I write software in, from Python scripting to C++."
+  },
+  {
+   "id": "4038f022083c8173903ad60ffbc2786f",
+   "name": "Project Management",
+   "parent": "4038f022083c816ba41df0761731bca6",
+   "rating": 4,
+   "target": null,
+   "blurb": "Scoping, scheduling and coordinating work so a project actually ships."
+  },
+  {
+   "id": "e3d3972c0ba64a6e8c455c0c7d713549",
+   "name": "Python",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 4,
+   "target": null,
+   "blurb": "Versatile language for scripting, automation, data work, web backends and robotics."
+  },
+  {
+   "id": "27a1f2b53ec04b208e076c7970b6d0e5",
+   "name": "Raspberry PI",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 4,
+   "target": null,
+   "blurb": "Small single-board Linux computer used for prototypes, robots and camera projects."
+  },
+  {
+   "id": "4038f022083c81bead96cedad1b4a0be",
+   "name": "Requirements",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 4.5,
+   "target": null,
+   "blurb": "Writing down what a system must do, clearly enough to design and test against."
+  },
+  {
+   "id": "4038f022083c81e6a2adc0c95aa35eda",
+   "name": "Risk & Reliability",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Spotting what could fail, how likely it is, and designing to prevent it."
+  },
+  {
+   "id": "4038f022083c818c8e0cc9d9128dba95",
+   "name": "Robot Control",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Software that turns commands into joint and motor actions on a real robot."
+  },
+  {
+   "id": "3fdffc9f4f1143f68b353aebeb273bb2",
+   "name": "Robotic Arms",
+   "parent": "4038f022083c8159a802f55b200deeb1",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Multi-joint manipulators: design, kinematics and control of arms that reach and grasp."
+  },
+  {
+   "id": "5c976dd32bc0479482f6ab0c6c738005",
+   "name": "ROS1",
+   "parent": "5dcc4f8a8cf04917a44825b779c4cedf",
+   "rating": 3,
+   "target": null,
+   "blurb": "The original Robot Operating System: nodes, topics and tools for robot software."
+  },
+  {
+   "id": "5dcc4f8a8cf04917a44825b779c4cedf",
+   "name": "ROS2",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 4,
+   "target": null,
+   "blurb": "Modern Robot Operating System with real-time-friendly middleware for robot software."
+  },
+  {
+   "id": "3518f022083c8009ba0ceca7a45f1ae0",
+   "name": "Rotations",
+   "parent": "4038f022083c8159a802f55b200deeb1",
+   "rating": 4,
+   "target": null,
+   "blurb": "Representing 3D orientation with rotation matrices, Euler angles and quaternions."
+  },
+  {
+   "id": "4038f022083c8191b4b1efb18f06c01e",
+   "name": "RTOS (Linux)",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Making Linux behave predictably in real time for control loops and timing-critical code."
+  },
+  {
+   "id": "4038f022083c8151954cdc22ffbaa38e",
+   "name": "RTOS (Microcontroller)",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Real-time operating systems like FreeRTOS that schedule tasks on microcontrollers."
+  },
+  {
+   "id": "4038f022083c8168b005ee81637a068c",
+   "name": "Safety & Standards",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 1,
+   "target": null,
+   "blurb": "Designing to safety rules and industry standards so machines protect people."
+  },
+  {
+   "id": "c84c8b0f0fd74e5f82e12c2313b29438",
+   "name": "Screws",
+   "parent": "4038f022083c816eb3f7cf99088fe3b6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Choosing threaded fasteners: sizes, threads, torque and joint design."
+  },
+  {
+   "id": "1d552ffc3982412f8bc04215fc397393",
+   "name": "Sensors",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Measuring the world: encoders, IMUs, distance, force and other sensor types."
+  },
+  {
+   "id": "772257571a524cb99a05eb7abb0e0a39",
+   "name": "Serial Protocols",
+   "parent": "4038f022083c81fcb497e468bd286f47",
+   "rating": 4,
+   "target": null,
+   "blurb": "UART, I2C and SPI: simple wired links between chips and boards."
+  },
+  {
+   "id": "4038f022083c81f9a056fadef2c6641a",
+   "name": "Shop & Prototyping",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Hands-on fabrication with shop tools to build and iterate on physical prototypes."
+  },
+  {
+   "id": "4038f022083c815d9cafd2ef2ceed783",
+   "name": "Simulation",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 1,
+   "target": null,
+   "blurb": "Testing robots and designs in virtual environments before building them."
+  },
+  {
+   "id": "4038f022083c8114a338c414bce9fda6",
+   "name": "Software",
+   "parent": null,
+   "rating": null,
+   "target": null,
+   "blurb": "Code that runs robots and tools, from embedded firmware to web apps and ROS."
+  },
+  {
+   "id": "4038f022083c8131becdc98a5d43f3dd",
+   "name": "Software Architecture",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Structuring code into clear components and interfaces that scale and stay maintainable."
+  },
+  {
+   "id": "08d6c1e61d664a9caedaaf90ebc1b985",
+   "name": "Solidworks",
+   "parent": "4038f022083c818085cbd9ee93062872",
+   "rating": 4,
+   "target": null,
+   "blurb": "Industry-standard parametric CAD for parts, assemblies and drawings."
+  },
+  {
+   "id": "4038f022083c81f08e16f687f85fca7f",
+   "name": "State Estimation / Localization",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 1,
+   "target": null,
+   "blurb": "Working out where a robot is and how it's moving from noisy sensor data."
+  },
+  {
+   "id": "2bd8f022083c807a86c2c9111cb157b0",
+   "name": "State Machine Diagrams",
+   "parent": "4038f022083c8185876fd9f684375f77",
+   "rating": 4,
+   "target": null,
+   "blurb": "Drawing system behavior as states and transitions to design clear control logic."
+  },
+  {
+   "id": "0dc35f5a0b7c4ec7b8524a907c80ede8",
+   "name": "Support and Connection Types",
+   "parent": "4038f022083c81c989ddf4081df6500e",
+   "rating": 2,
+   "target": null,
+   "blurb": "How joints and supports constrain parts, and the reaction forces they create."
+  },
+  {
+   "id": "4038f022083c814286f6d2847d2cd706",
+   "name": "System Architecture & Interfaces",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 4,
+   "target": null,
+   "blurb": "Breaking a system into subsystems and defining how they connect."
+  },
+  {
+   "id": "4038f022083c816ba41df0761731bca6",
+   "name": "Systems",
+   "parent": null,
+   "rating": null,
+   "target": null,
+   "blurb": "Holding the whole project together: requirements, architecture, integration and planning."
+  },
+  {
+   "id": "2c38f022083c80bc8d3cdae9a01382e6",
+   "name": "Systems Engineering",
+   "parent": "4038f022083c816ba41df0761731bca6",
+   "rating": 5,
+   "target": null,
+   "blurb": "Engineering the whole system: requirements, architecture, integration and verification."
+  },
+  {
+   "id": "4038f022083c81459069f73257199ab5",
+   "name": "Technical Communication",
+   "parent": "4038f022083c816ba41df0761731bca6",
+   "rating": 5,
+   "target": null,
+   "blurb": "Explaining technical work clearly through docs, diagrams and presentations."
+  },
+  {
+   "id": "80abf2a57f494da28744e9b992a02d60",
+   "name": "Thermal",
+   "parent": "4038f022083c81189869f42fa0a06ba6",
+   "rating": 2,
+   "target": null,
+   "blurb": "Heat transfer and cooling: keeping motors, electronics and parts within temperature limits."
+  },
+  {
+   "id": "3a08f022083c807f9553c4a36404f16c",
+   "name": "Touch Designer",
+   "parent": "4038f022083c814ea232fdf49f25d945",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Node-based visual programming tool for real-time graphics and interactive installations."
+  },
+  {
+   "id": "35d8f022083c80debe30da654b1e075e",
+   "name": "TwinCAT",
+   "parent": "4038f022083c81ab933cca6199f6cb33",
+   "rating": 2,
+   "target": null,
+   "blurb": "Beckhoff's PC-based automation software for PLC programming and motion control."
+  },
+  {
+   "id": "1448f022083c8044886cfc83a7120b0a",
+   "name": "USB",
+   "parent": "4038f022083c81fcb497e468bd286f47",
+   "rating": 3,
+   "target": null,
+   "blurb": "The universal serial bus: connecting, powering and communicating with devices."
+  },
+  {
+   "id": "4038f022083c8132870fd5644618d779",
+   "name": "Vendor & Supplier Management",
+   "parent": "4038f022083c8173903ad60ffbc2786f",
+   "rating": 3,
+   "target": null,
+   "blurb": "Finding suppliers, getting quotes and keeping parts arriving on time."
+  },
+  {
+   "id": "4038f022083c8132b655ed8de12af58b",
+   "name": "Verification & Validation",
+   "parent": "2c38f022083c80bc8d3cdae9a01382e6",
+   "rating": 5,
+   "target": null,
+   "blurb": "Proving a system was built right and that it's the right system."
+  },
+  {
+   "id": "2568f022083c80279651d840430f61be",
+   "name": "WebDev",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Building websites and web apps: HTML, CSS, JavaScript and backends."
+  },
+  {
+   "id": "3fe8f022083c80e290f8c0a76f2700f0",
+   "name": "Windows",
+   "parent": "4038f022083c81c791e3d1d950b5750b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Setting up and developing on Windows, including tooling and WSL."
+  }
+ ],
+ "projects": [
+  {
+   "id": "4038f022083c81b39315fff75b935ede",
+   "name": "LED LAMP",
+   "blurb": "",
+   "skills": [
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "4038f022083c818085cbd9ee93062872",
+    "4038f022083c81f9a056fadef2c6641a",
+    "4038f022083c814ea232fdf49f25d945"
+   ]
+  },
+  {
+   "id": "4038f022083c81de8bcac176a7735289",
+   "name": "QR Code Shirt",
+   "blurb": "",
+   "skills": [
+    "2568f022083c80279651d840430f61be",
+    "2948f022083c80329423daeac748615c",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "4038f022083c814ea232fdf49f25d945",
+    "1638f022083c8094bc4fdb8dc1066af5"
+   ]
+  },
+  {
+   "id": "440ded2ce41e4360bf81b57c371bcca5",
+   "name": "Robot Arm",
+   "blurb": "",
+   "skills": [
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "74117136db1a419591201a04faefab03",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "4038f022083c8159a802f55b200deeb1",
+    "3fdffc9f4f1143f68b353aebeb273bb2",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "1d552ffc3982412f8bc04215fc397393",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "4038f022083c815d9cafd2ef2ceed783",
+    "5dcc4f8a8cf04917a44825b779c4cedf"
+   ]
+  },
+  {
+   "id": "4038f022083c819b9fd8c2ae3ff2482c",
+   "name": "Twitch Cam V2",
+   "blurb": "",
+   "skills": [
+    "27a1f2b53ec04b208e076c7970b6d0e5",
+    "772257571a524cb99a05eb7abb0e0a39",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "4038f022083c815781aeffd54bbafc59",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "d3501bb2ec4045a6a41da1bd32a6debe"
+   ]
+  },
+  {
+   "id": "b6a7eb60515248b2af7a5311dae49954",
+   "name": "TwitchCam V1",
+   "blurb": "",
+   "skills": [
+    "5dcc4f8a8cf04917a44825b779c4cedf",
+    "27a1f2b53ec04b208e076c7970b6d0e5",
+    "dbf4d32d91e94753b6283dd6db02ab2b",
+    "4038f022083c81a6803cec2e8b7a0a8f",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "772257571a524cb99a05eb7abb0e0a39",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "2938f022083c809da0e2d19d5a48a4a2"
+   ]
+  }
+ ]
+}

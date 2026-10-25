@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Skill Graph | Stephen Mock</title>
+  <meta name="description" content="Stephen Mock's engineering skills, branching from five disciplines.">
+
+  <!-- Favicons -->
+  <link href="assets/img/robot-favicon.png" rel="icon">
+  <link href="assets/img/robot-favicon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=Quicksand:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=DotGothic16&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/skill-graph.css" rel="stylesheet">
+</head>
+
+<body class="skills-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center"></a>
+
+      <nav id="navmenu" class="navmenu">
+
+        <div class="profile-img">
+          <img src="assets/img/profile/photo_of_me.png" alt="" class="img-fluid rounded-circle">
+        </div>
+
+        <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+          <h1 class="sitename">Stephen Mock</h1>
+        </a>
+
+        <div class="social-links text-center">
+          <a href="mailto:sjmock99@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+          <a href="https://www.linkedin.com/in/stephenjmock/" target="_blank"><i class="bi bi-linkedin"></i></a>
+          <a href="https://github.com/sjmock99" target="_blank"><i class="bi bi-github"></i></a>
+          <a href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#resume">Resume</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="skills.html" class="active">Skill Graph</a></li>
+          <li><a href="index.html#interests">Interests</a></li>
+          <li><a href="index.html#portfolio">Portfolio</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+    <section id="skill-graph" class="section">
+      <div class="container">
+
+        <div class="sg-head">
+          <div>
+            <h2>Skill Graph</h2>
+            <p class="sg-sub">Every skill in my engineering wiki, branching from five disciplines. Bigger dots are stronger skills; hollow ones aren't rated yet. Pick a project to see what it took.</p>
+          </div>
+          <div class="sg-stats" id="sgStats"></div>
+        </div>
+
+        <div class="sg-toolbar" id="viewBar"><span class="sg-label">View</span>
+          <button class="sg-chip" data-view="graph" aria-pressed="true">◎ Graph</button>
+          <button class="sg-chip" data-view="tree" aria-pressed="false">⧉ Skill tree</button>
+          <div class="sg-search">
+            <input id="sgSearch" type="search" placeholder="Search skills or projects…" autocomplete="off"
+              role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sgResults" aria-label="Search skills or projects">
+            <ul id="sgResults" role="listbox" hidden></ul>
+          </div>
+        </div>
+        <div class="sg-toolbar" id="discBar"><span class="sg-label">Discipline</span></div>
+        <div class="sg-toolbar" id="projBar"><span class="sg-label">Projects</span></div>
+        <div class="sg-toolbar" id="levelBar"><span class="sg-label">Level</span>
+          <button class="sg-chip" data-level="1" aria-pressed="false" title="Rated 1–1.5">Lv 1</button>
+          <button class="sg-chip" data-level="2" aria-pressed="false" title="Rated 2–2.5">Lv 2</button>
+          <button class="sg-chip" data-level="3" aria-pressed="false" title="Rated 3–3.5">Lv 3</button>
+          <button class="sg-chip" data-level="4" aria-pressed="false" title="Rated 4–4.5">Lv 4</button>
+          <button class="sg-chip" data-level="5" aria-pressed="false" title="Rated 5">Lv 5</button>
+          <button class="sg-chip" data-level="none" aria-pressed="false" title="Not rated yet">Unrated</button>
+        </div>
+        <div class="sg-levels" id="sgLevels"></div>
+
+        <div class="sg-main">
+          <div class="sg-view">
+          <div class="sg-tree" id="sgTree" hidden></div>
+          <div class="sg-stage">
+            <svg id="sgGraph" role="img" aria-label="Radial skill tree"></svg>
+            <div class="sg-hint">Drag to pan · scroll or pinch to zoom</div>
+            <div class="sg-legend" aria-hidden="true">
+              <span>rating</span>
+              <svg viewBox="0 0 120 18"><g fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="8" cy="9" r="4" stroke-dasharray="2 2"/><circle cx="34" cy="9" r="4.5" fill="currentColor"/><circle cx="62" cy="9" r="6" fill="currentColor"/><circle cx="96" cy="9" r="8" fill="currentColor"/></g></svg>
+              <span>none → 5</span>
+            </div>
+          </div>
+          </div>
+          <aside class="sg-panel" id="sgPanel" aria-live="polite"><p class="sg-empty">Loading skills…</p></aside>
+        </div>
+
+        <p class="sg-updated" id="sgUpdated"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container">
+      <div class="copyright text-center ">
+        <p>Thanks for stopping by 💌</p>
+      </div>
+      <div class="social-links d-flex justify-content-center">
+        <a href="mailto:sjmock99@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+        <a href="https://www.linkedin.com/in/stephenjmock/" target="_blank"><i class="bi bi-linkedin"></i></a>
+        <a href="https://github.com/sjmock99" target="_blank"><i class="bi bi-github"></i></a>
+        <a href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank"><i class="bi bi-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/skill-graph.js"></script>
+
+</body>
+
+</html>
