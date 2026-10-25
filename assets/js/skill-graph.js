@@ -85,6 +85,13 @@
     // ---- stats ----
     const skills = root.descendants().filter(n => !n.data.kind);
     const rated = skills.filter(n => n.data.rating != null);
+    // Per-discipline average over rated skills only (unrated ones aren't counted as 0).
+    const discStats = h => {
+      const all = h.descendants().slice(1), got = all.filter(n => n.data.rating != null);
+      return { total: all.length, rated: got.length, avg: got.length ? d3.mean(got, n => n.data.rating) : null };
+    };
+    const fmtAvg = a => a.toFixed(1);
+    const avgLabel = a => levelLabel(Math.round(a * 2) / 2);  // name of the nearest half step
     document.getElementById("sgStats").innerHTML =
       `<div><b>${skills.length}</b>skills</div><div><b>${hubs.length}</b>disciplines</div><div><b>${projects.length}</b>projects</div><div><b>${rated.length}</b>rated</div>`;
     const updatedEl = document.getElementById("sgUpdated");
@@ -166,9 +173,9 @@
       <div class="sg-tabs" role="tablist">${root.children.map(h => `<button class="sg-tab" role="tab" id="sgTab-${h.data.disc}" aria-controls="sgPane-${h.data.disc}" data-tab="${h.data.disc}" style="--c:${discColor(h.data.disc)}">
           <span class="sg-dot" style="background:${discColor(h.data.disc)}"></span>${esc(h.data.name)}<span class="sg-tab-count" hidden></span></button>`).join("")}</div>
       ${root.children.map(h => {
-        const all = h.descendants().slice(1), got = all.filter(n => n.data.rating != null).length;
+        const st = discStats(h);
         return `<div class="sg-pane" role="tabpanel" id="sgPane-${h.data.disc}" aria-labelledby="sgTab-${h.data.disc}" data-disc="${h.data.disc}" style="--c:${discColor(h.data.disc)}" hidden>
-          <p class="sg-pane-meta">${got} of ${all.length} ${esc(h.data.name.toLowerCase())} skills learned${h.data.blurb ? ` · ${esc(h.data.blurb)}` : ""}</p>
+          <p class="sg-pane-meta">${st.rated} of ${st.total} ${esc(h.data.name.toLowerCase())} skills learned${st.avg != null ? ` · average Lv ${fmtAvg(st.avg)}` : ""}${h.data.blurb ? ` · ${esc(h.data.blurb)}` : ""}</p>
           <div class="sg-groups"></div>
         </div>`;
       }).join("")}`;
@@ -239,7 +246,19 @@
         <p class="sg-crumb">OVERVIEW</p>
         <h3>Select a skill or project</h3>
         <p class="sg-empty">Tap any skill to see its rating, what it branches into, and which projects used it.</p>
+        ${avgRows()}
         ${top.length ? `<div><p class="sg-section-t">Strongest so far</p><div class="sg-list">${top.map(n => skillChip(n, true)).join("")}</div></div>` : ""}`;
+    }
+    // Disciplines ranked by average level, as small bars; each row opens that discipline.
+    function avgRows() {
+      const rows = root.children.map(h => ({ h, st: discStats(h) })).filter(r => r.st.avg != null)
+        .sort((a, b) => b.st.avg - a.st.avg);
+      if (!rows.length) return "";
+      return `<div><p class="sg-section-t">Average level by discipline</p><div class="sg-avgs">${rows.map(({ h, st }) =>
+        `<button class="sg-avg" data-hub="${esc(h.data.id)}" title="${esc(avgLabel(st.avg))} · ${st.rated} of ${st.total} skills rated">
+          <span class="sg-avg-name"><span class="sg-dot" style="background:${discColor(h.data.disc)}"></span>${esc(h.data.name)}</span>
+          <span class="sg-avg-bar"><i style="width:${st.avg / 5 * 100}%;background:${discColor(h.data.disc)}"></i></span>
+          <span class="sg-avg-val">${fmtAvg(st.avg)}</span></button>`).join("")}</div></div>`;
     }
     function showNode(n) {
       if (n.depth === 0) { clearAll(); return; }
@@ -255,7 +274,11 @@
         ${d.blurb ? `<p class="sg-blurb">${esc(d.blurb)}</p>` : ""}
         ${notionLink(d.id)}
         <dl class="sg-kv">
-          ${d.kind === "hub" ? `<dt>Skills</dt><dd>${desc.length}</dd>` :
+          ${d.kind === "hub" ? (() => {
+            const st = discStats(n);
+            return `<dt>Average</dt><dd>${st.avg != null ? pips(Math.round(st.avg * 2) / 2, d.disc) + `<span style="font-variant-numeric:tabular-nums">${fmtAvg(st.avg)} / 5</span> <span class="sg-level-name">· ${esc(avgLabel(st.avg))}</span>` : `<span class="sg-empty">Nothing rated yet</span>`}</dd>
+              <dt>Rated</dt><dd>${st.rated} of ${st.total} skills</dd>`;
+          })() :
             `<dt>Rating</dt><dd>${d.rating != null ? pips(d.rating, d.disc) + `<span style="font-variant-numeric:tabular-nums">${d.rating} / 5</span> <span class="sg-level-name">· ${esc(levelLabel(d.rating))}</span>` : `<span class="sg-empty">Not rated yet</span>`}</dd>`}
         </dl>
         <div><p class="sg-section-t">${d.kind === "hub" ? "Branches" : "Branches into"}</p>${kids.length ? `<div class="sg-list">${kids.map(k => skillChip(k)).join("")}</div>` : `<p class="sg-empty">Nothing below this one.</p>`}</div>
@@ -343,6 +366,10 @@
       const t = e.target.closest("button"); if (!t) return;
       if (t.id === "sgClose") return clearAll();
       if (t.dataset.skill) { const n = nodeById.get(t.dataset.skill); if (n) selectNode(n); }
+      if (t.dataset.hub) {
+        const h = root.children.find(x => x.data.id === t.dataset.hub);
+        if (h) { state = { disc: h.data.disc, project: null }; syncChips(); showNode(h); showTab(h.data.disc); }
+      }
       if (t.dataset.project) { const p = projects.find(x => x.id === t.dataset.project); if (p) selectProject(p); }
     });
     // ---- view switch (Graph / Tree), remembered per visitor; #tree in the URL opens the tree ----

@@ -48,6 +48,14 @@
 #skill-graph .sg-levels ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px 16px; }
 #skill-graph .sg-levels li { display: flex; flex-direction: column; gap: 2px; font-size: 12.5px; line-height: 1.35; color: var(--sg-muted); }
 #skill-graph .sg-levels b { font: 700 13px var(--heading-font); color: var(--heading-color); }
+#skill-graph .sg-avgs { display: flex; flex-direction: column; gap: 4px; }
+#skill-graph .sg-avg { display: grid; grid-template-columns: 110px 1fr 30px; align-items: center; gap: 10px; width: 100%; padding: 4px 6px; margin: 0 -6px; background: none; border: 0; border-radius: 6px; cursor: pointer; font: 13px var(--default-font); color: var(--sg-ink); text-align: left; }
+#skill-graph .sg-avg:hover { background: var(--sg-faint); }
+#skill-graph .sg-avg:focus-visible { outline: 2px solid var(--accent-color); }
+#skill-graph .sg-avg-name { display: inline-flex; align-items: center; gap: 7px; }
+#skill-graph .sg-avg-bar { height: 8px; border-radius: 4px; background: var(--sg-faint); overflow: hidden; }
+#skill-graph .sg-avg-bar i { display: block; height: 100%; border-radius: 4px; }
+#skill-graph .sg-avg-val { font-family: var(--sg-mono); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 #skill-graph .sg-level-name { color: var(--sg-muted); font-size: 13px; }
 #skill-graph .sg-main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
 @media (max-width: 1100px) { #skill-graph .sg-main { grid-template-columns: minmax(0, 1fr); } }
