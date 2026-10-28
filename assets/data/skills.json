@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28 06:22 UTC",
+ "updated": "2026-10-28 09:05 UTC",
  "source": "notion",
  "skills": [
   {
@@ -230,7 +230,7 @@
    "id": "3918f022083c80e7b949f46a1cd0f541",
    "name": "EtherCAT",
    "parent": "4038f022083c81fcb497e468bd286f47",
-   "rating": 4,
+   "rating": 3,
    "target": null,
    "blurb": "Real-time industrial Ethernet protocol for fast, synchronized motion control."
   },
