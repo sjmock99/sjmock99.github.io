@@ -213,6 +213,76 @@
       switchTab(next.dataset.tab); next.focus();
     });
 
+    // ---- bars view: every skill as a horizontal bar, sortable by rating or name ----
+    const barsEl = document.getElementById("sgBars");
+    const barOf = new Map();  // hierarchy node -> bar row button
+    const instant = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SORTS = { desc: "High → low", asc: "Low → high", name: "A – Z", disc: "By discipline" };
+    let barSort = "desc";
+    try { if (SORTS[localStorage.getItem("sg-bar-sort")]) barSort = localStorage.getItem("sg-bar-sort"); } catch (e) { /* ignore */ }
+    barsEl.innerHTML = `
+      <div class="sg-bars-head"><span class="sg-label">Sort</span>${Object.entries(SORTS).map(([k, t]) =>
+        `<button class="sg-chip" data-sort="${k}" aria-pressed="false">${t}</button>`).join("")}
+        <span class="sg-bars-hint">Click a bar for details · click empty space or press Esc to go back</span></div>
+      <div class="sg-bar-axis" aria-hidden="true"><span></span><span class="sg-bar-ticks">${[0, 1, 2, 3, 4, 5].map(i => `<i style="left:${i * 20}%">${i}</i>`).join("")}</span><span></span></div>
+      <div class="sg-bar-list" role="list"></div>`;
+    const barList = barsEl.querySelector(".sg-bar-list");
+    skills.forEach(n => {
+      const d = n.data, el = document.createElement("button");
+      el.className = "sg-bar" + (d.rating == null ? " locked" : "");
+      el.setAttribute("role", "listitem");
+      el.title = `${d.name} · ${levelLabel(d.rating)}`;
+      el.setAttribute("aria-label", `${d.name}${d.rating != null ? `, level ${d.rating} of 5` : ", not rated yet"}`);
+      el.innerHTML = `<span class="sg-bar-name"><span class="sg-dot" style="background:${discColor(d.disc)}"></span>${esc(d.name)}</span>
+        <span class="sg-bar-track"><i style="width:${(d.rating || 0) / 5 * 100}%;background:${discColor(d.disc)}"></i></span>
+        <span class="sg-bar-val">${d.rating != null ? d.rating : "–"}</span>`;
+      el.onclick = () => selected === n ? stepBack() : selectNode(n);
+      barOf.set(n, el);
+    });
+    // Section headers (built fresh each time, since one discipline can appear in both the focus and "other" sections).
+    const barHead = (dot, title, meta) => {
+      const el = document.createElement("p");
+      el.className = "sg-bar-group" + (dot ? "" : " sg-bar-section");
+      el.innerHTML = `${dot ? `<span class="sg-dot" style="background:${dot}"></span>` : ""}${esc(title)}<span>${esc(meta)}</span>`;
+      return el;
+    };
+    const byName = (a, b) => a.data.name.localeCompare(b.data.name);
+    // Unrated skills always sit at the bottom, whichever way the ratings run.
+    const byRating = dir => (a, b) => (a.data.rating == null) - (b.data.rating == null)
+      || dir * ((a.data.rating ?? 0) - (b.data.rating ?? 0)) || byName(a, b);
+    // Bar rows for a list of skills in the chosen order; "disc" = disciplines in their usual order, highest first within each.
+    function orderedBars(list, k) {
+      if (k !== "disc") return list.slice().sort(k === "name" ? byName : byRating(k === "asc" ? 1 : -1)).map(n => barOf.get(n));
+      const by = d3.group(list, n => n.data.disc);
+      return root.children.filter(h => by.has(h.data.disc)).flatMap(h => {
+        const st = discStats(h);
+        return [barHead(discColor(h.data.disc), h.data.name, `${st.rated} of ${st.total} rated${st.avg != null ? ` · avg Lv ${fmtAvg(st.avg)}` : ""}`),
+          ...by.get(h.data.disc).sort(byRating(-1)).map(n => barOf.get(n))];
+      });
+    }
+    // A project, level or discipline filter pulls its skills into a section at the top; the rest go below.
+    let barFocus = null;  // { title, nodes } or null
+    function arrangeBars() {
+      barsEl.classList.toggle("dim", !!barFocus);
+      if (!barFocus) return barList.replaceChildren(...orderedBars(skills, barSort));
+      const inFocus = new Set(barFocus.nodes), rest = skills.filter(n => !inFocus.has(n));
+      // Light exactly the focus section (the highlight also lights parent skills, which here would sit in "other").
+      barOf.forEach((el, n) => el.classList.toggle("on", inFocus.has(n)));
+      barList.replaceChildren(
+        barHead(null, barFocus.title, `${inFocus.size} skill${inFocus.size === 1 ? "" : "s"}`), ...orderedBars([...inFocus], barSort),
+        ...(rest.length ? [barHead(null, "Other skills", `${rest.length}`), ...orderedBars(rest, barSort)] : []));
+      if (!barsEl.hidden) barList.firstChild.scrollIntoView({ behavior: instant ? "auto" : "smooth", block: "nearest" });
+    }
+    function setBarFocus(title, nodes) { barFocus = title ? { title, nodes } : null; arrangeBars(); }
+    function sortBars(k) {
+      barSort = k;
+      try { localStorage.setItem("sg-bar-sort", k); } catch (e) { /* ignore */ }
+      barsEl.querySelectorAll("[data-sort]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sort === k));
+      arrangeBars();
+    }
+    barsEl.querySelectorAll("[data-sort]").forEach(b => b.onclick = () => sortBars(b.dataset.sort));
+    sortBars(barSort);
+
     // ---- interaction ----
     let state = { disc: null, project: null };
     const panel = document.getElementById("sgPanel");
@@ -224,6 +294,8 @@
       links.classed("on", d => set.has(d.target) && set.has(d.source));
       treeEl.classList.toggle("dim", !!set.size);
       tileOf.forEach((el, n) => { el.classList.toggle("on", rows.has(n)); el.classList.toggle("sel", n === focus); });
+      // The bars list isn't a hierarchy, so a picked skill is only marked; fading comes from the focus section (arrangeBars).
+      barOf.forEach((el, n) => el.classList.toggle("sel", n === focus));
       // Each tab shows how many highlighted skills it holds, so a project's skills are easy to find.
       treeEl.querySelectorAll(".sg-tab").forEach(t => {
         const c = t.querySelector(".sg-tab-count");
@@ -267,6 +339,8 @@
       const projs = usedIn.get(n) || [];
       const desc = n.descendants().filter(x => x !== n);
       highlight(new Set([...ancestorsOf([n]), ...desc]), n);
+      // A discipline gets its own section in the bars view; picking a single skill keeps the current order.
+      if (d.kind === "hub") setBarFocus(`${d.name} skills`, desc);
       panel.innerHTML = `
         <button class="sg-close" id="sgClose">Clear</button>
         <p class="sg-crumb">${esc(path.join("  /  ") || "DISCIPLINE")}</p>
@@ -286,6 +360,7 @@
     }
     function showProject(p) {
       highlight(ancestorsOf(p.nodes));
+      setBarFocus(`Used in ${p.name}`, p.nodes);
       const by = d3.group(p.nodes, n => n.data.disc);
       panel.innerHTML = `
         <button class="sg-close" id="sgClose">Clear</button>
@@ -303,6 +378,7 @@
       const matches = skills.filter(n => state.levels.has(levelOf(n)))
         .sort((a, b) => (b.data.rating ?? -1) - (a.data.rating ?? -1) || a.data.name.localeCompare(b.data.name));
       highlight(ancestorsOf(matches), null, new Set(matches));
+      setBarFocus(`${[...state.levels].sort().map(levelName).join(" + ")} skills`, matches);
       const by = d3.group(matches, n => n.data.disc);
       const names = [...state.levels].sort().map(levelName);
       panel.innerHTML = `
@@ -328,15 +404,34 @@
       <ol>${Object.entries(LEVELS).map(([l, [name, desc]]) => `<li><b>Lv ${l} · ${name}</b><span>${esc(desc)}</span></li>`).join("")}</ol>`;
 
     function clearAll() {
-      state = { disc: null, project: null };
-      highlight(new Set()); syncChips(); showDefault();
+      state = { disc: null, project: null }; selected = null; prevFilter = null;
+      highlight(new Set()); syncChips(); showDefault(); setBarFocus(null);
     }
     function syncChips() {
       document.querySelectorAll("#discBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.disc === state.disc));
       document.querySelectorAll("#projBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.project === state.project));
       document.querySelectorAll("#levelBar [data-level]").forEach(b => b.setAttribute("aria-pressed", !!state.levels?.has(b.dataset.level)));
     }
-    function selectNode(n) { state = { disc: null, project: null }; syncChips(); showNode(n); }
+    // selected: the skill open in the panel; prevFilter: the project / level / discipline filter it was picked from,
+    // so "back" (empty-space click, Esc, or clicking the same bar again) returns there before clearing everything.
+    let selected = null, prevFilter = null;
+    function selectNode(n) {
+      if (state.disc || state.project || state.levels) prevFilter = state;
+      selected = n; state = { disc: null, project: null }; syncChips(); showNode(n);
+    }
+    function stepBack() {
+      const f = prevFilter;
+      if (!selected || !f) return clearAll();
+      selected = null; prevFilter = null;
+      if (f.project) return selectProject(projects.find(p => p.id === f.project));
+      state = f; syncChips();
+      if (f.levels) return showLevels();
+      const h = root.children.find(x => x.data.disc === f.disc); showNode(h); showTab(f.disc);
+    }
+    barsEl.addEventListener("click", e => { if (!e.target.closest(".sg-bar, .sg-chip")) stepBack(); });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !e.target.closest("input, textarea") && (state.disc || state.project || state.levels || selected)) stepBack();
+    });
     function selectProject(p) { state = { disc: null, project: p.id }; syncChips(); showProject(p); }
 
     nodes.on("click", (e, n) => selectNode(n))
@@ -372,17 +467,18 @@
       }
       if (t.dataset.project) { const p = projects.find(x => x.id === t.dataset.project); if (p) selectProject(p); }
     });
-    // ---- view switch (Graph / Tree), remembered per visitor; #tree in the URL opens the tree ----
+    // ---- view switch (Graph / Tree / Bars), remembered per visitor; #tree or #bars in the URL opens that view ----
     const stage = document.querySelector(".sg-stage");
     function setView(v) {
-      stage.hidden = v !== "graph"; treeEl.hidden = v !== "tree";
+      stage.hidden = v !== "graph"; treeEl.hidden = v !== "tree"; barsEl.hidden = v !== "bars";
       document.querySelectorAll("#viewBar [data-view]").forEach(b => b.setAttribute("aria-pressed", b.dataset.view === v));
       try { localStorage.setItem("sg-view", v); } catch (e) { /* storage blocked; fine */ }
     }
     document.querySelectorAll("#viewBar [data-view]").forEach(b => b.onclick = () => setView(b.dataset.view));
     let saved = null;
     try { saved = localStorage.getItem("sg-view"); } catch (e) { /* ignore */ }
-    setView(location.hash === "#tree" ? "tree" : location.hash === "#graph" ? "graph" : saved === "tree" ? "tree" : "graph");
+    const VIEWS = ["graph", "tree", "bars"], fromHash = location.hash.slice(1);
+    setView(VIEWS.includes(fromHash) ? fromHash : VIEWS.includes(saved) ? saved : "graph");
 
     // ---- search: type a name, pick a result to select it (and bring it into view) ----
     const searchEl = document.getElementById("sgSearch"), resultsEl = document.getElementById("sgResults");
@@ -416,9 +512,9 @@
       resultsEl.querySelectorAll("[data-i]").forEach(li => li.setAttribute("aria-selected", String(+li.dataset.i === active)));
       searchEl.setAttribute("aria-activedescendant", "sgOpt" + active);
     }
-    const instant = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function bringIntoView(n) {
       showTab(n.data.disc);
+      if (!barsEl.hidden) { barOf.get(n)?.scrollIntoView({ behavior: instant ? "auto" : "smooth", block: "center" }); return; }
       if (!treeEl.hidden) { tileOf.get(n)?.scrollIntoView({ behavior: instant ? "auto" : "smooth", block: "center" }); return; }
       // Graph: center the node, zooming in a little for skills so its neighborhood is readable.
       const k = Math.max(d3.zoomTransform(svg.node()).k, n.depth === 1 ? 1 : 1.6);

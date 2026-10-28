@@ -80,6 +80,7 @@
         <div class="sg-toolbar" id="viewBar"><span class="sg-label">View</span>
           <button class="sg-chip" data-view="graph" aria-pressed="true">◎ Graph</button>
           <button class="sg-chip" data-view="tree" aria-pressed="false">⧉ Skill tree</button>
+          <button class="sg-chip" data-view="bars" aria-pressed="false">▤ Bars</button>
           <div class="sg-search">
             <input id="sgSearch" type="search" placeholder="Search skills or projects…" autocomplete="off"
               role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sgResults" aria-label="Search skills or projects">
@@ -101,6 +102,7 @@
         <div class="sg-main">
           <div class="sg-view">
           <div class="sg-tree" id="sgTree" hidden></div>
+          <div class="sg-bars" id="sgBars" hidden></div>
           <div class="sg-stage">
             <svg id="sgGraph" role="img" aria-label="Radial skill tree"></svg>
             <div class="sg-hint">Drag to pan · scroll or pinch to zoom</div>
