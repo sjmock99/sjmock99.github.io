@@ -205,7 +205,10 @@
    */
   window.addEventListener('load', function(e) {
     if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
+      // Hashes like #skill=<id> (skill graph deep links) aren't valid selectors; ignore them here.
+      let target = null;
+      try { target = document.querySelector(window.location.hash); } catch (err) { /* not a section id */ }
+      if (target) {
         setTimeout(() => {
           let section = document.querySelector(window.location.hash);
           let scrollMarginTop = getComputedStyle(section).scrollMarginTop;

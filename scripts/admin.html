@@ -60,6 +60,17 @@
   textarea.blurb:focus { color: var(--ink); background: var(--surface); border: 1px solid var(--accent); }
   textarea.blurb:placeholder-shown { font-style: italic; }
   table td:first-child { width: 42%; }
+  .fields { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+  .fields label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .fields input[type=text], .fields input[type=url] { width: 230px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; color: var(--ink); font-size: 13px; }
+  .fields input[type=month] { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; color: var(--ink); font-size: 13px; }
+  .badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; border-radius: 4px; padding: 1px 6px; background: var(--faint); color: var(--muted); }
+  .note { font-size: 12px; color: var(--muted); margin: 0; }
+  .title-input { font: 700 16px inherit; font-family: inherit; color: var(--ink); background: transparent; border: 1px dashed transparent; border-radius: 4px; padding: 2px 6px; margin-left: -6px; min-width: 260px; field-sizing: content; }
+  .auto-title { font-size: 16px; }
+  .title-input:hover { border-color: var(--line); }
+  .title-input:focus { background: var(--surface); border: 1px solid var(--accent); }
+  .note a { color: var(--accent); }
   .levels { margin: 0; font-size: 12.5px; }
   [hidden] { display: none !important; }
 </style>
@@ -73,7 +84,7 @@
     </div>
     <div class="bar">
       <button id="reloadBtn" title="Fetch everything again from Notion">Reload from Notion</button>
-      <label class="muted" title="For previewing on this computer. The live site's GitHub sync uses its own SHOW_ALL setting."><input type="checkbox" id="showAll" checked> include non-Public</label>
+      <label class="muted" title="Preview only: also writes non-Public pages into skills.json and the index.html resume. Don't commit while it's on."><input type="checkbox" id="showAll"> include non-Public</label>
       <button id="syncBtn" class="primary" title="Rebuild assets/data/skills.json for the site">Update site data</button>
     </div>
   </header>
@@ -83,11 +94,12 @@
     <div class="bar tabs" role="tablist">
       <button role="tab" data-tab="skills" aria-selected="true">Skills</button>
       <button role="tab" data-tab="projects" aria-selected="false">Projects</button>
+      <button role="tab" data-tab="experience" aria-selected="false">Experience</button>
     </div>
     <input type="search" id="filter" placeholder="Filter by name…" style="flex:1;min-width:180px">
   </div>
 
-  <p class="levels muted"><b>Levels:</b> 1 Aware (limited, know the concept) · 2 Beginner (basics with guides) · 3 Proficient (use it on my own) · 4 Advanced (complex problems, can teach) · 5 Expert (go-to person). Half steps sit between.</p>
+  <p class="levels muted"><b>Levels:</b> 1 Aware (know what it's for; courses or tutorials only) · 2 Beginner (used it with guidance, e.g. one personal project) · 3 Proficient (use it on my own; shipped it in a project or job) · 4 Advanced (designed with it across several projects or jobs; can teach it) · 5 Expert (the person others come to for it). Half steps sit between.</p>
 
   <section id="skillsTab">
     <form class="add-form" id="addForm" autocomplete="off">
@@ -119,6 +131,20 @@
       <span class="muted" style="flex-basis:100%;font-size:12px">Created with your Project template. Then add the skills it used below.</span>
     </form>
     <div class="card" id="projectList"></div>
+  </section>
+
+  <section id="experienceTab" hidden>
+    <form class="add-form" id="addExpForm" autocomplete="off">
+      <strong>New</strong>
+      <select id="newExpKind" aria-label="Kind"><option value="Experience">Job</option><option value="Education">Degree</option></select>
+      <input id="newExpOrg" placeholder="Organization / school" required style="width:220px" aria-label="Organization or school">
+      <input id="newExpRole" placeholder="Role / degree" style="width:240px" aria-label="Role or degree">
+      <label class="muted"><input type="checkbox" id="newExpPublic"> Public</label>
+      <button class="primary" id="addExpBtn">Add to Notion</button>
+      <span class="status" id="addExpStatus"></span>
+      <span class="muted" style="flex-basis:100%;font-size:12px">The Notion page is named "Organization — Role" automatically and follows any later changes. Add dates below; the detailed bullets go in the Notion page under its 🌐 Public heading.</span>
+    </form>
+    <div class="card" id="expList"></div>
   </section>
 </div>
 
@@ -157,6 +183,7 @@
   // Same rule as sync_notion.is_skill: Reference, or no Type but a Parent skill.
   const isSkill = r => r.types.includes("Reference") || (!r.types.length && !!r.parent);
   const isProject = r => r.types.includes("Project") && !r.name.toLowerCase().startsWith("[old - delete]");
+  const isExperience = r => r.types.includes("Experience") || r.types.includes("Education");
 
   // Walk up Parent skill to find the hub; returns {disc, depth} or null if it doesn't reach one.
   function place(r) {
@@ -201,6 +228,39 @@
     </tr>`;
   }
 
+  const month = d => (d || "").slice(0, 7);
+  const textField = (p, field, label, width) => `<label>${label}<input type="text" data-act="field" data-field="${field}" value="${esc(p[field])}" style="width:${width}px"></label>`;
+  // One card per project / job / degree: its fields, blurb, and the skills it used.
+  function itemCard(p, mode) {
+    const edu = p.types.includes("Education");
+    return `
+      <div class="proj" data-id="${p.id}">
+        <div class="proj-head">
+          ${mode === "exp" ? `<span class="badge">${edu ? "Degree" : "Job"}</span>` : ""}
+          ${mode === "exp" ? `<strong class="auto-title" title="Set automatically from Organization and ${edu ? "Degree" : "Role"}">${esc(p.name)}</strong>`
+            : `<input class="title-input" data-act="name" value="${esc(p.name)}" aria-label="Name" title="Rename (this is the Notion page title and the name shown on the site)">`}${p.url ? `<a href="${esc(p.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
+          <label class="muted"><input type="checkbox" data-act="public"${p.public ? " checked" : ""}> Public</label>
+          <button class="trash" data-act="trash" title="Move ${esc(p.name)} to Notion's Trash" aria-label="Delete ${esc(p.name)}">🗑</button>
+          <span class="status"></span>
+        </div>
+        <div class="fields">
+          ${mode === "exp" ? textField(p, "role", edu ? "Degree" : "Role", 280) : ""}
+          ${textField(p, "organization", edu ? "School" : "Organization", 230)}
+          ${mode === "exp" ? textField(p, "location", "Location", 150) : `<label>Link<input type="url" data-act="link" value="${esc(p.link)}" placeholder="https://…"></label>`}
+          <label>From<input type="month" data-act="date" data-end="0" value="${month(p.start)}"></label>
+          <label>To<input type="month" data-act="date" data-end="1" value="${month(p.end)}"></label>
+          ${mode === "exp" && !edu ? `<span class="note">(leave “To” empty if current)</span>` : ""}
+        </div>
+        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb (one line)…" aria-label="Public blurb for ${esc(p.name)}" style="margin:0">${esc(p.blurb)}</textarea>
+        <p class="note">Detailed text on the site comes from the page's <b>🌐 Public</b> heading in ${p.url ? `<a href="${esc(p.url)}" target="_blank">Notion ↗</a>` : "Notion"}.</p>
+        <div class="chips">${p.skills_used.map(id => {
+          const s = recs.get(id), pl = s && place(s);
+          return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
+        }).join("") || `<span class="muted">No skills linked yet.</span>`}</div>
+        <div class="bar"><input list="skillNames" data-act="add-skill" placeholder="Add a skill…" style="width:260px" aria-label="Add a skill"></div>
+      </div>`;
+  }
+
   function render() {
     buildLabels();
     const q = $("#filter").value.trim().toLowerCase();
@@ -229,21 +289,13 @@
     $("#looseTitle").hidden = $("#looseCard").hidden = !loose.length;
 
     const projects = [...recs.values()].filter(isProject).filter(match).sort((a, b) => a.name.localeCompare(b.name));
-    $("#projectList").innerHTML = projects.map(p => `
-      <div class="proj" data-id="${p.id}">
-        <div class="proj-head">
-          <strong>${esc(p.name)}</strong>${p.url ? `<a href="${esc(p.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
-          <label class="muted"><input type="checkbox" data-act="public"${p.public ? " checked" : ""}> Public</label>
-          <button class="trash" data-act="trash" title="Move ${esc(p.name)} to Notion's Trash" aria-label="Delete ${esc(p.name)}">🗑</button>
-          <span class="status"></span>
-        </div>
-        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb…" aria-label="Public blurb for ${esc(p.name)}" style="margin:0">${esc(p.blurb)}</textarea>
-        <div class="chips">${p.skills_used.map(id => {
-          const s = recs.get(id), pl = s && place(s);
-          return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
-        }).join("") || `<span class="muted">No skills linked yet.</span>`}</div>
-        <div class="bar"><input list="skillNames" data-act="add-skill" placeholder="Add a skill…" style="width:260px" aria-label="Add a skill"></div>
-      </div>`).join("") || `<p class="muted" style="padding:14px 16px;margin:0">No projects.</p>`;
+    $("#projectList").innerHTML = projects.map(p => itemCard(p, "project")).join("")
+      || `<p class="muted" style="padding:14px 16px;margin:0">No projects.</p>`;
+    // Newest first; no start date (just created) at the top.
+    const exp = [...recs.values()].filter(isExperience).filter(match)
+      .sort((a, b) => (b.start || "9999").localeCompare(a.start || "9999") || a.name.localeCompare(b.name));
+    $("#expList").innerHTML = exp.map(p => itemCard(p, "exp")).join("")
+      || `<p class="muted" style="padding:14px 16px;margin:0">No experience yet.</p>`;
     autosizeAll();
   }
 
@@ -252,11 +304,11 @@
     s.className = "status " + cls; s.textContent = text;
   }
 
-  async function save(el, action, value) {
+  async function save(el, action, value, extra = {}) {
     const id = el.closest("[data-id]").dataset.id;
     setStatus(el, "busy", "saving…");
     try {
-      const rec = await api(action, { id, value });
+      const rec = await api(action, { id, value, ...extra });
       recs.set(rec.id, rec);
       const keepFocus = action === "skills-used" || action === "parent";
       if (keepFocus) render();
@@ -284,6 +336,22 @@
     if (act === "rating" || act === "target") save(el, act, el.value === "" ? null : Number(el.value));
     if (act === "public") save(el, "public", el.checked);
     if (act === "blurb") save(el, "blurb", el.value);
+    if (act === "field") save(el, "field", el.value, { field: el.dataset.field }).then(() => {
+      // Jobs / degrees: the page name follows Organization and Role, so show the new one.
+      const card = el.closest("[data-id]"), t = card && card.querySelector(".auto-title");
+      if (t) t.textContent = recs.get(card.dataset.id).name;
+    });
+    if (act === "name") {
+      if (!el.value.trim()) { el.value = recs.get(el.closest("[data-id]").dataset.id).name; return; }
+      save(el, "name", el.value.trim());
+    }
+    if (act === "link") save(el, "link", el.value.trim());
+    if (act === "date") {
+      // Both month boxes are sent together; a month is stored as its first day.
+      const [from, to] = el.closest("[data-id]").querySelectorAll('[data-act="date"]');
+      const day = m => m.value ? m.value + "-01" : null;
+      save(el, "date", { start: day(from), end: day(to) });
+    }
     if (act === "parent") {
       const label = el.value.trim();
       if (label && !labelToId.has(label)) { setStatus(el, "err", "pick a skill from the list"); return; }
@@ -331,8 +399,7 @@
     }
     if (el.dataset.tab) {
       document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b === el));
-      $("#skillsTab").hidden = el.dataset.tab !== "skills";
-      $("#projectsTab").hidden = el.dataset.tab !== "projects";
+      ["skills", "projects", "experience"].forEach(t => $(`#${t}Tab`).hidden = el.dataset.tab !== t);
       autosizeAll();
     }
   });
@@ -361,6 +428,28 @@
       st("err", err.message);
     } finally {
       $("#addProjBtn").disabled = false;
+    }
+  });
+
+  $("#addExpForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const st = (cls, text) => { $("#addExpStatus").className = "status " + cls; $("#addExpStatus").textContent = text; };
+    const organization = $("#newExpOrg").value.trim(), role = $("#newExpRole").value.trim();
+    if (!organization) return st("err", "give the organization or school");
+    $("#addExpBtn").disabled = true; st("busy", "adding…");
+    try {
+      const rec = await api("create-experience", { organization, role, kind: $("#newExpKind").value, public: $("#newExpPublic").checked });
+      recs.set(rec.id, rec);
+      $("#filter").value = "";
+      render();
+      $("#newExpOrg").value = ""; $("#newExpRole").value = "";
+      st("ok", `added "${rec.name}" ✓`);
+      const card = document.querySelector(`#expList [data-id="${rec.id}"]`);
+      if (card) { card.scrollIntoView({ block: "center" }); card.querySelector('[data-field="location"]').focus(); }
+    } catch (err) {
+      st("err", err.message);
+    } finally {
+      $("#addExpBtn").disabled = false;
     }
   });
 
@@ -398,8 +487,12 @@
 
   $("#reloadBtn").onclick = e => busy(e.target, async () => { await api("reload", {}); await load(); showLog("Reloaded from Notion."); });
   $("#syncBtn").onclick = e => busy(e.target, async () => {
+    showLog("Reading Notion and rebuilding the site files…");
     const r = await api("sync", { showAll: $("#showAll").checked });
-    showLog(r.message + "\nRefresh the Skill Graph page to see it. Commit and push to put it on the live site.");
+    await load();  // the admin's lists now match what was just read
+    showLog(r.message + ($("#showAll").checked
+      ? "\n\n⚠ Preview only: non-Public pages are included. Click Update site data again with \"include non-Public\" off before committing."
+      : "\nRefresh the site to see it. Commit and push to put it on the live site."));
   });
 
   load().catch(e => showLog("Couldn't load: " + e.message));

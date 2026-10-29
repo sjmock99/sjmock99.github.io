@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28 09:05 UTC",
+ "updated": "2026-10-29 05:13 UTC",
  "source": "notion",
  "skills": [
   {
@@ -776,17 +776,26 @@
    "id": "4038f022083c81b39315fff75b935ede",
    "name": "LED LAMP",
    "blurb": "",
+   "organization": "",
+   "start": null,
+   "end": null,
+   "link": null,
    "skills": [
     "9ff7f497ae3b40dca64c9a8b8bdde978",
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c81f9a056fadef2c6641a",
     "4038f022083c814ea232fdf49f25d945"
-   ]
+   ],
+   "details": null
   },
   {
    "id": "4038f022083c81de8bcac176a7735289",
    "name": "QR Code Shirt",
    "blurb": "",
+   "organization": "",
+   "start": null,
+   "end": null,
+   "link": null,
    "skills": [
     "2568f022083c80279651d840430f61be",
     "2948f022083c80329423daeac748615c",
@@ -794,12 +803,83 @@
     "6b4e076b347b4e31a50148c0ac98f37a",
     "4038f022083c814ea232fdf49f25d945",
     "1638f022083c8094bc4fdb8dc1066af5"
-   ]
+   ],
+   "details": null
   },
   {
-   "id": "4078f022083c81c98900f71fd2c5d488",
-   "name": "Relativity Space",
+   "id": "440ded2ce41e4360bf81b57c371bcca5",
+   "name": "Robot Arm",
    "blurb": "",
+   "organization": "",
+   "start": null,
+   "end": null,
+   "link": null,
+   "skills": [
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "74117136db1a419591201a04faefab03",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "4038f022083c8159a802f55b200deeb1",
+    "3fdffc9f4f1143f68b353aebeb273bb2",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "1d552ffc3982412f8bc04215fc397393",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "4038f022083c815d9cafd2ef2ceed783",
+    "5dcc4f8a8cf04917a44825b779c4cedf"
+   ],
+   "details": null
+  },
+  {
+   "id": "4038f022083c819b9fd8c2ae3ff2482c",
+   "name": "Twitch Cam V2",
+   "blurb": "",
+   "organization": "",
+   "start": null,
+   "end": null,
+   "link": null,
+   "skills": [
+    "27a1f2b53ec04b208e076c7970b6d0e5",
+    "772257571a524cb99a05eb7abb0e0a39",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "4038f022083c815781aeffd54bbafc59",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "d3501bb2ec4045a6a41da1bd32a6debe"
+   ],
+   "details": null
+  },
+  {
+   "id": "b6a7eb60515248b2af7a5311dae49954",
+   "name": "TwitchCam V1",
+   "blurb": "",
+   "organization": "",
+   "start": null,
+   "end": null,
+   "link": null,
+   "skills": [
+    "5dcc4f8a8cf04917a44825b779c4cedf",
+    "27a1f2b53ec04b208e076c7970b6d0e5",
+    "dbf4d32d91e94753b6283dd6db02ab2b",
+    "4038f022083c81a6803cec2e8b7a0a8f",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "772257571a524cb99a05eb7abb0e0a39",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "2938f022083c809da0e2d19d5a48a4a2"
+   ],
+   "details": null
+  }
+ ],
+ "experience": [
+  {
+   "id": "4078f022083c81c98900f71fd2c5d488",
+   "name": "Relativity Space — Robotics Engineer",
+   "blurb": "",
+   "organization": "Relativity Space",
+   "start": "2026-04-01",
+   "end": null,
+   "kind": "work",
+   "role": "Robotics Engineer",
+   "location": "",
    "skills": [
     "21299b93bc724631a2263b552fc6a22c",
     "b30c71b9be8e4be08e5b80f4b73c7705",
@@ -822,54 +902,204 @@
     "4038f022083c8159a802f55b200deeb1",
     "3fdffc9f4f1143f68b353aebeb273bb2",
     "4038f022083c818c8e0cc9d9128dba95"
-   ]
+   ],
+   "details": null
   },
   {
-   "id": "440ded2ce41e4360bf81b57c371bcca5",
-   "name": "Robot Arm",
-   "blurb": "",
+   "id": "4088f022083c81ff82f1e6cdc3aca8ac",
+   "name": "Motivo Engineering · Stratin Engineering — Robotics Engineering Consultant",
+   "blurb": "Systems engineering and R&D consulting for robotic products.",
+   "organization": "Motivo Engineering · Stratin Engineering",
+   "start": "2025-09-01",
+   "end": "2026-04-01",
+   "kind": "work",
+   "role": "Robotics Engineering Consultant",
+   "location": "Los Angeles, CA",
+   "skills": [],
+   "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>"
+  },
+  {
+   "id": "4088f022083c81adba05e6e8ba1d20a4",
+   "name": "UCLA Biomechatronics Lab — Research and Development Engineer II",
+   "blurb": "Research and development for tactile-driven robots used in human-robot systems.",
+   "organization": "UCLA Biomechatronics Lab",
+   "start": "2024-09-01",
+   "end": "2025-09-01",
+   "kind": "work",
+   "role": "Research and Development Engineer II",
+   "location": "Westwood, CA",
    "skills": [
-    "4038f022083c816eb3f7cf99088fe3b6",
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81c1bb0ddb05b15f0516",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c81459069f73257199ab5",
+    "5dcc4f8a8cf04917a44825b779c4cedf",
+    "4038f022083c815781aeffd54bbafc59",
+    "4038f022083c818c8e0cc9d9128dba95",
+    "4038f022083c815d9cafd2ef2ceed783",
+    "1d552ffc3982412f8bc04215fc397393",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "3fdffc9f4f1143f68b353aebeb273bb2",
     "74117136db1a419591201a04faefab03",
-    "12d8f022083c8047a12fdd4fd0e72dde",
+    "4038f022083c818085cbd9ee93062872",
+    "009a07fef6c54471a2fa2a8d22009c5c",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "e3d3972c0ba64a6e8c455c0c7d713549"
+   ],
+   "details": "<ul><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>"
+  },
+  {
+   "id": "4088f022083c81faaac0ddcf4dc53532",
+   "name": "Miso Robotics — Test Engineer",
+   "blurb": "Systems engineering development and testing for future robotic kitchen solutions.",
+   "organization": "Miso Robotics",
+   "start": "2024-04-01",
+   "end": "2024-09-01",
+   "kind": "work",
+   "role": "Test Engineer",
+   "location": "Pasadena, CA",
+   "skills": [
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c81e6a2adc0c95aa35eda",
+    "4038f022083c8168b005ee81637a068c",
+    "5c976dd32bc0479482f6ab0c6c738005",
+    "dbf4d32d91e94753b6283dd6db02ab2b",
+    "772257571a524cb99a05eb7abb0e0a39",
+    "3fdffc9f4f1143f68b353aebeb273bb2",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "4038f022083c81f19ad9d866db99d2bc"
+   ],
+   "details": "<ul><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>"
+  },
+  {
+   "id": "4088f022083c81b6bba8f56c5f519b70",
+   "name": "NASA Jet Propulsion Laboratory — Robotics Mechanical Engineer",
+   "blurb": "Extreme Environment Robotics Group (347C), supporting Mars Sample Return (MSR) Capture Contain Return System (CCRS).",
+   "organization": "NASA Jet Propulsion Laboratory",
+   "start": "2023-02-01",
+   "end": "2024-04-01",
+   "kind": "work",
+   "role": "Robotics Mechanical Engineer",
+   "location": "Pasadena, CA",
+   "skills": [
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c81e6a2adc0c95aa35eda",
+    "4038f022083c81459069f73257199ab5",
+    "4038f022083c8159a802f55b200deeb1",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "c84c8b0f0fd74e5f82e12c2313b29438",
+    "80abf2a57f494da28744e9b992a02d60",
+    "1d552ffc3982412f8bc04215fc397393",
+    "2938f022083c809da0e2d19d5a48a4a2",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "4038f022083c815781aeffd54bbafc59",
+    "4038f022083c81fcb497e468bd286f47",
+    "1448f022083c8044886cfc83a7120b0a",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "5dcc4f8a8cf04917a44825b779c4cedf",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "4038f022083c81f19ad9d866db99d2bc"
+   ],
+   "details": "<ul><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>"
+  },
+  {
+   "id": "4088f022083c813e97fae0601fa65499",
+   "name": "iRobot — Mechanical Engineering Intern",
+   "blurb": "Supported development of future robotic vacuums, docks, and test fixtures.",
+   "organization": "iRobot",
+   "start": "2022-05-01",
+   "end": "2022-08-01",
+   "kind": "work",
+   "role": "Mechanical Engineering Intern",
+   "location": "Bedford, MA",
+   "skills": [
+    "4038f022083c81f9a056fadef2c6641a",
+    "4038f022083c818085cbd9ee93062872",
+    "4048f022083c810db38ff7605a1f794a",
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "4038f022083c81c989ddf4081df6500e"
+   ],
+   "details": "<ul><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>"
+  },
+  {
+   "id": "4088f022083c8152a326e405def4314c",
+   "name": "Georgia Institute of Technology — Master's of Science in Mechanical Engineering",
+   "blurb": "",
+   "organization": "Georgia Institute of Technology",
+   "start": "2022-01-01",
+   "end": null,
+   "kind": "education",
+   "role": "Master's of Science in Mechanical Engineering",
+   "location": "Atlanta, GA",
+   "skills": [],
+   "details": "<ul><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li><li>GPA 4.0/4.0</li></ul>"
+  },
+  {
+   "id": "4088f022083c81b9b9bbccd015c21ac9",
+   "name": "NASA Jet Propulsion Laboratory — Mechanical Engineering Co-op",
+   "blurb": "Extreme Environment Robotics Group (347C), supporting Mars Sample Return (MSR) Capture Contain Return System (CCRS), Mars Sample Return Handling (MSRH).",
+   "organization": "NASA Jet Propulsion Laboratory",
+   "start": "2020-05-01",
+   "end": "2021-08-01",
+   "kind": "work",
+   "role": "Mechanical Engineering Co-op",
+   "location": "Pasadena, CA",
+   "skills": [
     "4038f022083c8159a802f55b200deeb1",
     "3fdffc9f4f1143f68b353aebeb273bb2",
-    "63a707011be245f4bc0ce1c4c0968c0c",
-    "1d552ffc3982412f8bc04215fc397393",
-    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "4038f022083c8106b61ac630a92beb7d",
     "4038f022083c815d9cafd2ef2ceed783",
-    "5dcc4f8a8cf04917a44825b779c4cedf"
-   ]
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "80abf2a57f494da28744e9b992a02d60",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132870fd5644618d779",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c81f9a056fadef2c6641a",
+    "4038f022083c818085cbd9ee93062872",
+    "4038f022083c81459069f73257199ab5"
+   ],
+   "details": "<ul><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href=\"https://ieeexplore.ieee.org/document/9438243\" target=\"_blank\" rel=\"noopener\">paper</a> on decontamination process for MSRH</li></ul>"
   },
   {
-   "id": "4038f022083c819b9fd8c2ae3ff2482c",
-   "name": "Twitch Cam V2",
-   "blurb": "",
+   "id": "4088f022083c817aa9c4d154d119a057",
+   "name": "SharkNinja — Mechanical Engineering Intern",
+   "blurb": "Prototyped new Shark Robotic Vacuums in the Advanced Development group.",
+   "organization": "SharkNinja",
+   "start": "2019-05-01",
+   "end": "2019-08-01",
+   "kind": "work",
+   "role": "Mechanical Engineering Intern",
+   "location": "Needham, MA",
    "skills": [
-    "27a1f2b53ec04b208e076c7970b6d0e5",
-    "772257571a524cb99a05eb7abb0e0a39",
-    "63a707011be245f4bc0ce1c4c0968c0c",
-    "4038f022083c815781aeffd54bbafc59",
-    "e3d3972c0ba64a6e8c455c0c7d713549",
-    "d3501bb2ec4045a6a41da1bd32a6debe"
-   ]
+    "4038f022083c81f9a056fadef2c6641a",
+    "4038f022083c818085cbd9ee93062872",
+    "4038f022083c816eb3f7cf99088fe3b6",
+    "74117136db1a419591201a04faefab03",
+    "4038f022083c81e38b7be114e560096b"
+   ],
+   "details": "<ul><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>"
   },
   {
-   "id": "b6a7eb60515248b2af7a5311dae49954",
-   "name": "TwitchCam V1",
+   "id": "4088f022083c81e79a11e8f12b2d9495",
+   "name": "Georgia Institute of Technology — Bachelor of Science in Mechanical Engineering",
    "blurb": "",
-   "skills": [
-    "5dcc4f8a8cf04917a44825b779c4cedf",
-    "27a1f2b53ec04b208e076c7970b6d0e5",
-    "dbf4d32d91e94753b6283dd6db02ab2b",
-    "4038f022083c81a6803cec2e8b7a0a8f",
-    "d3501bb2ec4045a6a41da1bd32a6debe",
-    "e3d3972c0ba64a6e8c455c0c7d713549",
-    "63a707011be245f4bc0ce1c4c0968c0c",
-    "772257571a524cb99a05eb7abb0e0a39",
-    "6b4e076b347b4e31a50148c0ac98f37a",
-    "2938f022083c809da0e2d19d5a48a4a2"
-   ]
+   "organization": "Georgia Institute of Technology",
+   "start": "2017-01-01",
+   "end": "2021-01-01",
+   "kind": "education",
+   "role": "Bachelor of Science in Mechanical Engineering",
+   "location": "Atlanta, GA",
+   "skills": [],
+   "details": "<ul><li>Georgia Tech Faculty Honors (2017-2021)</li><li>GPA 4.0/4.0</li></ul>"
   }
  ]
 }

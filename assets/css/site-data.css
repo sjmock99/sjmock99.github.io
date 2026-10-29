@@ -1,0 +1,72 @@
+/* Homepage pieces built from the Notion data (scripts/sync_notion.py writes the HTML into index.html):
+   skill chips under each job/degree, the Skills section preview, and the skill graph slide-out. */
+:root { --rs-mech: #c4541c; --rs-elec: #b08a00; --rs-soft: #1f6fb8; --rs-sys: #7a4bb3; --rs-oth: #2c8a5a; }
+
+/* ---- skill chips ---- */
+.rs-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+.rs-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; line-height: 1.2; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%); background: var(--surface-color); color: var(--default-color); text-decoration: none; }
+.rs-chip:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.rs-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.rs-mech { background: var(--rs-mech); } .rs-elec { background: var(--rs-elec); } .rs-soft { background: var(--rs-soft); }
+.rs-sys { background: var(--rs-sys); } .rs-oth { background: var(--rs-oth); }
+.rs-more { display: inline-block; margin-top: 0.6rem; font-size: 0.85rem; font-weight: 500; color: var(--accent-color); }
+/* Degree details come from Notion as bullets; show them as plain lines like before. */
+.resume .education-content .edu-details { list-style: none; padding: 0; margin: 0; }
+.resume .education-content .edu-details li { color: color-mix(in srgb, var(--default-color), transparent 30%); font-size: 0.9rem; line-height: 1.5; }
+
+/* ---- Skills section preview ---- */
+.sk-preview { max-width: 980px; margin: 0 auto; background: var(--surface-color); border-radius: 12px; padding: 28px 32px;
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--default-color), transparent 92%); display: flex; flex-direction: column; gap: 24px; }
+.sk-stats { display: flex; flex-wrap: wrap; gap: 12px 36px; font-size: 0.85rem; color: color-mix(in srgb, var(--default-color), transparent 30%); }
+.sk-stats b { display: block; font-family: var(--heading-font); font-size: 1.8rem; line-height: 1.1; color: var(--heading-color); font-variant-numeric: tabular-nums; }
+.sk-stats small { font-size: 0.55em; font-weight: 500; color: color-mix(in srgb, var(--default-color), transparent 40%); }
+.sk-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px 40px; }
+.sk-cols h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--default-color), transparent 35%); margin: 0 0 10px; }
+.sk-cols .rs-skills { margin-top: 0; }
+.sk-disc { display: grid; grid-template-columns: 110px 1fr 32px; align-items: center; gap: 10px; padding: 5px 6px; margin: 0 -6px; border-radius: 6px; color: var(--default-color); text-decoration: none; font-size: 0.9rem; }
+.sk-disc:hover { background: color-mix(in srgb, var(--accent-color), transparent 93%); color: var(--default-color); }
+.sk-name { display: inline-flex; align-items: center; gap: 7px; }
+/* One bar per discipline, a segment per level band (darker = stronger); longer = more skills. */
+.sk-track { display: block; min-width: 0; }
+.sk-mix { display: flex; gap: 2px; height: 10px; min-width: 6px; }
+.sk-mix i { display: block; min-width: 3px; border-radius: 2px; }
+.sk-none { border: 1px dashed color-mix(in srgb, var(--default-color), transparent 50%); }
+.rs-b-mech { border-color: var(--rs-mech); } .rs-b-elec { border-color: var(--rs-elec); } .rs-b-soft { border-color: var(--rs-soft); }
+.rs-b-sys { border-color: var(--rs-sys); } .rs-b-oth { border-color: var(--rs-oth); }
+.sk-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 10px 0 0; font-size: 0.75rem; color: color-mix(in srgb, var(--default-color), transparent 35%); }
+.sk-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sk-legend i { width: 14px; height: 9px; border-radius: 2px; }
+.sk-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.85rem; }
+.sk-lv { font-size: 0.75em; font-weight: 600; color: color-mix(in srgb, var(--default-color), transparent 40%); font-variant-numeric: tabular-nums; }
+.sk-cta { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; background: var(--accent-color); color: var(--contrast-color, #fff); padding: 10px 20px; border-radius: 50px; font-weight: 500; text-decoration: none; }
+.sk-cta:hover { background: color-mix(in srgb, var(--accent-color), #000 15%); color: var(--contrast-color, #fff); }
+@media (max-width: 768px) {
+  .sk-preview { padding: 20px 16px; }
+  .sk-cols { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- skill graph pop-up (assets/js/skill-drawer.js) ---- */
+html.sg-drawer-open, html.sg-drawer-open body { overflow: hidden; }
+.sg-drawer { position: fixed; inset: 0; z-index: 10000; }
+.sg-drawer-backdrop { position: absolute; inset: 0; background: rgba(10, 22, 40, .45); opacity: 0; transition: opacity .25s ease; }
+/* Centered window, the same gap on every side. */
+.sg-drawer-panel { position: absolute; inset: 32px; display: flex; flex-direction: column; overflow: hidden; border-radius: 14px;
+  background: #f7faff; box-shadow: 0 20px 60px rgba(10, 22, 40, .35); opacity: 0; transform: scale(.97); transition: opacity .22s ease, transform .22s ease; }
+.sg-drawer.open .sg-drawer-backdrop { opacity: 1; }
+.sg-drawer.open .sg-drawer-panel { opacity: 1; transform: none; }
+.sg-drawer-bar { display: flex; align-items: center; gap: 14px; padding: 10px 14px 10px 20px; background: #fff; border-bottom: 1px solid #d6e0ec; }
+.sg-drawer-bar h2 { margin: 0 auto 0 0; font-size: 1.15rem; color: var(--heading-color); }
+.sg-drawer-full { font-size: 0.85rem; color: var(--accent-color); text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.sg-drawer-close { width: 38px; height: 38px; display: grid; place-items: center; background: #fff; border: 1px solid #d6e0ec; border-radius: 8px; color: var(--heading-color); font-size: 1rem; cursor: pointer; }
+.sg-drawer-close:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.sg-drawer-close:focus-visible, .sg-drawer-full:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+.sg-drawer-body { flex: 1; position: relative; min-height: 0; }
+.sg-drawer-body iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.sg-drawer-loading { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; margin: 0; color: #5d6f84; background: #f7faff; }
+.sg-drawer.loaded .sg-drawer-loading { display: none; }
+@media (max-width: 768px) {
+  .sg-drawer-panel { inset: 0; border-radius: 0; }
+  .sg-drawer-full { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sg-drawer-backdrop, .sg-drawer-panel { transition: none; } }

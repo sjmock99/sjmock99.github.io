@@ -24,10 +24,12 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/skill-graph.css?v=2" rel="stylesheet">
+  <link href="assets/css/skill-graph.css?v=6" rel="stylesheet">
 </head>
 
 <body class="skills-page">
+  <!-- ?embed=1: shown inside the homepage's slide-out panel, so the site header and footer are hidden -->
+  <script>if (/[?&]embed=1\b/.test(location.search)) document.documentElement.classList.add("sg-embed");</script>
 
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
@@ -89,6 +91,7 @@
         </div>
         <div class="sg-toolbar" id="discBar"><span class="sg-label">Discipline</span></div>
         <div class="sg-toolbar" id="projBar"><span class="sg-label">Projects</span></div>
+        <div class="sg-toolbar" id="expBar"><span class="sg-label">Experience</span></div>
         <div class="sg-toolbar" id="levelBar"><span class="sg-label">Level</span>
           <button class="sg-chip" data-level="1" aria-pressed="false" title="Rated 1–1.5">Lv 1</button>
           <button class="sg-chip" data-level="2" aria-pressed="false" title="Rated 2–2.5">Lv 2</button>
@@ -149,7 +152,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/skill-graph.js?v=2"></script>
+  <script src="assets/js/skill-graph.js?v=8"></script>
 
 </body>
 

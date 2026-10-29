@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Local admin for the Skill Graph: edit ratings, parent skills and project links in Notion.
+"""Local admin for the Skill Graph: edit skills, projects and experience (jobs, degrees) in Notion.
 
     python3 scripts/admin.py          # then open http://localhost:8001
 
 Runs only on this computer (bound to 127.0.0.1). Uses the same key as sync_notion.py.
-New skills and projects are created directly in the wiki database, the same as Notion's
-"+ New" button (not nested inside another page), using the wiki's Reference / Project
-templates. "Delete" moves a page to Notion's Trash (restorable there for 30 days); it never
+New pages are created directly in the wiki database, the same as Notion's "+ New" button
+(not nested inside another page), using the wiki's template of the same Type when there is one. "Delete" moves a page to Notion's Trash (restorable there for 30 days); it never
 deletes permanently.
 """
 import json
 import os
+import re
 import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -23,6 +23,16 @@ PORT = int(os.environ.get("ADMIN_PORT", "8001"))
 PAGE = Path(__file__).resolve().parent / "admin.html"
 ALLOWED_HOSTS = {f"localhost:{PORT}", f"127.0.0.1:{PORT}"}
 RATINGS = {x / 2 for x in range(2, 11)}  # 1, 1.5, ... 5
+LABELS = {"Reference": "skill", "Project": "project", "Experience": "job", "Education": "degree"}
+TEXT_FIELDS = {"role": "Role", "organization": "Organization", "location": "Location"}
+# Jobs and degrees are named "Organization — Role" automatically (two JPL roles stay distinct in Notion).
+auto_title = lambda org, role: " — ".join(x for x in (org, role) if x)
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+# Body for new pages that have no template: the heading whose contents the site shows (see sync_notion.public_html).
+PUBLIC_SECTION = [
+    {"type": "heading_2", "heading_2": {"rich_text": [{"text": {"content": "🌐 Public"}}]}},
+    {"type": "bulleted_list_item", "bulleted_list_item": {"rich_text": []}},
+]
 
 records = {}  # id -> record, as returned by sync_notion.to_record
 templates = {}  # template name -> id, e.g. "Reference", "Project"
@@ -57,8 +67,9 @@ def check_rating(value):
 
 
 def create_page(kind, body):
-    """kind is "Reference" (a skill) or "Project". Uses the wiki template of the same name."""
-    label = "skill" if kind == "Reference" else "project"
+    """kind is a Type: "Reference" (a skill), "Project", "Experience" or "Education". Uses the wiki template of
+    the same name if there is one; otherwise the page starts with an empty 🌐 Public section."""
+    label = LABELS[kind]
     name = " ".join(str(body.get("name") or "").split())
     if not name or len(name) > 200:
         raise ValueError(f"give the {label} a name")
@@ -87,6 +98,8 @@ def create_page(kind, body):
     }
     if template:  # Notion fills in the template's content a moment after the page is created
         req["template"] = {"type": "template_id", "template_id": template}
+    elif kind != "Reference":
+        req["children"] = PUBLIC_SECTION
     page = notion.request("POST", "/pages", req)
     rec = notion.to_record(page)
     with lock:
@@ -121,10 +134,11 @@ def would_cycle(skill_id, parent_id):
 def handle_action(action, body):
     page_id = body.get("id", "")
     if action == "sync":
-        show_all = bool(body.get("showAll"))
+        # Re-read Notion first, so edits made in Notion itself (not just in this admin) are included.
+        load()
         with lock:
             snapshot = list(records.values())
-        return {"message": notion.sync(snapshot, show_all)}
+        return {"message": notion.sync(snapshot, bool(body.get("showAll")))}
     if action == "reload":
         load()
         return {"ok": True}
@@ -132,6 +146,16 @@ def handle_action(action, body):
         return create_page("Reference", body)
     if action == "create-project":
         return create_page("Project", body)
+    if action == "create-experience":
+        kind = body.get("kind")
+        if kind not in ("Experience", "Education"):
+            raise ValueError("kind must be Experience or Education")
+        org, role = (" ".join(str(body.get(k) or "").split())[:300] for k in ("organization", "role"))
+        if not org:
+            raise ValueError("give the organization" if kind == "Experience" else "give the school")
+        rec = create_page(kind, {**body, "name": auto_title(org, role)})
+        return patch(rec["id"], {"Organization": {"rich_text": [{"text": {"content": org}}]},
+                                 "Role": {"rich_text": [{"text": {"content": role}}] if role else []}})
     if page_id not in records:
         raise ValueError("unknown page")
     if action == "trash":
@@ -145,6 +169,39 @@ def handle_action(action, body):
         if len(text) > 2000:
             raise ValueError("keep the blurb under 2000 characters")
         return patch(page_id, {"Blurb": {"rich_text": [{"text": {"content": text}}] if text else []}})
+    if action == "name":
+        name = " ".join(str(body.get("value") or "").split())
+        if not name or len(name) > 200:
+            raise ValueError("give it a name")
+        return patch(page_id, {"Page": {"title": [{"text": {"content": name}}]}})
+    if action == "field":
+        prop = TEXT_FIELDS.get(body.get("field"))
+        if not prop:
+            raise ValueError("unknown field")
+        text = " ".join(str(body.get("value") or "").split())[:300]
+        props = {prop: {"rich_text": [{"text": {"content": text}}] if text else []}}
+        with lock:
+            rec = dict(records[page_id])
+        if {"Experience", "Education"} & set(rec["types"]) and body["field"] in ("role", "organization"):
+            rec[body["field"]] = text
+            title = auto_title(rec["organization"], rec["role"])
+            if title and title != rec["name"]:
+                props["Page"] = {"title": [{"text": {"content": title}}]}
+        return patch(page_id, props)
+    if action == "link":
+        url = str(body.get("value") or "").strip()
+        if url and not url.startswith(("http://", "https://")):
+            raise ValueError("links must start with http:// or https://")
+        return patch(page_id, {"Link": {"url": url or None}})
+    if action == "date":
+        start, end = (body.get("value") or {}).get("start"), (body.get("value") or {}).get("end")
+        if any(d and not DATE_RE.match(d) for d in (start, end)):
+            raise ValueError("dates must look like 2024-09-01")
+        if end and not start:
+            raise ValueError("set a start date first")
+        if start and end and end < start:
+            raise ValueError("the end is before the start")
+        return patch(page_id, {"Date": {"date": {"start": start, "end": end or None} if start else None}})
     if action == "public":
         return patch(page_id, {"Public": {"checkbox": bool(body.get("value"))}})
     if action == "parent":

@@ -217,3 +217,29 @@
 #skill-graph .sg-bar-section { font: 500 11px var(--sg-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--sg-muted); border-bottom-color: var(--sg-muted); }
 #skill-graph .sg-bars-hint { margin-left: auto; font: 11px var(--sg-mono); color: var(--sg-muted); }
 @media (max-width: 640px) { #skill-graph .sg-bars-hint { display: none; } }
+#skill-graph .sg-meta { margin: -6px 0 0; font-size: 13px; color: var(--sg-muted); }
+
+/* ---- embedded in the homepage slide-out (skills.html?embed=1) ---- */
+.sg-embed #header, .sg-embed #footer, .sg-embed #scroll-top, .sg-embed #preloader { display: none !important; }
+.sg-embed #skill-graph { padding-top: 20px; }
+.sg-embed #skill-graph .sg-head h2 { display: none; }
+
+/* ---- level mix: one bar per discipline, a segment per level band (counts, not averages) ---- */
+#skill-graph .sg-mix-track { display: block; min-width: 0; }
+#skill-graph .sg-mix { display: flex; gap: 2px; height: 10px; min-width: 6px; }
+#skill-graph .sg-mix i { display: block; min-width: 3px; border-radius: 2px; }
+#skill-graph .sg-mix i.none { border: 1px dashed; background: transparent; }
+#skill-graph .sg-mix-wide { width: 100%; margin: 4px 0 6px; }
+#skill-graph .sg-mix-wide .sg-mix { height: 12px; }
+#skill-graph .sg-mix-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 8px 0 0; font-family: var(--sg-mono); font-size: 10.5px; color: var(--sg-muted); }
+#skill-graph .sg-mix-legend span { display: inline-flex; align-items: center; gap: 5px; }
+#skill-graph .sg-mix-legend i { width: 12px; height: 8px; border-radius: 2px; }
+#skill-graph .sg-mix-legend i.none { border: 1px dashed var(--sg-muted); }
+#skill-graph .sg-mix-list { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+#skill-graph .sg-mix-list li { display: grid; grid-template-columns: 12px 54px 1fr auto; align-items: center; gap: 8px; }
+#skill-graph .sg-mix-list li.zero { color: var(--sg-muted); }
+#skill-graph .sg-mix-list i { width: 12px; height: 9px; border-radius: 2px; }
+#skill-graph .sg-mix-list i.none { border: 1px dashed; }
+#skill-graph .sg-mix-lv { font-family: var(--sg-mono); font-size: 11.5px; }
+#skill-graph .sg-mix-name { color: var(--sg-muted); }
+#skill-graph .sg-mix-list b { font-variant-numeric: tabular-nums; font-weight: 600; }

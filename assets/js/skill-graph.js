@@ -18,22 +18,34 @@
   } catch (e) { /* storage blocked */ }
   let owner = ["localhost", "127.0.0.1"].includes(location.hostname);
   try { owner = owner || localStorage.getItem(OWNER_KEY) === "1"; } catch (e) { /* ignore */ }
-  if (ownerParam !== null) history.replaceState(null, "", location.pathname + location.hash);
+  const embedded = new URLSearchParams(location.search).get("embed") === "1";
+  if (ownerParam !== null) history.replaceState(null, "", location.pathname + (embedded ? "?embed=1" : "") + location.hash);
   const notionLink = id => owner && /^[0-9a-f]{32}$/.test(id || "")
     ? `<a class="sg-notion" href="https://www.notion.so/${id}" target="_blank" rel="noopener">Open in Notion ↗</a>` : "";
 
   // What each rating level means (shown in the legend, panel and tooltips). Half steps sit between two levels.
   const LEVELS = {
-    1: ["Aware", "Limited knowledge: I understand the concept and when it's used"],
-    2: ["Beginner", "Hands-on basics, done with guides or tutorials"],
-    3: ["Proficient", "Use it on my own projects without help"],
-    4: ["Advanced", "Handle complex problems and can teach others"],
-    5: ["Expert", "Deep mastery; I'm the go-to person for it"]
+    1: ["Aware", "I know what it's for; courses or tutorials only"],
+    2: ["Beginner", "Used it with guidance, e.g. in one personal project"],
+    3: ["Proficient", "Use it on my own; shipped it in a project or job"],
+    4: ["Advanced", "Designed with it across several projects or jobs; can teach it"],
+    5: ["Expert", "The person others come to for it"]
   };
   const levelLabel = r => r == null ? "Not rated yet"
     : Number.isInteger(r) ? LEVELS[r][0] : `${LEVELS[Math.floor(r)][0]} → ${LEVELS[Math.ceil(r)][0]}`;
 
   const discColor = k => `var(--c-${k})`;
+  const KIND_LABEL = { project: "Project", work: "Experience", education: "Education" };
+  // Jobs and degrees are named by their organization; projects by their own name.
+  const itemTitle = p => (p.kind !== "project" && p.organization) || p.name;
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  // "Sep 2024 – Sep 2025", "Feb 2026 – Present"; degrees show years only.
+  const dateRange = p => {
+    if (!p.start) return "";
+    const f = d => p.kind === "education" ? d.slice(0, 4) : `${MONTHS[+d.slice(5, 7) - 1]} ${d.slice(0, 4)}`;
+    const end = p.end ? f(p.end) : p.kind === "work" ? "Present" : "";
+    return end && end !== f(p.start) ? `${f(p.start)} – ${end}` : f(p.start);
+  };
   const rScale = r => r == null ? 4 : 3 + r * 1.6;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -65,7 +77,9 @@
 
     const nodeById = new Map();
     root.each(n => { if (!n.data.kind) nodeById.set(n.data.id, n); });
-    const projects = data.projects.map(p => ({ ...p, nodes: p.skills.map(id => nodeById.get(id)).filter(Boolean) }));
+    // Projects plus experience (kind "work" / "education"); all of them are "things that used skills".
+    const projects = [...data.projects.map(p => ({ ...p, kind: "project" })), ...(data.experience || [])]
+      .map(p => ({ ...p, nodes: p.skills.map(id => nodeById.get(id)).filter(Boolean) }));
     const usedIn = new Map();
     projects.forEach(p => p.nodes.forEach(n => { if (!usedIn.has(n)) usedIn.set(n, []); usedIn.get(n).push(p); }));
 
@@ -85,15 +99,20 @@
     // ---- stats ----
     const skills = root.descendants().filter(n => !n.data.kind);
     const rated = skills.filter(n => n.data.rating != null);
-    // Per-discipline average over rated skills only (unrated ones aren't counted as 0).
-    const discStats = h => {
-      const all = h.descendants().slice(1), got = all.filter(n => n.data.rating != null);
-      return { total: all.length, rated: got.length, avg: got.length ? d3.mean(got, n => n.data.rating) : null };
-    };
-    const fmtAvg = a => a.toFixed(1);
-    const avgLabel = a => levelLabel(Math.round(a * 2) / 2);  // name of the nearest half step
+    // Skills per level band, counted (never averaged, so a new Lv 1 skill adds breadth instead of lowering a score).
+    const BANDS = ["Lv 4–5", "Lv 3", "Lv 2", "Lv 1", "Not rated"];
+    const SHADE = [100, 68, 42, 20];  // % of the discipline color per band: darker = stronger
+    const bandOf = r => r == null ? 4 : r >= 4 ? 0 : r >= 3 ? 1 : r >= 2 ? 2 : 3;
+    const discMix = h => { const c = [0, 0, 0, 0, 0]; h.descendants().slice(1).forEach(n => c[bandOf(n.data.rating)]++); return c; };
+    const sum = c => c.reduce((a, b) => a + b, 0);
+    const mixTitle = (name, c) => `${name}: ` + c.map((k, i) => k && `${k} at ${BANDS[i]}`).filter(Boolean).join(", ");
+    // One bar per discipline, segments in band order; width relative to the biggest discipline (max).
+    const mixBar = (c, disc, max) => `<span class="sg-mix" style="width:${sum(c) / max * 100}%">${c.map((k, i) => !k ? "" :
+      `<i class="${i === 4 ? "none" : ""}" style="flex:${k};${i < 4 ? `background:color-mix(in srgb, ${discColor(disc)} ${SHADE[i]}%, var(--sg-surface))` : `border-color:${discColor(disc)}`}"></i>`).join("")}</span>`;
+    const mixLegend = () => `<p class="sg-mix-legend" aria-hidden="true">${BANDS.map((b, i) =>
+      `<span><i class="${i === 4 ? "none" : ""}" style="${i < 4 ? `background:color-mix(in srgb, var(--sg-ink) ${SHADE[i]}%, var(--sg-surface))` : ""}"></i>${b}</span>`).join("")}</p>`;
     document.getElementById("sgStats").innerHTML =
-      `<div><b>${skills.length}</b>skills</div><div><b>${hubs.length}</b>disciplines</div><div><b>${projects.length}</b>projects</div><div><b>${rated.length}</b>rated</div>`;
+      `<div><b>${skills.length}</b>skills</div><div><b>${hubs.length}</b>disciplines</div><div><b>${projects.filter(p => p.kind === "work").length}</b>jobs</div><div><b>${projects.filter(p => p.kind === "project").length}</b>projects</div>`;
     const updatedEl = document.getElementById("sgUpdated");
     if (data.updated) updatedEl.textContent = `Data from my Notion wiki, updated ${data.updated}.`;
     if (owner) {
@@ -158,7 +177,6 @@
     const branch = n => `<li>${row(n)}${n.children ? `<ul>${n.children.map(branch).join("")}</ul>` : ""}</li>`;
     const allSkills = root.descendants().filter(n => !n.data.kind);
     const learned = allSkills.filter(n => n.data.rating != null);
-    const totalSP = learned.reduce((t, n) => t + n.data.rating, 0);
     treeEl.innerHTML = `
       <div class="sg-win-title"><span>SKILL</span><span class="sg-win-x" aria-hidden="true">×</span></div>
       <div class="sg-char">
@@ -166,16 +184,16 @@
         <dl class="sg-char-stats">
           <div><dt>Name</dt><dd>prettygoodengineer</dd></div>
           <div><dt>Job</dt><dd>Robotics Engineer</dd></div>
-          <div><dt>Skills learned</dt><dd>${learned.length} / ${allSkills.length}</dd></div>
-          <div><dt>Skill points</dt><dd>${Number.isInteger(totalSP) ? totalSP : totalSP.toFixed(1)} / ${allSkills.length * 5}</dd></div>
+          <div><dt>Skills</dt><dd>${allSkills.length}</dd></div>
+          <div><dt>Lv 4+</dt><dd>${learned.filter(n => n.data.rating >= 4).length}</dd></div>
         </dl>
       </div>
       <div class="sg-tabs" role="tablist">${root.children.map(h => `<button class="sg-tab" role="tab" id="sgTab-${h.data.disc}" aria-controls="sgPane-${h.data.disc}" data-tab="${h.data.disc}" style="--c:${discColor(h.data.disc)}">
           <span class="sg-dot" style="background:${discColor(h.data.disc)}"></span>${esc(h.data.name)}<span class="sg-tab-count" hidden></span></button>`).join("")}</div>
       ${root.children.map(h => {
-        const st = discStats(h);
+        const c = discMix(h);
         return `<div class="sg-pane" role="tabpanel" id="sgPane-${h.data.disc}" aria-labelledby="sgTab-${h.data.disc}" data-disc="${h.data.disc}" style="--c:${discColor(h.data.disc)}" hidden>
-          <p class="sg-pane-meta">${st.rated} of ${st.total} ${esc(h.data.name.toLowerCase())} skills learned${st.avg != null ? ` · average Lv ${fmtAvg(st.avg)}` : ""}${h.data.blurb ? ` · ${esc(h.data.blurb)}` : ""}</p>
+          <p class="sg-pane-meta">${sum(c)} ${esc(h.data.name.toLowerCase())} skills · ${c[0]} at Lv 4+${h.data.blurb ? ` · ${esc(h.data.blurb)}` : ""}</p>
           <div class="sg-groups"></div>
         </div>`;
       }).join("")}`;
@@ -255,8 +273,8 @@
       if (k !== "disc") return list.slice().sort(k === "name" ? byName : byRating(k === "asc" ? 1 : -1)).map(n => barOf.get(n));
       const by = d3.group(list, n => n.data.disc);
       return root.children.filter(h => by.has(h.data.disc)).flatMap(h => {
-        const st = discStats(h);
-        return [barHead(discColor(h.data.disc), h.data.name, `${st.rated} of ${st.total} rated${st.avg != null ? ` · avg Lv ${fmtAvg(st.avg)}` : ""}`),
+        const c = discMix(h);
+        return [barHead(discColor(h.data.disc), h.data.name, `${sum(c)} skills · ${c[0]} at Lv 4+`),
           ...by.get(h.data.disc).sort(byRating(-1)).map(n => barOf.get(n))];
       });
     }
@@ -318,19 +336,29 @@
         <p class="sg-crumb">OVERVIEW</p>
         <h3>Select a skill or project</h3>
         <p class="sg-empty">Tap any skill to see its rating, what it branches into, and which projects used it.</p>
-        ${avgRows()}
+        ${mixRows()}
         ${top.length ? `<div><p class="sg-section-t">Strongest so far</p><div class="sg-list">${top.map(n => skillChip(n, true)).join("")}</div></div>` : ""}`;
     }
-    // Disciplines ranked by average level, as small bars; each row opens that discipline.
-    function avgRows() {
-      const rows = root.children.map(h => ({ h, st: discStats(h) })).filter(r => r.st.avg != null)
-        .sort((a, b) => b.st.avg - a.st.avg);
+    // A discipline's skills by level: the bar, then one row per band (swatch, level, what it means, count).
+    const BAND_NAMES = ["Advanced / Expert", "Proficient", "Beginner", "Aware", ""];
+    function levelBreakdown(c, disc) {
+      return `<div><p class="sg-section-t">Skills by level</p>
+        <span class="sg-mix-track sg-mix-wide">${mixBar(c, disc, sum(c))}</span>
+        <ul class="sg-mix-list">${c.map((k, i) => (i === 4 && !k) ? "" : `<li class="${k ? "" : "zero"}">
+          <i class="${i === 4 ? "none" : ""}" style="${i < 4 ? `background:color-mix(in srgb, ${discColor(disc)} ${SHADE[i]}%, var(--sg-surface))` : `border-color:${discColor(disc)}`}"></i>
+          <span class="sg-mix-lv">${BANDS[i]}</span><span class="sg-mix-name">${BAND_NAMES[i]}</span><b>${k}</b></li>`).join("")}</ul></div>`;
+    }
+    // Each discipline's skills by level band; strongest (most Lv 4+) first. Each row opens that discipline.
+    function mixRows() {
+      const rows = root.children.map(h => ({ h, c: discMix(h) })).filter(r => sum(r.c))
+        .sort((a, b) => b.c[0] - a.c[0] || sum(b.c) - sum(a.c));
       if (!rows.length) return "";
-      return `<div><p class="sg-section-t">Average level by discipline</p><div class="sg-avgs">${rows.map(({ h, st }) =>
-        `<button class="sg-avg" data-hub="${esc(h.data.id)}" title="${esc(avgLabel(st.avg))} · ${st.rated} of ${st.total} skills rated">
+      const max = Math.max(...rows.map(r => sum(r.c)));
+      return `<div><p class="sg-section-t">Skills by discipline and level</p><div class="sg-avgs">${rows.map(({ h, c }) =>
+        `<button class="sg-avg" data-hub="${esc(h.data.id)}" title="${esc(mixTitle(h.data.name, c))}">
           <span class="sg-avg-name"><span class="sg-dot" style="background:${discColor(h.data.disc)}"></span>${esc(h.data.name)}</span>
-          <span class="sg-avg-bar"><i style="width:${st.avg / 5 * 100}%;background:${discColor(h.data.disc)}"></i></span>
-          <span class="sg-avg-val">${fmtAvg(st.avg)}</span></button>`).join("")}</div></div>`;
+          <span class="sg-mix-track">${mixBar(c, h.data.disc, max)}</span>
+          <span class="sg-avg-val">${sum(c)}</span></button>`).join("")}</div>${mixLegend()}</div>`;
     }
     function showNode(n) {
       if (n.depth === 0) { clearAll(); return; }
@@ -349,26 +377,27 @@
         ${notionLink(d.id)}
         <dl class="sg-kv">
           ${d.kind === "hub" ? (() => {
-            const st = discStats(n);
-            return `<dt>Average</dt><dd>${st.avg != null ? pips(Math.round(st.avg * 2) / 2, d.disc) + `<span style="font-variant-numeric:tabular-nums">${fmtAvg(st.avg)} / 5</span> <span class="sg-level-name">· ${esc(avgLabel(st.avg))}</span>` : `<span class="sg-empty">Nothing rated yet</span>`}</dd>
-              <dt>Rated</dt><dd>${st.rated} of ${st.total} skills</dd>`;
+            return `<dt>Skills</dt><dd>${sum(discMix(n))}</dd>`;
           })() :
             `<dt>Rating</dt><dd>${d.rating != null ? pips(d.rating, d.disc) + `<span style="font-variant-numeric:tabular-nums">${d.rating} / 5</span> <span class="sg-level-name">· ${esc(levelLabel(d.rating))}</span>` : `<span class="sg-empty">Not rated yet</span>`}</dd>`}
         </dl>
+        ${d.kind === "hub" ? levelBreakdown(discMix(n), d.disc) : ""}
         <div><p class="sg-section-t">${d.kind === "hub" ? "Branches" : "Branches into"}</p>${kids.length ? `<div class="sg-list">${kids.map(k => skillChip(k)).join("")}</div>` : `<p class="sg-empty">Nothing below this one.</p>`}</div>
-        ${d.kind === "hub" ? "" : `<div><p class="sg-section-t">Used in</p>${projs.length ? `<div class="sg-list">${projs.map(p => `<button class="sg-chip" data-project="${esc(p.id)}">${esc(p.name)}</button>`).join("")}</div>` : `<p class="sg-empty">No projects linked yet.</p>`}</div>`}`;
+        ${d.kind === "hub" ? "" : `<div><p class="sg-section-t">Used in</p>${projs.length ? `<div class="sg-list">${projs.map(p => `<button class="sg-chip" data-project="${esc(p.id)}">${esc(itemTitle(p))}</button>`).join("")}</div>` : `<p class="sg-empty">No projects or experience linked yet.</p>`}</div>`}`;
     }
     function showProject(p) {
       highlight(ancestorsOf(p.nodes));
-      setBarFocus(`Used in ${p.name}`, p.nodes);
+      setBarFocus(p.kind === "project" ? `Used in ${p.name}` : `Used at ${itemTitle(p)}`, p.nodes);
       const by = d3.group(p.nodes, n => n.data.disc);
+      const meta = [p.kind !== "project" && p.role, p.kind === "project" && p.organization, dateRange(p)].filter(Boolean);
       panel.innerHTML = `
         <button class="sg-close" id="sgClose">Clear</button>
-        <p class="sg-crumb">PROJECT</p>
-        <h3>${esc(p.name)}</h3>
+        <p class="sg-crumb">${KIND_LABEL[p.kind].toUpperCase()}</p>
+        <h3>${esc(itemTitle(p))}</h3>
+        ${meta.length ? `<p class="sg-meta">${meta.map(esc).join(" · ")}</p>` : ""}
         ${p.blurb ? `<p class="sg-blurb">${esc(p.blurb)}</p>` : ""}
         ${notionLink(p.id)}
-        <dl class="sg-kv"><dt>Skills</dt><dd>${p.nodes.length} across ${by.size} discipline${by.size === 1 ? "" : "s"}</dd></dl>
+        <dl class="sg-kv"><dt>Skills</dt><dd>${p.nodes.length ? `${p.nodes.length} across ${by.size} discipline${by.size === 1 ? "" : "s"}` : "None linked yet"}</dd></dl>
         ${hubs.filter(h => by.has(h.disc)).map(h => `<div><p class="sg-section-t">${esc(h.name)}</p><div class="sg-list">${by.get(h.disc).map(n => skillChip(n, true)).join("")}</div></div>`).join("")}`;
     }
     // Level filter: Lv 3 covers ratings 3 and 3.5; "none" = not rated yet. Several levels can be on at once.
@@ -409,7 +438,7 @@
     }
     function syncChips() {
       document.querySelectorAll("#discBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.disc === state.disc));
-      document.querySelectorAll("#projBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.project === state.project));
+      document.querySelectorAll("#projBar .sg-chip, #expBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.project === state.project));
       document.querySelectorAll("#levelBar [data-level]").forEach(b => b.setAttribute("aria-pressed", !!state.levels?.has(b.dataset.level)));
     }
     // selected: the skill open in the panel; prevFilter: the project / level / discipline filter it was picked from,
@@ -430,7 +459,9 @@
     }
     barsEl.addEventListener("click", e => { if (!e.target.closest(".sg-bar, .sg-chip")) stepBack(); });
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && !e.target.closest("input, textarea") && (state.disc || state.project || state.levels || selected)) stepBack();
+      if (e.key !== "Escape" || e.target.closest("input, textarea")) return;
+      if (state.disc || state.project || state.levels || selected) stepBack();
+      else if (embedded) window.parent.postMessage("sg-close", location.origin);  // nothing left to clear: close the panel
     });
     function selectProject(p) { state = { disc: null, project: p.id }; syncChips(); showProject(p); }
 
@@ -449,13 +480,17 @@
       };
       discBar.appendChild(b);
     });
-    const projBar = document.getElementById("projBar");
-    if (!projects.length) projBar.hidden = true;
+    const projBar = document.getElementById("projBar"), expBar = document.getElementById("expBar");
+    projBar.hidden = !projects.some(p => p.kind === "project");
+    expBar.hidden = !projects.some(p => p.kind !== "project");
+    // Same organization twice (e.g. two JPL roles): tell the chips apart by start year.
+    const orgCount = d3.rollup(projects, v => v.length, itemTitle);
     projects.forEach(p => {
       const b = document.createElement("button"); b.className = "sg-chip"; b.dataset.project = p.id; b.setAttribute("aria-pressed", "false");
-      b.textContent = p.name;
+      b.textContent = itemTitle(p) + (p.kind !== "project" && orgCount.get(itemTitle(p)) > 1 && p.start ? ` ’${p.start.slice(2, 4)}` : "");
+      if (p.kind !== "project") b.title = [p.role, dateRange(p)].filter(Boolean).join(" · ");
       b.onclick = () => { if (state.project === p.id) { clearAll(); return; } selectProject(p); };
-      projBar.appendChild(b);
+      (p.kind === "project" ? projBar : expBar).appendChild(b);
     });
     panel.addEventListener("click", e => {
       const t = e.target.closest("button"); if (!t) return;
@@ -487,7 +522,7 @@
         name: n.data.name, node: n, disc: n.data.disc,
         where: n.depth === 1 ? "Discipline" : n.ancestors().reverse().slice(1, -1).map(a => a.data.name).join(" / ")
       })),
-      ...projects.map(p => ({ name: p.name, project: p, where: "Project" }))
+      ...projects.map(p => ({ name: itemTitle(p), project: p, where: p.kind === "project" ? "Project" : [KIND_LABEL[p.kind], p.role].filter(Boolean).join(" · ") }))
     ];
     let matches = [], active = 0;
     function showResults() {
@@ -543,5 +578,21 @@
     searchEl.addEventListener("blur", () => { resultsEl.hidden = true; searchEl.setAttribute("aria-expanded", "false"); });
 
     showDefault();
+
+    // Deep links from the homepage: #skill=<id> selects a skill, #item=<id> a project / job / degree, #disc=<key> a
+    // discipline. Also followed while open (the homepage panel changes the hash to point somewhere new).
+    function followLink() {
+      const link = new URLSearchParams(location.hash.slice(1));
+      const item = projects.find(p => p.id === link.get("item")), skill = nodeById.get(link.get("skill"));
+      const hub = root.children.find(h => h.data.disc === link.get("disc"));
+      if (item) selectProject(item);
+      else if (skill) { selectNode(skill); bringIntoView(skill); }
+      else if (hub) { state = { disc: hub.data.disc, project: null }; syncChips(); showNode(hub); showTab(hub.data.disc); }
+      else return;
+      // In the panel, drop the hash once used so clicking the same homepage link again still works.
+      if (embedded) history.replaceState(null, "", location.pathname + location.search);
+    }
+    followLink();
+    window.addEventListener("hashchange", followLink);
   }
 })();
