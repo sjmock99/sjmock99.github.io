@@ -34,6 +34,7 @@
   const levelLabel = r => r == null ? "Not rated yet"
     : Number.isInteger(r) ? LEVELS[r][0] : `${LEVELS[Math.floor(r)][0]} → ${LEVELS[Math.ceil(r)][0]}`;
 
+  const phone = window.matchMedia("(max-width: 768px)");  // same breakpoint as the bottom sheet in skill-graph.css
   const discColor = k => `var(--c-${k})`;
   const KIND_LABEL = { project: "Project", work: "Experience", education: "Education" };
   // Jobs and degrees are named by their organization; projects by their own name.
@@ -305,6 +306,32 @@
     let state = { disc: null, project: null };
     const panel = document.getElementById("sgPanel");
 
+    // ---- phones: the panel is a bottom sheet (CSS). peek = just the handle and title; open = half; full = tall ----
+    const sheet = document.getElementById("sgSheet"), grab = sheet.querySelector(".sg-grab");
+    const SHEET = ["peek", "open", "full"];
+    let sheetState = "peek";
+    function setSheet(st) {
+      sheetState = st;
+      SHEET.forEach(x => sheet.classList.toggle("sheet-" + x, x === st));
+      grab.setAttribute("aria-expanded", String(st !== "peek"));
+      grab.setAttribute("aria-label", st === "full" ? "Show less" : "Show more details");
+      if (st === "peek") sheet.scrollTop = 0;
+    }
+    setSheet("peek");
+    // Tap the handle: peek -> open -> full -> peek. Drag it: up for more, down for less.
+    let dragY = null;
+    grab.addEventListener("pointerdown", e => { dragY = e.clientY; grab.setPointerCapture(e.pointerId); });
+    grab.addEventListener("pointerup", e => {
+      if (dragY == null) return;
+      const dy = e.clientY - dragY, i = SHEET.indexOf(sheetState);
+      dragY = null;
+      if (Math.abs(dy) < 12) setSheet(SHEET[(i + 1) % SHEET.length]);
+      else setSheet(SHEET[Math.max(0, Math.min(SHEET.length - 1, i + (dy < 0 ? 1 : -1)))]);
+    });
+    grab.addEventListener("pointercancel", () => { dragY = null; });
+    // Peeking: tapping the visible title opens it too.
+    sheet.addEventListener("click", e => { if (sheetState === "peek" && !e.target.closest("button, a")) setSheet("open"); });
+
     // rows: which skill rows to light in the tree view (defaults to set; a level filter passes only the matches).
     function highlight(set, focus, rows = set) {
       svg.classed("dim", !!set.size);
@@ -331,6 +358,7 @@
     const skillChip = (n, dot) => `<button class="sg-chip" data-skill="${esc(n.data.id)}">${dot ? `<span class="sg-dot" style="background:${discColor(n.data.disc)}"></span>` : ""}${esc(n.data.name)}${dot && n.data.rating != null ? ` · ${n.data.rating}` : ""}</button>`;
 
     function showDefault() {
+      setSheet("peek");
       const top = rated.slice().sort((a, b) => b.data.rating - a.data.rating).slice(0, 6);
       panel.innerHTML = `
         <p class="sg-crumb">OVERVIEW</p>
@@ -361,6 +389,7 @@
           <span class="sg-avg-val">${sum(c)}</span></button>`).join("")}</div>${mixLegend()}</div>`;
     }
     function showNode(n) {
+      if (sheetState === "peek") setSheet("open");
       if (n.depth === 0) { clearAll(); return; }
       const d = n.data, path = n.ancestors().reverse().slice(1, -1).map(a => a.data.name);
       const kids = n.children || [];
@@ -386,6 +415,7 @@
         ${d.kind === "hub" ? "" : `<div><p class="sg-section-t">Used in</p>${projs.length ? `<div class="sg-list">${projs.map(p => `<button class="sg-chip" data-project="${esc(p.id)}">${esc(itemTitle(p))}</button>`).join("")}</div>` : `<p class="sg-empty">No projects or experience linked yet.</p>`}</div>`}`;
     }
     function showProject(p) {
+      if (sheetState === "peek") setSheet("open");
       highlight(ancestorsOf(p.nodes));
       setBarFocus(p.kind === "project" ? `Used in ${p.name}` : `Used at ${itemTitle(p)}`, p.nodes);
       const by = d3.group(p.nodes, n => n.data.disc);
@@ -404,6 +434,7 @@
     const levelOf = n => n.data.rating == null ? "none" : String(Math.floor(n.data.rating));
     const levelName = l => l === "none" ? "Unrated" : `Lv ${l}`;
     function showLevels() {
+      if (sheetState === "peek") setSheet("open");
       const matches = skills.filter(n => state.levels.has(levelOf(n)))
         .sort((a, b) => (b.data.rating ?? -1) - (a.data.rating ?? -1) || a.data.name.localeCompare(b.data.name));
       highlight(ancestorsOf(matches), null, new Set(matches));
@@ -429,8 +460,9 @@
       const l = +b.dataset.level;
       if (LEVELS[l]) b.title = `${LEVELS[l][0]}: ${LEVELS[l][1]} (rated ${l}${l < 5 ? `–${l}.5` : ""})`;
     });
-    document.getElementById("sgLevels").innerHTML = `<p class="sg-levels-t">What the levels mean <span>· half steps (e.g. 3.5) sit between two levels</span></p>
-      <ol>${Object.entries(LEVELS).map(([l, [name, desc]]) => `<li><b>Lv ${l} · ${name}</b><span>${esc(desc)}</span></li>`).join("")}</ol>`;
+    // Collapsed by default on phones (it's tall there); open on bigger screens.
+    document.getElementById("sgLevels").innerHTML = `<details${phone.matches ? "" : " open"}><summary><p class="sg-levels-t">What the levels mean <span>· half steps (e.g. 3.5) sit between two levels</span></p></summary>
+      <ol>${Object.entries(LEVELS).map(([l, [name, desc]]) => `<li><b>Lv ${l} · ${name}</b><span>${esc(desc)}</span></li>`).join("")}</ol></details>`;
 
     function clearAll() {
       state = { disc: null, project: null }; selected = null; prevFilter = null;

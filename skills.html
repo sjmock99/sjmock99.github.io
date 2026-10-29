@@ -24,7 +24,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/skill-graph.css?v=6" rel="stylesheet">
+  <link href="assets/css/skill-graph.css?v=7" rel="stylesheet">
 </head>
 
 <body class="skills-page">
@@ -117,7 +117,11 @@
             </div>
           </div>
           </div>
-          <aside class="sg-panel" id="sgPanel" aria-live="polite"><p class="sg-empty">Loading skills…</p></aside>
+          <aside class="sg-panel" id="sgSheet">
+            <!-- phones: the panel is a bottom sheet; this handle opens / closes it -->
+            <button class="sg-grab" type="button" aria-label="Show more details" aria-expanded="false"><span></span></button>
+            <div class="sg-panel-body" id="sgPanel" aria-live="polite"><p class="sg-empty">Loading skills…</p></div>
+          </aside>
         </div>
 
         <p class="sg-updated" id="sgUpdated"></p>
@@ -152,7 +156,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/skill-graph.js?v=8"></script>
+  <script src="assets/js/skill-graph.js?v=9"></script>
 
 </body>
 

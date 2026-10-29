@@ -83,7 +83,9 @@
 #skill-graph .dim .node.on, #skill-graph .dim .link.on { opacity: 1; }
 #skill-graph .link.on { stroke-width: 2; }
 
-#skill-graph .sg-panel { background: var(--sg-surface); border: 1px solid var(--sg-line); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+#skill-graph .sg-panel { background: var(--sg-surface); border: 1px solid var(--sg-line); border-radius: 8px; padding: 18px; min-width: 0; }
+#skill-graph .sg-panel-body { display: flex; flex-direction: column; gap: 14px; }
+#skill-graph .sg-grab { display: none; }
 #skill-graph .sg-panel h3 { font-family: var(--heading-font); font-size: 22px; font-weight: 700; color: var(--heading-color); margin: 0; line-height: 1.15; }
 #skill-graph .sg-crumb { font-family: var(--sg-mono); font-size: 11px; color: var(--sg-muted); letter-spacing: .04em; margin: 0; }
 #skill-graph .sg-kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14px; align-items: center; margin: 0; }
@@ -243,3 +245,33 @@
 #skill-graph .sg-mix-lv { font-family: var(--sg-mono); font-size: 11.5px; }
 #skill-graph .sg-mix-name { color: var(--sg-muted); }
 #skill-graph .sg-mix-list b { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* ---- phones: bottom-sheet details, one-line swipeable filter rows, collapsible level guide ---- */
+@media (max-width: 768px) {
+  #skill-graph { padding-bottom: 96px; }  /* room for the collapsed sheet */
+  #skill-graph .sg-panel {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 1000; max-height: 55vh; overflow-y: auto; overscroll-behavior: contain;
+    padding: 0 16px 20px; border-radius: 16px 16px 0 0; border-bottom: 0; box-shadow: 0 -8px 30px rgba(19, 37, 58, .18);
+    transform: translateY(calc(100% - 72px)); transition: transform .25s ease, max-height .25s ease;
+  }
+  #skill-graph .sg-panel.sheet-open { transform: none; }
+  #skill-graph .sg-panel.sheet-full { transform: none; max-height: 88vh; }
+  #skill-graph .sg-panel.sheet-peek { overflow: hidden; }
+  #skill-graph .sg-grab { display: flex; justify-content: center; position: sticky; top: 0; z-index: 1; width: calc(100% + 32px); margin: 0 -16px 4px; padding: 10px 0 8px; background: var(--sg-surface); border: 0; cursor: pointer; touch-action: none; }
+  #skill-graph .sg-grab span { width: 44px; height: 5px; border-radius: 3px; background: var(--sg-line); }
+
+  #skill-graph #discBar, #skill-graph #projBar, #skill-graph #expBar, #skill-graph #levelBar {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: -16px; padding-right: 24px;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  #skill-graph #discBar::-webkit-scrollbar, #skill-graph #projBar::-webkit-scrollbar,
+  #skill-graph #expBar::-webkit-scrollbar, #skill-graph #levelBar::-webkit-scrollbar { display: none; }
+  #skill-graph .sg-toolbar .sg-chip, #skill-graph .sg-toolbar .sg-label { flex: none; white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) { #skill-graph .sg-panel { transition: none; } }
+#skill-graph .sg-levels summary { cursor: pointer; list-style: none; }
+#skill-graph .sg-levels summary::-webkit-details-marker { display: none; }
+#skill-graph .sg-levels summary .sg-levels-t { display: inline; }
+#skill-graph .sg-levels summary::after { content: "▾"; margin-left: 6px; color: var(--sg-muted); font-size: 11px; }
+#skill-graph .sg-levels details[open] summary::after { content: "▴"; }
+#skill-graph .sg-levels details[open] ol { margin-top: 8px; }
