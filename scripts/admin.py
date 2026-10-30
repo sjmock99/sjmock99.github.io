@@ -4,17 +4,21 @@
     python3 scripts/admin.py          # then open http://localhost:8001
 
 Runs only on this computer (bound to 127.0.0.1). Uses the same key as sync_notion.py.
+"Preview drafts" builds the site with non-Public pages included into .preview/ (never committed) and shows it
+at http://localhost:8001/preview/; the real site files are left alone.
 New pages are created directly in the wiki database, the same as Notion's "+ New" button
 (not nested inside another page), using the wiki's template of the same Type when there is one. "Delete" moves a page to Notion's Trash (restorable there for 30 days); it never
 deletes permanently.
 """
 import json
+import mimetypes
 import os
 import re
 import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sync_notion as notion  # noqa: E402
@@ -133,12 +137,12 @@ def would_cycle(skill_id, parent_id):
 
 def handle_action(action, body):
     page_id = body.get("id", "")
-    if action == "sync":
+    if action in ("sync", "preview"):
         # Re-read Notion first, so edits made in Notion itself (not just in this admin) are included.
         load()
         with lock:
             snapshot = list(records.values())
-        return {"message": notion.sync(snapshot, bool(body.get("showAll")))}
+        return {"message": notion.sync(snapshot, False, preview=action == "preview")}
     if action == "reload":
         load()
         return {"ok": True}
@@ -204,6 +208,8 @@ def handle_action(action, body):
         return patch(page_id, {"Date": {"date": {"start": start, "end": end or None} if start else None}})
     if action == "public":
         return patch(page_id, {"Public": {"checkbox": bool(body.get("value"))}})
+    if action == "featured":
+        return patch(page_id, {"Featured": {"checkbox": bool(body.get("value"))}})
     if action == "parent":
         parent = body.get("value") or None
         if parent and parent not in records:
@@ -246,6 +252,30 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/api/data":
             with lock:
                 return self.send(200, {"records": list(records.values()), "hubs": notion.HUBS})
+        if self.path == "/preview" or self.path.startswith("/preview/"):
+            return self.send_preview(unquote(urlsplit(self.path).path)[len("/preview/"):])
+        self.send(404, {"error": "not found"})
+
+    def send_preview(self, rel):
+        """The drafts preview: generated files from .preview/, everything else (CSS, JS, images) from the repo."""
+        if not self.path.startswith("/preview/"):
+            self.send_response(301)
+            self.send_header("Location", "/preview/")
+            self.end_headers()
+            return
+        rel = rel or "index.html"
+        parts = Path(rel).parts
+        if any(x.startswith(".") or x == ".." for x in parts) or (parts and parts[0] == "scripts"):
+            return self.send(404, {"error": "not found"})
+        for base in (notion.PREVIEW, notion.ROOT):
+            f = (base / rel).resolve()
+            if f.is_dir():
+                f = f / "index.html"
+            if f.is_relative_to(base.resolve()) and f.is_file():
+                ctype = mimetypes.guess_type(f.name)[0] or "application/octet-stream"
+                if ctype.startswith("text/") or ctype == "application/javascript":
+                    ctype += "; charset=utf-8"
+                return self.send(200, f.read_bytes(), ctype)
         self.send(404, {"error": "not found"})
 
     def do_POST(self):

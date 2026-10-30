@@ -84,8 +84,8 @@
     </div>
     <div class="bar">
       <button id="reloadBtn" title="Fetch everything again from Notion">Reload from Notion</button>
-      <label class="muted" title="Preview only: also writes non-Public pages into skills.json and the index.html resume. Don't commit while it's on."><input type="checkbox" id="showAll"> include non-Public</label>
-      <button id="syncBtn" class="primary" title="Rebuild assets/data/skills.json for the site">Update site data</button>
+      <button id="previewBtn" title="Build a copy of the site that includes non-Public pages, only on this computer (nothing is committed)">Preview drafts</button>
+      <button id="syncBtn" class="primary" title="Rebuild the site files (skills.json, the homepage, project pages and photos) from Notion">Update site data</button>
     </div>
   </header>
   <pre id="log" hidden></pre>
@@ -240,6 +240,7 @@
           ${mode === "exp" ? `<strong class="auto-title" title="Set automatically from Organization and ${edu ? "Degree" : "Role"}">${esc(p.name)}</strong>`
             : `<input class="title-input" data-act="name" value="${esc(p.name)}" aria-label="Name" title="Rename (this is the Notion page title and the name shown on the site)">`}${p.url ? `<a href="${esc(p.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
           <label class="muted"><input type="checkbox" data-act="public"${p.public ? " checked" : ""}> Public</label>
+          ${mode === "exp" ? "" : `<label class="muted" title="Featured projects come first on the homepage"><input type="checkbox" data-act="featured"${p.featured ? " checked" : ""}> Featured</label>`}
           <button class="trash" data-act="trash" title="Move ${esc(p.name)} to Notion's Trash" aria-label="Delete ${esc(p.name)}">🗑</button>
           <span class="status"></span>
         </div>
@@ -252,7 +253,7 @@
           ${mode === "exp" && !edu ? `<span class="note">(leave “To” empty if current)</span>` : ""}
         </div>
         <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb (one line)…" aria-label="Public blurb for ${esc(p.name)}" style="margin:0">${esc(p.blurb)}</textarea>
-        <p class="note">Detailed text on the site comes from the page's <b>🌐 Public</b> heading in ${p.url ? `<a href="${esc(p.url)}" target="_blank">Notion ↗</a>` : "Notion"}.</p>
+        <p class="note">Detailed text on the site comes from the page's <b>🌐 Public</b> heading in ${p.url ? `<a href="${esc(p.url)}" target="_blank">Notion ↗</a>` : "Notion"}${mode === "exp" ? "" : `; photos from the <b>📷 Photos</b> toggle under it (the page cover, if set, is the card image)`}.</p>
         <div class="chips">${p.skills_used.map(id => {
           const s = recs.get(id), pl = s && place(s);
           return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
@@ -335,6 +336,7 @@
     if (!act) return;
     if (act === "rating" || act === "target") save(el, act, el.value === "" ? null : Number(el.value));
     if (act === "public") save(el, "public", el.checked);
+    if (act === "featured") save(el, "featured", el.checked);
     if (act === "blurb") save(el, "blurb", el.value);
     if (act === "field") save(el, "field", el.value, { field: el.dataset.field }).then(() => {
       // Jobs / degrees: the page name follows Organization and Role, so show the new one.
@@ -488,11 +490,17 @@
   $("#reloadBtn").onclick = e => busy(e.target, async () => { await api("reload", {}); await load(); showLog("Reloaded from Notion."); });
   $("#syncBtn").onclick = e => busy(e.target, async () => {
     showLog("Reading Notion and rebuilding the site files…");
-    const r = await api("sync", { showAll: $("#showAll").checked });
+    const r = await api("sync", {});
     await load();  // the admin's lists now match what was just read
-    showLog(r.message + ($("#showAll").checked
-      ? "\n\n⚠ Preview only: non-Public pages are included. Click Update site data again with \"include non-Public\" off before committing."
-      : "\nRefresh the site to see it. Commit and push to put it on the live site."));
+    showLog(r.message + "\nRefresh the site to see it. Commit and push to put it on the live site.");
+  });
+  $("#previewBtn").onclick = e => busy(e.target, async () => {
+    showLog("Building a preview with drafts included (downloading any new photos)…");
+    const tab = window.open("", "sg-preview");  // opened now, while it still counts as a click, so it isn't blocked
+    const r = await api("preview", {});
+    await load();
+    if (tab) tab.location = "/preview/";
+    showLog(r.message + `\nPreview: ${location.origin}/preview/ (only on this computer; your real site files weren't touched).`);
   });
 
   load().catch(e => showLog("Couldn't load: " + e.message));

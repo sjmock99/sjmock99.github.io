@@ -46,7 +46,7 @@
   .sk-cols { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---- skill graph pop-up (assets/js/skill-drawer.js) ---- */
+/* ---- pop-ups: skill graph and projects (assets/js/site-popups.js) ---- */
 html.sg-drawer-open, html.sg-drawer-open body { overflow: hidden; }
 .sg-drawer { position: fixed; inset: 0; z-index: 10000; }
 .sg-drawer-backdrop { position: absolute; inset: 0; background: rgba(10, 22, 40, .45); opacity: 0; transition: opacity .25s ease; }

@@ -1,0 +1,76 @@
+/* Projects, generated from Notion by scripts/sync_notion.py: the homepage grid (index.html #projects)
+   and the project pages (projects/<slug>.html). Skill chips (.rs-*) come from site-data.css. */
+
+/* ---- homepage grid ---- */
+.pj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
+.pj-card { display: flex; flex-direction: column; background: var(--surface-color); border-radius: 12px; overflow: hidden; color: var(--default-color);
+  text-decoration: none; box-shadow: 0 4px 24px color-mix(in srgb, var(--default-color), transparent 92%); transition: transform .2s ease, box-shadow .2s ease; }
+.pj-card:hover { color: var(--default-color); transform: translateY(-4px); box-shadow: 0 10px 32px color-mix(in srgb, var(--default-color), transparent 85%); }
+.pj-card:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; }
+.pj-card-img { position: relative; display: block; aspect-ratio: 16 / 10; background: color-mix(in srgb, var(--default-color), transparent 94%); overflow: hidden; }
+.pj-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+.pj-card:hover .pj-card-img img { transform: scale(1.04); }
+/* No photo yet: a tint of the project's main discipline with its icon. */
+.pj-ph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.6rem; color: var(--pj-c);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--pj-c) 16%, #fff), color-mix(in srgb, var(--pj-c) 34%, #fff)); }
+.pj-badge, .pj-count { position: absolute; top: 10px; font-size: 0.72rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.pj-badge { left: 10px; background: var(--accent-color); color: #fff; letter-spacing: .02em; }
+.pj-count { right: 10px; background: rgba(10, 22, 40, .6); color: #fff; display: inline-flex; gap: 5px; align-items: center; }
+.pj-card-body { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; flex: 1; }
+.pj-card-meta { font-size: 0.78rem; color: color-mix(in srgb, var(--default-color), transparent 35%); }
+.pj-card h3 { font-size: 1.15rem; margin: 0; }
+.pj-card p { margin: 0; font-size: 0.9rem; line-height: 1.5; color: color-mix(in srgb, var(--default-color), transparent 15%); }
+.pj-tags { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: auto; padding-top: 8px; font-size: 0.76rem; color: color-mix(in srgb, var(--default-color), transparent 25%); }
+.pj-tags span { display: inline-flex; align-items: center; gap: 5px; }
+.pj-tags .rs-dot { width: 7px; height: 7px; }
+.pj-more { font-weight: 600; }
+.pj-empty { text-align: center; color: color-mix(in srgb, var(--default-color), transparent 35%); }
+
+/* ---- project page ---- */
+.pj-page .container { max-width: 920px; }
+.pj-back { display: inline-flex; gap: 6px; align-items: center; font-size: 0.9rem; margin-bottom: 18px; }
+.pj-head { margin-bottom: 24px; }
+.pj-kicker { font-size: 0.78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--default-color), transparent 35%); margin: 0 0 6px; }
+.pj-head h1 { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 700; margin: 0 0 10px; }
+.pj-lede { font-size: 1.1rem; line-height: 1.6; margin: 0 0 16px; }
+.pj-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.pj-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-color); color: #fff; padding: 9px 18px; border-radius: 50px; font-weight: 500; font-size: 0.92rem; text-decoration: none; }
+.pj-btn:hover { background: color-mix(in srgb, var(--accent-color), #000 15%); color: #fff; }
+.pj-btn-ghost { background: transparent; color: var(--accent-color); border: 1px solid color-mix(in srgb, var(--accent-color), transparent 55%); }
+.pj-btn-ghost:hover { background: color-mix(in srgb, var(--accent-color), transparent 92%); color: var(--accent-color); }
+.pj-page figure { margin: 0; }
+.pj-page figure a { display: block; border-radius: 12px; overflow: hidden; }
+.pj-page figcaption { font-size: 0.85rem; color: color-mix(in srgb, var(--default-color), transparent 35%); margin-top: 8px; text-align: center; }
+.pj-hero { margin-bottom: 28px !important; }
+.pj-hero img { width: 100%; max-height: 520px; object-fit: cover; display: block; }
+.pj-body { font-size: 1rem; line-height: 1.7; }
+.pj-body h5 { font-size: 1.25rem; font-weight: 700; margin: 28px 0 8px; }
+.pj-body > :first-child { margin-top: 0; }
+.pj-body ul, .pj-body ol { padding-left: 1.3em; }
+.pj-body li { margin-bottom: 4px; }
+.pj-body blockquote { border-left: 3px solid var(--accent-color); padding-left: 14px; color: color-mix(in srgb, var(--default-color), transparent 20%); }
+/* A photo placed in the text sits where it was put, full width but never taller than the screen. */
+.pj-figure { margin: 18px 0 !important; }
+.pj-figure a { background: color-mix(in srgb, var(--default-color), transparent 95%); }
+.pj-figure img { width: 100%; max-height: 70vh; object-fit: contain; display: block; }
+.pj-h { font-size: 1.35rem; font-weight: 700; margin: 36px 0 14px; }
+.pj-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.pj-thumb a { aspect-ratio: 1; border-radius: 10px !important; }
+.pj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+.pj-thumb a:hover img { transform: scale(1.05); }
+.pj-thumb figcaption { display: none; }  /* shown in the lightbox instead */
+.pj-skills { margin-top: 18px; }
+.pj-skills-t { font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--default-color), transparent 40%); margin: 0 0 8px; }
+.pj-page .rs-skills { margin-top: 0; }
+.pj-nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 44px; padding-top: 20px; border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 85%); }
+.pj-nav a { display: flex; flex-direction: column; font-weight: 600; text-decoration: none; max-width: 48%; }
+.pj-nav span { font-size: 0.78rem; font-weight: 500; color: color-mix(in srgb, var(--default-color), transparent 35%); }
+.pj-nav-next { margin-left: auto; text-align: right; }
+/* Inside the homepage pop-up: just the project (the pop-up has its own bar and close button). */
+.pj-embed #header, .pj-embed #footer, .pj-embed .scroll-top, .pj-embed .pj-back { display: none !important; }
+.pj-embed .pj-page { padding-top: 28px; }
+@media (max-width: 576px) {
+  .pj-gallery { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .pj-lede { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .pj-card, .pj-card-img img, .pj-thumb img { transition: none; } }

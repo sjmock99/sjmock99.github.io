@@ -20,6 +20,16 @@
   try { owner = owner || localStorage.getItem(OWNER_KEY) === "1"; } catch (e) { /* ignore */ }
   const embedded = new URLSearchParams(location.search).get("embed") === "1";
   if (ownerParam !== null) history.replaceState(null, "", location.pathname + (embedded ? "?embed=1" : "") + location.hash);
+  // A project's own page (photos and write-up). In the homepage pop-up it replaces the whole page, not the pop-up.
+  const pageLink = p => p.page && /^projects\/[a-z0-9-]+\.html$/.test(p.page)
+    ? `<a class="sg-page" href="${p.page}">${p.photos ? "Photos and details" : "Project page"} →</a>` : "";
+  // In a pop-up, a project link is handed to the page underneath, which opens the project in its own pop-up.
+  if (embedded) document.addEventListener("click", e => {
+    const a = e.target.closest("a.sg-page");
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    window.parent.postMessage({ sgOpen: a.href }, location.origin);
+  });
   const notionLink = id => owner && /^[0-9a-f]{32}$/.test(id || "")
     ? `<a class="sg-notion" href="https://www.notion.so/${id}" target="_blank" rel="noopener">Open in Notion ↗</a>` : "";
 
@@ -212,11 +222,11 @@
       treeEl.querySelectorAll(".sg-pane").forEach(p => p.hidden = p.dataset.disc !== disc);
     }
     showTab(root.children[0].data.disc);
-    // Switching tabs by hand starts fresh (a skill picked on another tab would leave this one all faded),
-    // but a project highlight is kept so its skills can be followed from tab to tab.
+    // Switching tabs by hand drops a picked skill and the discipline filter (they belong to the old tab),
+    // but project and level filters are kept so their skills can be followed from tab to tab.
     function switchTab(disc) {
       if (disc === currentTab) return;
-      if (!state.project && !state.levels) clearAll();
+      if (selected || state.disc) { state.disc = null; applyFilters(); }
       showTab(disc);
     }
     treeEl.addEventListener("click", e => {
@@ -303,7 +313,9 @@
     sortBars(barSort);
 
     // ---- interaction ----
-    let state = { disc: null, project: null };
+    // Filters combine: one discipline, one project / job / degree, and any number of levels. A skill must match all of them.
+    let state = { disc: null, project: null, levels: new Set() };
+    const filtering = () => !!(state.disc || state.project || state.levels.size);
     const panel = document.getElementById("sgPanel");
 
     // ---- phones: the panel is a bottom sheet (CSS). peek = just the handle and title; open = half; full = tall ----
@@ -426,35 +438,49 @@
         <h3>${esc(itemTitle(p))}</h3>
         ${meta.length ? `<p class="sg-meta">${meta.map(esc).join(" · ")}</p>` : ""}
         ${p.blurb ? `<p class="sg-blurb">${esc(p.blurb)}</p>` : ""}
-        ${notionLink(p.id)}
+        ${pageLink(p)}${notionLink(p.id)}
         <dl class="sg-kv"><dt>Skills</dt><dd>${p.nodes.length ? `${p.nodes.length} across ${by.size} discipline${by.size === 1 ? "" : "s"}` : "None linked yet"}</dd></dl>
         ${hubs.filter(h => by.has(h.disc)).map(h => `<div><p class="sg-section-t">${esc(h.name)}</p><div class="sg-list">${by.get(h.disc).map(n => skillChip(n, true)).join("")}</div></div>`).join("")}`;
     }
     // Level filter: Lv 3 covers ratings 3 and 3.5; "none" = not rated yet. Several levels can be on at once.
     const levelOf = n => n.data.rating == null ? "none" : String(Math.floor(n.data.rating));
     const levelName = l => l === "none" ? "Unrated" : `Lv ${l}`;
-    function showLevels() {
+    // A discipline or a project on its own shows its usual panel; any other mix lists the skills matching every filter.
+    function applyFilters() {
+      selected = null; syncChips();
+      if (!filtering()) return clearAll();
+      const hub = state.disc && root.children.find(x => x.data.disc === state.disc);
+      const p = state.project && projects.find(x => x.id === state.project);
+      if (hub) showTab(state.disc);
+      if (!state.levels.size && !p) return showNode(hub);
+      if (!state.levels.size && !hub) return showProject(p);
+      showFiltered(hub, p);
+    }
+    function showFiltered(hub, p) {
       if (sheetState === "peek") setSheet("open");
-      const matches = skills.filter(n => state.levels.has(levelOf(n)))
+      const matches = (p ? p.nodes : skills)
+        .filter(n => (!hub || n.data.disc === state.disc) && (!state.levels.size || state.levels.has(levelOf(n))))
         .sort((a, b) => (b.data.rating ?? -1) - (a.data.rating ?? -1) || a.data.name.localeCompare(b.data.name));
       highlight(ancestorsOf(matches), null, new Set(matches));
-      setBarFocus(`${[...state.levels].sort().map(levelName).join(" + ")} skills`, matches);
+      // e.g. "Lv 3 + Lv 4 Software skills used at JPL"
+      const what = [[...state.levels].sort().map(levelName).join(" + "), hub && hub.data.name].filter(Boolean).join(" ") + " skills";
+      const where = p ? `${p.kind === "project" ? "used in" : "used at"} ${itemTitle(p)}` : "";
+      setBarFocus([what, where].filter(Boolean).join(" "), matches);
       const by = d3.group(matches, n => n.data.disc);
-      const names = [...state.levels].sort().map(levelName);
+      const meta = p ? [p.kind !== "project" && p.role, p.kind === "project" && p.organization, dateRange(p)].filter(Boolean) : [];
       panel.innerHTML = `
         <button class="sg-close" id="sgClose">Clear</button>
-        <p class="sg-crumb">LEVEL FILTER</p>
-        <h3>${esc(names.join(" + "))} skills</h3>
-        <dl class="sg-kv"><dt>Skills</dt><dd>${matches.length}${matches.length ? ` across ${by.size} discipline${by.size === 1 ? "" : "s"}` : ""}</dd></dl>
+        <p class="sg-crumb">${p ? `${KIND_LABEL[p.kind].toUpperCase()} · FILTERED` : "FILTER"}</p>
+        <h3>${esc(p ? itemTitle(p) : what)}</h3>
+        ${meta.length ? `<p class="sg-meta">${meta.map(esc).join(" · ")}</p>` : ""}
+        ${p ? `<p class="sg-blurb">Showing ${esc(what)} only.</p>${pageLink(p)}` : ""}
+        <dl class="sg-kv"><dt>Skills</dt><dd>${matches.length}${p ? ` of ${p.nodes.length} used here` : matches.length && !hub ? ` across ${by.size} discipline${by.size === 1 ? "" : "s"}` : ""}</dd></dl>
         ${matches.length ? hubs.filter(h => by.has(h.disc)).map(h => `<div><p class="sg-section-t">${esc(h.name)}</p><div class="sg-list">${by.get(h.disc).map(n => skillChip(n, true)).join("")}</div></div>`).join("")
-          : `<p class="sg-empty">No skills at this level yet.</p>`}`;
+          : `<p class="sg-empty">No skills match all of these filters. Tap a highlighted chip above to remove one.</p>`}`;
     }
-    function toggleLevel(l) {
-      const levels = new Set(state.levels || []);
-      levels.has(l) ? levels.delete(l) : levels.add(l);
-      if (!levels.size) return clearAll();
-      state = { disc: null, project: null, levels }; syncChips(); showLevels();
-    }
+    function toggleLevel(l) { state.levels.has(l) ? state.levels.delete(l) : state.levels.add(l); applyFilters(); }
+    function toggleDisc(d) { state.disc = state.disc === d ? null : d; applyFilters(); }
+    function toggleProject(id) { state.project = state.project === id ? null : id; applyFilters(); }
     document.querySelectorAll("#levelBar [data-level]").forEach(b => {
       b.onclick = () => toggleLevel(b.dataset.level);
       const l = +b.dataset.level;
@@ -465,37 +491,30 @@
       <ol>${Object.entries(LEVELS).map(([l, [name, desc]]) => `<li><b>Lv ${l} · ${name}</b><span>${esc(desc)}</span></li>`).join("")}</ol></details>`;
 
     function clearAll() {
-      state = { disc: null, project: null }; selected = null; prevFilter = null;
+      state = { disc: null, project: null, levels: new Set() }; selected = null;
       highlight(new Set()); syncChips(); showDefault(); setBarFocus(null);
     }
     function syncChips() {
       document.querySelectorAll("#discBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.disc === state.disc));
       document.querySelectorAll("#projBar .sg-chip, #expBar .sg-chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.project === state.project));
-      document.querySelectorAll("#levelBar [data-level]").forEach(b => b.setAttribute("aria-pressed", !!state.levels?.has(b.dataset.level)));
+      document.querySelectorAll("#levelBar [data-level]").forEach(b => b.setAttribute("aria-pressed", state.levels.has(b.dataset.level)));
     }
-    // selected: the skill open in the panel; prevFilter: the project / level / discipline filter it was picked from,
-    // so "back" (empty-space click, Esc, or clicking the same bar again) returns there before clearing everything.
-    let selected = null, prevFilter = null;
-    function selectNode(n) {
-      if (state.disc || state.project || state.levels) prevFilter = state;
-      selected = n; state = { disc: null, project: null }; syncChips(); showNode(n);
-    }
+    // selected: the skill open in the panel. The filters stay on underneath it, so "back" (empty-space click, Esc,
+    // or clicking the same bar again) returns to them before clearing everything.
+    let selected = null;
+    function selectNode(n) { selected = n; showNode(n); }
     function stepBack() {
-      const f = prevFilter;
-      if (!selected || !f) return clearAll();
-      selected = null; prevFilter = null;
-      if (f.project) return selectProject(projects.find(p => p.id === f.project));
-      state = f; syncChips();
-      if (f.levels) return showLevels();
-      const h = root.children.find(x => x.data.disc === f.disc); showNode(h); showTab(f.disc);
+      if (selected && filtering()) return applyFilters();
+      clearAll();
     }
     barsEl.addEventListener("click", e => { if (!e.target.closest(".sg-bar, .sg-chip")) stepBack(); });
     document.addEventListener("keydown", e => {
       if (e.key !== "Escape" || e.target.closest("input, textarea")) return;
-      if (state.disc || state.project || state.levels || selected) stepBack();
+      if (filtering() || selected) stepBack();
       else if (embedded) window.parent.postMessage("sg-close", location.origin);  // nothing left to clear: close the panel
     });
-    function selectProject(p) { state = { disc: null, project: p.id }; syncChips(); showProject(p); }
+    // From search, a skill's "Used in" list or a link: start fresh with just that project.
+    function selectProject(p) { state = { disc: null, project: p.id, levels: new Set() }; applyFilters(); }
 
     nodes.on("click", (e, n) => selectNode(n))
       .on("keydown", (e, n) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectNode(n); } });
@@ -505,11 +524,7 @@
       const h = hubNode.data;
       const b = document.createElement("button"); b.className = "sg-chip"; b.dataset.disc = h.disc; b.setAttribute("aria-pressed", "false");
       b.innerHTML = `<span class="sg-dot" style="background:${discColor(h.disc)}"></span>${esc(h.name)}`;
-      b.onclick = () => {
-        if (state.disc === h.disc) { clearAll(); return; }
-        state = { disc: h.disc, project: null }; syncChips(); showNode(hubNode);
-        showTab(h.disc);
-      };
+      b.onclick = () => toggleDisc(h.disc);
       discBar.appendChild(b);
     });
     const projBar = document.getElementById("projBar"), expBar = document.getElementById("expBar");
@@ -521,7 +536,7 @@
       const b = document.createElement("button"); b.className = "sg-chip"; b.dataset.project = p.id; b.setAttribute("aria-pressed", "false");
       b.textContent = itemTitle(p) + (p.kind !== "project" && orgCount.get(itemTitle(p)) > 1 && p.start ? ` ’${p.start.slice(2, 4)}` : "");
       if (p.kind !== "project") b.title = [p.role, dateRange(p)].filter(Boolean).join(" · ");
-      b.onclick = () => { if (state.project === p.id) { clearAll(); return; } selectProject(p); };
+      b.onclick = () => toggleProject(p.id);
       (p.kind === "project" ? projBar : expBar).appendChild(b);
     });
     panel.addEventListener("click", e => {
@@ -530,7 +545,7 @@
       if (t.dataset.skill) { const n = nodeById.get(t.dataset.skill); if (n) selectNode(n); }
       if (t.dataset.hub) {
         const h = root.children.find(x => x.data.id === t.dataset.hub);
-        if (h) { state = { disc: h.data.disc, project: null }; syncChips(); showNode(h); showTab(h.data.disc); }
+        if (h) toggleDisc(h.data.disc);
       }
       if (t.dataset.project) { const p = projects.find(x => x.id === t.dataset.project); if (p) selectProject(p); }
     });
@@ -618,8 +633,8 @@
       const item = projects.find(p => p.id === link.get("item")), skill = nodeById.get(link.get("skill"));
       const hub = root.children.find(h => h.data.disc === link.get("disc"));
       if (item) selectProject(item);
-      else if (skill) { selectNode(skill); bringIntoView(skill); }
-      else if (hub) { state = { disc: hub.data.disc, project: null }; syncChips(); showNode(hub); showTab(hub.data.disc); }
+      else if (skill) { clearAll(); selectNode(skill); bringIntoView(skill); }
+      else if (hub) { clearAll(); toggleDisc(hub.data.disc); }
       else return;
       // In the panel, drop the hash once used so clicking the same homepage link again still works.
       if (embedded) history.replaceState(null, "", location.pathname + location.search);

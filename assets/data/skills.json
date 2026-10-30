@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-29 05:13 UTC",
+ "updated": "2026-10-30 02:15 UTC",
  "source": "notion",
  "skills": [
   {
@@ -780,13 +780,16 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "9ff7f497ae3b40dca64c9a8b8bdde978",
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c81f9a056fadef2c6641a",
     "4038f022083c814ea232fdf49f25d945"
    ],
-   "details": null
+   "cover": null,
+   "page": "projects/led-lamp.html",
+   "photos": 0
   },
   {
    "id": "4038f022083c81de8bcac176a7735289",
@@ -796,6 +799,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "2568f022083c80279651d840430f61be",
     "2948f022083c80329423daeac748615c",
@@ -804,7 +808,9 @@
     "4038f022083c814ea232fdf49f25d945",
     "1638f022083c8094bc4fdb8dc1066af5"
    ],
-   "details": null
+   "cover": null,
+   "page": "projects/qr-code-shirt.html",
+   "photos": 0
   },
   {
    "id": "440ded2ce41e4360bf81b57c371bcca5",
@@ -814,6 +820,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "4038f022083c816eb3f7cf99088fe3b6",
     "74117136db1a419591201a04faefab03",
@@ -826,7 +833,9 @@
     "4038f022083c815d9cafd2ef2ceed783",
     "5dcc4f8a8cf04917a44825b779c4cedf"
    ],
-   "details": null
+   "cover": null,
+   "page": "projects/robot-arm.html",
+   "photos": 0
   },
   {
    "id": "4038f022083c819b9fd8c2ae3ff2482c",
@@ -836,6 +845,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "27a1f2b53ec04b208e076c7970b6d0e5",
     "772257571a524cb99a05eb7abb0e0a39",
@@ -844,7 +854,9 @@
     "e3d3972c0ba64a6e8c455c0c7d713549",
     "d3501bb2ec4045a6a41da1bd32a6debe"
    ],
-   "details": null
+   "cover": null,
+   "page": "projects/twitch-cam-v2.html",
+   "photos": 0
   },
   {
    "id": "b6a7eb60515248b2af7a5311dae49954",
@@ -854,6 +866,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "5dcc4f8a8cf04917a44825b779c4cedf",
     "27a1f2b53ec04b208e076c7970b6d0e5",
@@ -866,7 +879,9 @@
     "6b4e076b347b4e31a50148c0ac98f37a",
     "2938f022083c809da0e2d19d5a48a4a2"
    ],
-   "details": null
+   "cover": null,
+   "page": "projects/twitchcam-v1.html",
+   "photos": 0
   }
  ],
  "experience": [
