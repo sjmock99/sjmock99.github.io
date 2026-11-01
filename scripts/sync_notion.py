@@ -16,6 +16,7 @@ import hashlib
 import html
 import io
 import json
+import math
 import mimetypes
 import os
 import re
@@ -159,6 +160,7 @@ def to_record(page):
         "public": p.get("Public", {}).get("checkbox", False),
         "featured": p.get("Featured", {}).get("checkbox", False),
         "cover": page.get("cover"),  # the page's own cover image (Notion's "Add cover"), or None
+        "icon": page.get("icon"),  # the page icon; an uploaded / linked image is a job's or school's logo
         # Public-facing description shown on the website (a property, separate from the private page body).
         "blurb": plain(p, "Blurb"),
         "skills_used": relation_ids(page, "Skills used"),
@@ -302,14 +304,19 @@ def public_html(page_id):
 # ---- Photos: downloaded into the site, since Notion's file links expire after about an hour ----
 
 try:
-    from PIL import Image, ImageOps
+    from PIL import Image, ImageChops, ImageOps
 except ImportError:  # still works without Pillow: photos are just copied at full size
     Image = None
 
 IMG_DIR = "assets/img/projects"  # relative to the site root; one folder per project
 SIZES = {"sm": 800, "lg": 1600}  # longest side in px: cards and thumbnails, full view
+LOGO_DIR = "assets/img/logos"  # job / school logos (the Notion page icons)
+LOGO_SIZES = {"sm": 96, "lg": 192}
+MANAGED = (IMG_DIR, LOGO_DIR)  # the only folders the sync writes into and cleans up
 MAX_BYTES = 40 * 1024 * 1024
-WEB_TYPES = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif", "image/webp": ".webp", "image/avif": ".avif"}
+WEB_TYPES = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif", "image/webp": ".webp", "image/avif": ".avif",
+             "image/svg+xml": ".svg"}
+KEEP_AS_IS = (".gif", ".svg")  # animations, and drawings that are already any size
 
 
 def file_source(obj):
@@ -322,27 +329,49 @@ def file_source(obj):
     return url, url.split("?", 1)[0] if kind == "file" else url
 
 
+def trim_logo(im):
+    """Crop the empty border around a logo (transparent, or the colour of its corner) and centre it on a square with a
+    small margin, so every logo fills its square slot the same way however much padding its file came with."""
+    alpha = im.mode == "RGBA"
+    if alpha and im.getchannel("A").getextrema()[0] < 255:
+        mask, fill = im.getchannel("A").point(lambda v: 255 if v > 16 else 0), (0, 0, 0, 0)
+    else:
+        fill = im.getpixel((0, 0))
+        mask = ImageChops.difference(im.convert("RGB"), Image.new("RGB", im.size, im.convert("RGB").getpixel((0, 0))))
+        mask = mask.convert("L").point(lambda v: 255 if v > 24 else 0)
+    box = mask.getbbox()
+    if not box:
+        return im
+    w, h = box[2] - box[0], box[3] - box[1]
+    side = int(max(w, h) * 1.08) + 1
+    square = Image.new(im.mode, (side, side), fill)
+    square.paste(im.crop(box), ((side - w) // 2, (side - h) // 2))
+    return square
+
+
 class Photos:
-    """Saves photos under <root>/assets/img/projects/<folder>/, reusing any already saved (in root, or for a
-    preview also in the repo), and afterwards deletes the ones nothing uses any more."""
+    """Saves photos and logos into a folder under <root> (one of MANAGED), reusing any already saved (in root, or
+    for a preview also in the repo), and afterwards deletes the ones nothing uses any more."""
 
     def __init__(self, root, reuse=None):
         self.root, self.reuse, self.used, self.failed = root, reuse, set(), []
 
-    def get(self, obj, folder, caption=""):
-        """-> {"sm", "lg", "caption"} with paths relative to the site root, or None if it can't be had."""
+    def get(self, obj, rel, caption="", sizes=SIZES):
+        """rel: the folder, relative to the site root. -> {"sm", "lg", "caption"} with paths relative to the site
+        root, or None if it can't be had."""
         src = file_source(obj)
         if not src:
             return None
-        name, rel = hashlib.sha1(src[1].encode()).hexdigest()[:12], f"{IMG_DIR}/{folder}"
+        # Logos are trimmed (trim_logo), so they get their own names: a browser never shows an untrimmed cached copy.
+        name = hashlib.sha1((src[1] + ("|trimmed" if sizes is LOGO_SIZES else "")).encode()).hexdigest()[:12]
         try:
-            files = self.saved(rel, name) or self.save(self.download(src[0]), rel, name)
+            files = self.saved(rel, name, sizes) or self.save(self.download(src[0]), rel, name, sizes)
         except (OSError, ValueError) as e:  # urllib errors are OSErrors
-            self.failed.append(f"{folder}: {e}")
+            self.failed.append(f"{rel.rsplit('/', 1)[-1]}: {e}")
             return None
         return {**files, "caption": caption}
 
-    def saved(self, rel, name):
+    def saved(self, rel, name, sizes):
         for base in filter(None, (self.root, self.reuse)):
             d = base / rel
             if (d / f"{name}-sm.webp").exists() and (d / f"{name}-lg.webp").exists():
@@ -350,8 +379,8 @@ class Photos:
             original = next((f for f in d.glob(f"{name}.*") if f.suffix in WEB_TYPES.values()), None) if d.is_dir() else None
             if original:
                 # Saved before Pillow was available: make the web sizes from it now (no new download).
-                if Image and base == self.root and original.suffix != ".gif":
-                    return self.save((original.read_bytes(), "image/" + original.suffix[1:]), rel, name)
+                if Image and base == self.root and original.suffix not in KEEP_AS_IS:
+                    return self.save((original.read_bytes(), "image/" + original.suffix[1:]), rel, name, sizes)
                 return self.use(base, rel, original.name, original.name)
         return None
 
@@ -369,19 +398,22 @@ class Photos:
             raise ValueError("photo is over 40 MB")
         return data, ctype
 
-    def save(self, got, rel, name):
+    def save(self, got, rel, name, sizes):
         data, ctype = got
         d = self.root / rel
         d.mkdir(parents=True, exist_ok=True)
-        if Image and ctype != "image/gif":  # GIFs stay as they are so animations keep working
+        if Image and WEB_TYPES.get(ctype) not in KEEP_AS_IS:
             try:
                 im = ImageOps.exif_transpose(Image.open(io.BytesIO(data)))  # phone photos: apply the rotation
                 alpha = im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info)
                 im = im.convert("RGBA" if alpha else "RGB")
-                for size, px in SIZES.items():
+                if sizes is LOGO_SIZES:
+                    im = trim_logo(im)
+                for size, px in sizes.items():
                     copy = im.copy()
                     copy.thumbnail((px, px))
-                    copy.save(d / f"{name}-{size}.webp", "WEBP", quality=82, method=4)
+                    # Logos are tiny and have sharp edges: keep them exact rather than compressed.
+                    copy.save(d / f"{name}-{size}.webp", "WEBP", quality=82, method=4, lossless=sizes is LOGO_SIZES)
                 return self.use(self.root, rel, f"{name}-sm.webp", f"{name}-lg.webp")
             except Exception:  # e.g. an iPhone HEIC photo Pillow can't read: keep the original below
                 pass
@@ -392,16 +424,14 @@ class Photos:
         return self.use(self.root, rel, f"{name}{ext}", f"{name}{ext}")
 
     def remove_unused(self):
-        base = self.root / IMG_DIR
-        if not base.is_dir():
-            return 0
         gone = 0
-        for f in sorted(base.rglob("*"), reverse=True):  # files before their folders
-            if f.is_file() and f.relative_to(self.root).as_posix() not in self.used:
-                f.unlink()
-                gone += 1
-            elif f.is_dir() and not any(f.iterdir()):
-                f.rmdir()
+        for base in (self.root / d for d in MANAGED):
+            for f in sorted(base.rglob("*"), reverse=True) if base.is_dir() else []:  # files before their folders
+                if f.is_file() and f.relative_to(self.root).as_posix() not in self.used:
+                    f.unlink()
+                    gone += 1
+                elif f.is_dir() and not any(f.iterdir()):
+                    f.rmdir()
         return gone
 
 
@@ -416,7 +446,7 @@ def project_content(it, cover, photos):
     it["has_public"] = section is not None
     section = section or []
     def media(b):
-        ph = photos.get(b["image"], it["slug"], caption(b))
+        ph = photos.get(b["image"], f"{IMG_DIR}/{it['slug']}", caption(b))
         return figure(ph, "pj-figure") if ph else ""
     it["details"] = blocks_html(section, media)
     marker = next((b for b in section if is_photos_marker(b)), None)
@@ -424,10 +454,10 @@ def project_content(it, cover, photos):
     if marker and marker.get("has_children"):
         for b in block_children(marker["id"]):
             if b["type"] == "image":
-                ph = photos.get(b["image"], it["slug"], caption(b))
+                ph = photos.get(b["image"], f"{IMG_DIR}/{it['slug']}", caption(b))
                 if ph:
                     gallery.append(ph)
-    it["cover"] = photos.get(cover, it["slug"]) if cover else None
+    it["cover"] = photos.get(cover, f"{IMG_DIR}/{it['slug']}") if cover else None
     if not it["cover"] and gallery:
         it["cover"] = gallery.pop(0)  # the first photo leads the page instead of repeating in the grid
     it["gallery"] = gallery
@@ -569,47 +599,243 @@ def skill_chips(it, skills, limit=MAX_CHIPS):
 
 def experience_html(items, skills):
     e, out = html.escape, []
+    logos = any(i.get("logo") for i in items)
     for n, it in enumerate(i for i in items if i["kind"] == "work"):
         org = ": ".join(x for x in (it["organization"], it["location"]) if x) or it["name"]
+        bullets = top_level_class(it.get("details") or "", "achievements").strip()
         out.append(f"""
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="{max(300, 500 - n * 100)}">
+                <div class="experience-card" id="exp-{it["id"]}" data-aos="zoom-in" data-aos-delay="{max(300, 500 - n * 100)}">
                   <div class="card-header">
+                    {logo_html(it, "exp-logo") if logos else ""}
                     <div class="role-info">
                       <h3>{e(it["role"] or it["name"])}</h3>
                       <h4>{e(org)}</h4>
                     </div>
                     <span class="duration">{e(date_range(it))}</span>
+                    {toggle(it) if bullets else ""}
                   </div>
                   <div class="card-body">
                     {f"<p>{e(it['blurb'])}</p>" if it["blurb"] else ""}
-                    {top_level_class(it.get("details") or "", "achievements")}
                     {skill_chips(it, skills)}
+                    {f'<div class="exp-more" id="exp-more-{it["id"]}" hidden>{bullets}</div>' if bullets else ""}
                   </div>
                 </div>""")
     return "".join(out)
+
+
+def logo_html(it, cls):
+    """A job's / school's logo (its Notion page icon), else its initials in a small badge (NASA, UCLA, RS…)."""
+    if it.get("logo"):
+        sm, lg = (html.escape(it["logo"][k]) for k in ("sm", "lg"))
+        # The bigger copy on sharp (high-density) screens, so small logos stay crisp.
+        srcset = f' srcset="{sm} 1x, {lg} 2x"' if lg != sm else ""
+        return f'<img class="{cls}" src="{sm}"{srcset} alt="" loading="lazy">'
+    words = re.findall(r"[A-Za-z0-9]+", it["organization"] or it["name"]) or ["?"]
+    if words[0].isupper() and len(words[0]) <= 4:
+        initials = words[0]
+    else:
+        initials = "".join(w[0].upper() for w in words if w.lower() not in ("of", "the", "and", "at", "for"))[:2]
+    return f'<span class="{cls} logo-initials" aria-hidden="true">{html.escape(initials)}</span>'
+
+
+def toggle(it):
+    """The chevron that opens a job's bullets (assets/js/resume.js)."""
+    label = html.escape(f"Details: {it['role']}, {it['organization']}")
+    return (f'<button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-{it["id"]}" '
+            f'aria-label="{label}"><i class="bi bi-chevron-down"></i></button>')
 
 
 def education_html(items, skills):
+    """Degrees as compact cards side by side. A "GPA …" bullet becomes a badge on the card."""
     e, out = html.escape, []
+    logos = any(i.get("logo") for i in items)
     edu = [i for i in items if i["kind"] == "education"]
     for n, it in enumerate(edu):
         school = f'{it["organization"]} ({it["location"]})' if it["location"] else it["organization"]
+        details = it.get("details") or ""
+        gpa = re.search(r"<li>\s*GPA:?\s*([0-9.]+)(?:\s*/\s*[0-9.]+)?\s*</li>", details)
+        if gpa:
+            details = details.replace(gpa.group(0), "", 1).replace("<ul></ul>", "")
         out.append(f"""
-                <div class="education-item" data-aos="slide-up" data-aos-delay="{400 - n * 100 if n < 3 else 200}">
-                  <div class="timeline-marker"></div>
-                  <div class="education-content">
-                    <div class="degree-header">
+                <div class="edu-card" data-aos="fade-up" data-aos-delay="{200 + n * 100}">
+                  <div class="edu-card-head">
+                    {logo_html(it, "edu-logo") if logos else ""}
+                    <div>
                       <h3>{e(it["role"] or it["name"])}</h3>
-                      <span class="year">{e(date_range(it))}</span>
+                      <h4>{e(school)}</h4>
                     </div>
-                    <h4 class="institution">{e(school)}</h4>
-                    {f"<p>{e(it['blurb'])}</p>" if it["blurb"] else ""}
-                    {top_level_class(it.get("details") or "", "edu-details")}
-                    {skill_chips(it, skills)}
                   </div>
+                  <div class="edu-card-meta">
+                    <span class="edu-year">{e(date_range(it))}</span>
+                    {f'<span class="edu-gpa">{e(gpa.group(1))} GPA</span>' if gpa else ""}
+                  </div>
+                  {f"<p>{e(it['blurb'])}</p>" if it["blurb"] else ""}
+                  {top_level_class(details, "edu-details")}
+                  {skill_chips(it, skills)}
                 </div>""")
     return "".join(out)
 
+
+def month_no(d):
+    return int(d[:4]) * 12 + int(d[5:7]) - 1
+
+
+def duration(n):
+    y, m = divmod(n, 12)
+    return " ".join(x for x in (f"{y} yr" if y else "", f"{m} mo" if m else "") if x) or "1 mo"
+
+
+def degree_short(it):
+    r = (it["role"] or "").lower()
+    return "Bachelor's" if r.startswith("bachelor") else "Master's" if r.startswith("master") else \
+        "PhD" if r.startswith(("doctor", "ph")) else it["organization"] or it["name"]
+
+
+def timeline_html(items, today=None):
+    """Professional Experience timeline: one row per job (newest first) on a shared time axis, degrees as a strip
+    on top. A job with no end date runs to this month, so the chart moves once a month, not on every sync.
+    Clicking a row opens that job's card (assets/js/resume.js)."""
+    jobs = [i for i in items if i["kind"] == "work" and i["start"]]
+    if not jobs:
+        return ""
+    edu = [i for i in items if i["kind"] == "education" and i["start"]]
+    now = month_no(today or datetime.now(timezone.utc).strftime("%Y-%m-01"))
+    # Ends are inclusive months (Sep 2024 - Sep 2025 covers September 2025). A degree with no end shows one year.
+    end = lambda i: month_no(i["end"]) + 1 if i["end"] else now + 1 if i["kind"] == "work" else month_no(i["start"]) + 12
+    first = min(month_no(i["start"]) for i in jobs + edu) // 12 * 12
+    last = (max([now] + [end(i) - 1 for i in jobs + edu]) // 12 + 1) * 12  # through the end of the latest year
+    span = last - first
+    pct = lambda m: f"{(m - first) / span * 100:.2f}%"
+    bar = lambda i, cls, inner="": (f'<span class="{cls}" style="left:{pct(month_no(i["start"]))};'
+                                    f'width:{(end(i) - month_no(i["start"])) / span * 100:.2f}%">{inner}</span>')
+    e = html.escape
+    logos = any(i.get("logo") for i in items)
+    logo = lambda i: logo_html(i, "tl-logo") if logos else ""
+    years = "".join(f'<span style="left:{pct(y * 12)}"><b>{y}</b><i>’{y % 100:02d}</i></span>' for y in range(first // 12, last // 12))
+    rows = []
+    if edu:
+        segs = "".join(bar(i, "tl-bar tl-edu", f"<span>{e(degree_short(i))}</span>") for i in edu)
+        rows.append(f'<li class="tl-row tl-row-edu"><span class="tl-label">{logo(edu[0])}<span class="tl-text"><b>Education</b><small>{e(" · ".join(dict.fromkeys(i["organization"] for i in edu)))}</small></span></span>'
+                    f'<span class="tl-track">{segs}</span></li>')
+    for i in jobs:
+        n = end(i) - month_no(i["start"])
+        current = not i["end"]
+        tip = f'{i["role"]}, {i["organization"]} · {date_range(i)} ({duration(n)})'
+        rows.append(f'<li><a class="tl-row" href="#exp-{i["id"]}" title="{e(tip)}">'
+                    f'<span class="tl-label">{logo(i)}<span class="tl-text"><b>{e(i["organization"] or i["name"])}</b><small>{e(i["role"])}</small></span></span>'
+                    f'<span class="tl-track">{bar(i, "tl-bar" + (" tl-now" if current else ""))}</span></a></li>')
+    return f"""
+              <div class="tl" role="group" aria-label="Timeline of my jobs and degrees">
+                <div class="tl-axis" aria-hidden="true"><span class="tl-label"></span><span class="tl-years">{years}<span class="tl-today" style="left:{pct(now + 0.5)}">Today</span></span></div>
+                <div class="tl-body">
+                  <span class="tl-grid" aria-hidden="true">{"".join(f'<i style="left:{pct(y * 12)}"></i>' for y in range(first // 12 + 1, last // 12))}<i class="tl-today-line" style="left:{pct(now + 0.5)}"></i></span>
+                  <ol class="tl-rows">{"".join(rows)}</ol>
+                </div>
+              </div>"""
+
+
+def skill_map_html(skills):
+    """About section: a small, still picture of the skill graph (a radial tree, like skills.html's Graph view):
+    one dot per skill, coloured by discipline, bigger = rated higher. Hovering a "What I do" row or a legend entry
+    lights up its disciplines (assets/js/skill-map.js); clicking the panel opens the full graph."""
+    kids = {}
+    for s in skills:
+        kids.setdefault(s["parent"], []).append(s)
+    for v in kids.values():
+        v.sort(key=lambda s: s["name"].lower())
+    order = list(HUBS.values())
+    hubs = sorted(kids.get(None, []), key=lambda h: order.index(h["name"]) if h["name"] in order else len(order))
+    if not hubs:
+        return ""
+    # Leaves spread evenly around the circle (with a gap between disciplines); a parent sits at its children's
+    # average angle; the ring is the depth in the tree.
+    depth, angle, key, leaves, spans = {}, {}, {}, [], []
+    def walk(s, d, k):
+        depth[s["id"]], key[s["id"]] = d, k
+        for c in kids.get(s["id"], []):
+            walk(c, d + 1, k)
+        if not kids.get(s["id"]):
+            leaves.append(s["id"])
+    GAP = 2
+    for h in hubs:
+        start = len(leaves)
+        walk(h, 1, HUB_KEYS.get(h["name"], "oth"))
+        spans.append((start, len(leaves)))
+    slots = len(leaves) + GAP * len(hubs)
+    for n, (a, b) in enumerate(spans):
+        for i in range(a, b):
+            angle[leaves[i]] = (i + GAP * n + GAP / 2) / slots * 2 * math.pi
+    def place(s):
+        cs = kids.get(s["id"], [])
+        if cs:
+            angle[s["id"]] = sum(place(c) for c in cs) / len(cs)
+        return angle[s["id"]]
+    for h in hubs:
+        place(h)
+    R, deepest = 100, max(depth.values())
+    xy = lambda i: (R * depth[i] / deepest * math.sin(angle[i]), -R * depth[i] / deepest * math.cos(angle[i]))
+    by_id = {s["id"]: s for s in skills}
+    groups = []
+    for h in hubs:
+        k = key[h["id"]]
+        members = [s for s in skills if key.get(s["id"]) == k]
+        lines, dots = [], []
+        for s in members:
+            x, y = xy(s["id"])
+            px, py = xy(s["parent"]) if s["parent"] in by_id else (0, 0)
+            lines.append(f'<line x1="{px:.1f}" y1="{py:.1f}" x2="{x:.1f}" y2="{y:.1f}"/>')
+            r = 5.5 if s is h else 1.6 + (s["rating"] or 0) * 0.55
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}"{" class=" + chr(34) + "sm-hub" + chr(34) if s is h else ""}/>')
+        groups.append(f'<g class="sm-d" data-d="{k}" style="--c:var(--rs-{k})">{"".join(lines)}{"".join(dots)}</g>')
+    e = html.escape
+    legend = "".join(f'<li data-discs="{key[h["id"]]}"><i style="background:var(--rs-{key[h["id"]]})"></i>{e(h["name"])}'
+                     f'<b>{sum(1 for s in skills if key.get(s["id"]) == key[h["id"]] and s is not h)}</b></li>' for h in hubs)
+    return f"""
+          <a class="intro-panel skill-map" href="skills.html" data-aos="fade-up" data-aos-delay="250" aria-label="Open my skill graph">
+            <p class="intro-panel-t">Skill map</p>
+            <span class="sm-body">
+              <svg class="sm-svg" viewBox="-108 -108 216 216" aria-hidden="true"><circle class="sm-root" r="3"/>{"".join(groups)}</svg>
+              <span class="sm-side">
+                <ul class="sm-legend">{legend}</ul>
+                <span class="sm-cta">Explore the skill graph <i class="bi bi-arrow-right"></i></span>
+              </span>
+            </span>
+          </a>"""
+
+
+def logos_html(items):
+    """About section: a "Worked at" panel of job logos (not on the page at the moment: put the notion:logos markers
+    back in index.html to show it), newest first, one per organization (two JPL jobs show once),
+    in two rows scrolling opposite ways (assets/css/about.css); one row when there are only a few. Each row's list
+    is there twice so the loop is seamless, and repeated when short so it always fills the width. Each logo jumps
+    to its job in the resume."""
+    seen, jobs = set(), []
+    for i in items:  # already newest first
+        if i["kind"] == "work" and i.get("logo") and i["organization"] not in seen:
+            seen.add(i["organization"])
+            jobs.append(i)
+    if not jobs:
+        return ""
+    e = html.escape
+    skip = ' tabindex="-1"'  # the second copy is only for the loop: keyboard focus skips it
+    # rep: a repeat that's only there to fill the width (hidden when the strip stands still)
+    item = lambda i, hidden, rep: (f'<li{" class={chr(34)}wa-rep{chr(34)}" if rep else ""}><a href="#exp-{i["id"]}"{skip if hidden else ""} title="{e(i["organization"])}">'
+                                   f'{logo_html(i, "wa-logo")}<span>{e(i["organization"])}</span></a></li>')
+    def row(group, reverse):
+        loop = group * -(-6 // len(group))  # at least 6 per copy
+        half = lambda hidden: "".join(item(i, hidden, n >= len(group)) for n, i in enumerate(loop))
+        return f"""
+            <div class="marquee{" marquee-rev" if reverse else ""}" style="--n:{len(loop)}">
+              <div class="marquee-track">
+                <ul class="marquee-list">{half(False)}</ul>
+                <ul class="marquee-list" aria-hidden="true">{half(True)}</ul>
+              </div>
+            </div>"""
+    rows = [jobs[0::2], jobs[1::2]] if len(jobs) >= 4 else [jobs]
+    return f"""
+          <div class="intro-panel worked-at" data-aos="fade-up" data-aos-delay="250">
+            <p class="intro-panel-t">Worked at</p>{"".join(row(g, n == 1) for n, g in enumerate(rows))}
+          </div>"""
 
 BANDS = ["Lv 4–5", "Lv 3", "Lv 2", "Lv 1", "Not rated"]
 SHADE = [100, 68, 42, 20]  # % of the discipline color per band: darker = stronger (same as skill-graph.js)
@@ -850,7 +1076,10 @@ def write_index(root, skills, projects, experience):
     """Fill the generated regions of index.html (the repo's copy is the source; root is where it's written).
     Returns (changed, the page)."""
     page = INDEX.read_text(encoding="utf-8")
-    for name, body in (("experience", experience_html(experience, skills)),
+    for name, body in (("skillmap", skill_map_html(skills)),
+                       ("logos", logos_html(experience)),
+                       ("timeline", timeline_html(experience)),
+                       ("experience", experience_html(experience, skills)),
                        ("education", education_html(experience, skills)),
                        ("skills", skills_html(skills, projects, experience)),
                        ("projects", projects_html(projects, skills))):
@@ -875,11 +1104,15 @@ def sync(records, show_all, preview=False):
     skills, projects, experience = build(records, show_all)
     # The detailed write-up for each project / job comes from its page body (the 🌐 Public section).
     missing, no_photos = [], []
+    photos = Photos(root, reuse=ROOT if preview else None)
+    icons = {r["id"]: r["icon"] for r in records}
     for it in experience:
         it["details"] = public_html(it["id"])
         if it["details"] is None:
             missing.append(it["name"])
-    photos = Photos(root, reuse=ROOT if preview else None)
+        # The page icon, if it's an image (an emoji icon isn't a logo).
+        logo = photos.get(icons.get(it["id"]), LOGO_DIR, sizes=LOGO_SIZES)
+        it["logo"] = logo and {"sm": logo["sm"], "lg": logo["lg"]}
     covers = {r["id"]: r["cover"] for r in records}
     for it in projects:
         project_content(it, covers.get(it["id"]), photos)

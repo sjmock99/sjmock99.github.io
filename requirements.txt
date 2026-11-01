@@ -1,0 +1,4 @@
+# For scripts/sync_notion.py and scripts/admin.py. Everything else they use is built into Python.
+# Optional: without it the sync still works, but copies project photos at full size instead of resizing them.
+# Install with:  pip install -r requirements.txt   (or on Ubuntu/WSL: sudo apt install python3-pil)
+pillow>=9.0

@@ -10,6 +10,7 @@ New pages are created directly in the wiki database, the same as Notion's "+ New
 (not nested inside another page), using the wiki's template of the same Type when there is one. "Delete" moves a page to Notion's Trash (restorable there for 30 days); it never
 deletes permanently.
 """
+import importlib
 import json
 import mimetypes
 import os
@@ -138,6 +139,8 @@ def would_cycle(skill_id, parent_id):
 def handle_action(action, body):
     page_id = body.get("id", "")
     if action in ("sync", "preview"):
+        # Use the sync code as it is on disk now, so changes to sync_notion.py apply without restarting the admin.
+        importlib.reload(notion)
         # Re-read Notion first, so edits made in Notion itself (not just in this admin) are included.
         load()
         with lock:

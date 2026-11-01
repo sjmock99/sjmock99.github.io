@@ -26,8 +26,9 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <link href="assets/css/site-data.css?v=4" rel="stylesheet">
+  <link href="assets/css/site-data.css?v=14" rel="stylesheet">
   <link href="assets/css/projects.css?v=3" rel="stylesheet">
+  <link href="assets/css/about.css?v=8" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Style
@@ -89,106 +90,55 @@
     <!-- About Section -->
     <section id="about" class="about section">
 
-      <!-- Section Title -->
-      <!-- <div class="container section-title">
-        <h2>About</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>End Section Title -->
-
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row align-items-center">
-
-          <div class="about-content">
-            <div class="intro">
-              <h2>Hi, I'm Stephen Mock </h2>
-              <p>I am a passionate robotics engineer with a strong mechanical and software background. I pride myself on being a "Swiss army knife", able to do hardware tasks such as CAD and machine design, to software tasks such as writing embedded drivers and programming robot behaviors with Robot Operating System (ROS). I love experimenting with microcontrollers and electronics to see how I can integrate them into everyday life (IoT). My life goal is to improve others' lives through the use of robotics and to educate and excite others about technology.</p>
-              <p>I am primarily looking for opportunities to use robotics in consumer products, human robot interaction (HRI), and aerospace, but am open to trying new things!</p>
-              <p>Currently based in Los Angeles, CA!</p>
+        <!-- Intro: photo beside the text -->
+        <div class="intro-hero">
+          <div class="intro-photo">
+            <img src="assets/img/profile/photo_of_me.png" alt="Stephen Mock">
+          </div>
+          <div class="intro-text">
+            <h2>Hi, I'm Stephen Mock</h2>
+            <p>I'm a robotics engineer with a strong systems engineering background: a "Swiss army knife" who works at the interface of hardware and software. In my free time I experiment with robotics and look for ways to build new systems into everyday life (IoT). My goal is to improve people's lives through robotics and get others excited about technology.</p>
+            <p>I'm most interested in robotics for consumer products, human-robot interaction (HRI), art and technology, and aerospace, but I'm always open to trying new things!</p>
+            <!-- Quick facts: add or remove an <li> (icons: https://icons.getbootstrap.com) -->
+            <ul class="intro-facts">
+              <li><i class="bi bi-geo-alt-fill"></i>Based in Los Angeles, CA</li>
+              <li><i class="bi bi-house-heart-fill"></i>Hometown: Boston, MA</li>
+              <li><i class="bi bi-person-badge-fill"></i>MBTI: ENTJ</li>
+            </ul>
+            <div class="intro-links">
+              <a class="intro-cta" href="mailto:sjmock99@gmail.com"><i class="bi bi-envelope-fill"></i> Email me</a>
+              <a class="intro-icon" href="https://www.linkedin.com/in/stephenjmock/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+              <a class="intro-icon" href="https://github.com/sjmock99" target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
+              <a class="intro-icon" href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-5" data-aos="fade-right" data-aos-delay="200">
-            <div class="profile-image-wrapper">
-              <div class="profile-image">
-                <img src="assets/img/profile/photo_of_me.png" alt="Profile" class="img-fluid">
-              </div>
-              <div class="signature-section">
-                <p class="quote">Check out my links below!</p>
-              </div>
-            </div>
-
-            <div class="container">
-                <!-- <div class="row g-0 align-items-center"> -->
-                  <div class="col-lg-6 mx-auto" data-aos="fade-right" data-aos-delay="100">
-                    <div class="social-links" data-aos="fade-up" data-aos-delay="400">
-                      <a href="mailto:sjmock99@gmail.com"><i class="bi bi-envelope-fill"></i></a>
-                      <a href="https://www.linkedin.com/in/stephenjmock/" target="_blank"><i class="bi bi-linkedin"></i></a>
-                      <a href="https://github.com/sjmock99" target="_blank"><i class="bi bi-github"></i></a>
-                      <a href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank"><i class="bi bi-youtube"></i></a>
-                    </div>
-                  </div>
-            </div>
-
+        <!-- What I do (left) and the skill map (right), side by side; stacked on phones -->
+        <div class="intro-row">
+          <div class="intro-panel" data-aos="fade-up" data-aos-delay="150">
+            <p class="intro-panel-t">What I do</p>
+            <ul class="intro-skills">
+              <!-- data-discs: which disciplines light up in the skill map (mech, elec, soft, sys, oth); the link opens the graph there -->
+              <li><a href="skills.html#disc=mech" data-discs="mech elec"><span class="intro-skill-icon"><i class="bi bi-tools"></i></span><span><b>Hardware</b><small>Mechanical, Electrical</small></span></a></li>
+              <li><a href="skills.html#disc=soft" data-discs="soft"><span class="intro-skill-icon"><i class="bi bi-code-slash"></i></span><span><b>Software</b><small>ROS, Embedded, and IoT</small></span></a></li>
+              <li><a href="skills.html#disc=sys" data-discs="sys"><span class="intro-skill-icon"><i class="bi bi-robot"></i></span><span><b>Robotics</b><small>System Design, Integration, and Testing</small></span></a></li>
+            </ul>
           </div>
-
-          <div class="col-lg-7 d-none d-sm-block" data-aos="fade-left" data-aos-delay="300">
-            <div class="about-content">
-              <!-- <div class="intro">
-                <h2>Hi, I'm Brandon - a Creative Developer</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.</p>
-              </div> -->
-
-              <div class="skills-grid">
-                <div class="skill-item" data-aos="zoom-in" data-aos-delay="450">
-                  <div class="skill-icon">
-                    <i class="bi bi-tools"></i>
-                  </div>
-                  <h4>Hardware</h4>
-                  <p>Mechanical, Electrical</p>
-                </div>
-                <div class="skill-item" data-aos="zoom-in" data-aos-delay="500">
-                  <div class="skill-icon">
-                    <i class="bi bi-code-slash"></i>
-                  </div>
-                  <h4>Software</h4>
-                  <p>ROS, Embedded, and IoT</p>
-                </div>
-                <div class="skill-item" data-aos="zoom-in" data-aos-delay="400">
-                  <div class="skill-icon">
-                    <i class="bi bi-robot"></i>
-                  </div>
-                  <h4>Robotics</h4>
-                  <p>System Design, Integration, and Testing</p>
-                </div>
-
-              </div>
-
-              <div class="journey-timeline" data-aos="fade-up" data-aos-delay="300">
-                <div class="timeline-item">
-                  <div class="year">2021</div>
-                  <div class="description">Graduated with B.S. in Mechanical Engineering from Georgia Tech</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="year">2022</div>
-                  <div class="description">Graduated with M.S. in Mechanical Engineering from Georgia Tech</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="year">2022</div>
-                  <div class="description">Began work at NASA JPL as Robotics Mechanical Engineer</div>
-                </div>
-                <div class="timeline-item">
-                  <div class="year">2024</div>
-                  <div class="description">Began work at UCLA Biomechatronics Lab as Robotics R&D Engineer</div>
-                </div>
-                <!-- <div class="timeline-item">
-                  <div class="year">2025</div>
-                  <div class="description">Began contract work at Disney Imagineering as Robotics Mechanical Engineer</div>
-                </div> -->
-              </div>
-            </div>
-          </div>
-
+          <!-- notion:skillmap:start (generated by scripts/sync_notion.py from the skills in Notion; edit there, not here) -->
+          <a class="intro-panel skill-map" href="skills.html" data-aos="fade-up" data-aos-delay="250" aria-label="Open my skill graph">
+            <p class="intro-panel-t">Skill map</p>
+            <span class="sm-body">
+              <svg class="sm-svg" viewBox="-108 -108 216 216" aria-hidden="true"><circle class="sm-root" r="3"/><g class="sm-d" data-d="mech" style="--c:var(--rs-mech)"><line x1="47.0" y1="-17.0" x2="70.5" y2="-25.5"/><line x1="10.1" y1="-49.0" x2="6.1" y2="-74.8"/><line x1="18.1" y1="-17.3" x2="10.1" y2="-49.0"/><line x1="18.1" y1="-17.3" x2="19.8" y2="-45.9"/><line x1="10.1" y1="-49.0" x2="12.2" y2="-74.0"/><line x1="18.1" y1="-17.3" x2="23.5" y2="-44.1"/><line x1="18.1" y1="-17.3" x2="27.0" y2="-42.1"/><line x1="18.1" y1="-17.3" x2="30.4" y2="-39.7"/><line x1="27.0" y1="-42.1" x2="40.5" y2="-63.1"/><line x1="18.1" y1="-17.3" x2="35.0" y2="-35.7"/><line x1="18.1" y1="-17.3" x2="39.1" y2="-31.2"/><line x1="18.1" y1="-17.3" x2="41.5" y2="-27.9"/><line x1="18.1" y1="-17.3" x2="43.6" y2="-24.4"/><line x1="0.0" y1="0.0" x2="18.1" y2="-17.3"/><line x1="18.1" y1="-17.3" x2="45.5" y2="-20.8"/><line x1="10.1" y1="-49.0" x2="18.2" y2="-72.8"/><line x1="35.0" y1="-35.7" x2="50.3" y2="-55.7"/><line x1="35.0" y1="-35.7" x2="54.6" y2="-51.4"/><line x1="39.1" y1="-31.2" x2="58.6" y2="-46.8"/><line x1="18.1" y1="-17.3" x2="47.0" y2="-17.0"/><line x1="10.1" y1="-49.0" x2="24.0" y2="-71.0"/><line x1="23.5" y1="-44.1" x2="35.3" y2="-66.2"/><line x1="18.1" y1="-17.3" x2="48.3" y2="-13.1"/><circle cx="70.5" cy="-25.5" r="3.0"/><circle cx="6.1" cy="-74.8" r="2.2"/><circle cx="10.1" cy="-49.0" r="3.5"/><circle cx="19.8" cy="-45.9" r="3.5"/><circle cx="12.2" cy="-74.0" r="3.2"/><circle cx="23.5" cy="-44.1" r="3.5"/><circle cx="27.0" cy="-42.1" r="2.7"/><circle cx="30.4" cy="-39.7" r="2.4"/><circle cx="40.5" cy="-63.1" r="2.7"/><circle cx="35.0" cy="-35.7" r="3.5"/><circle cx="39.1" cy="-31.2" r="3.5"/><circle cx="41.5" cy="-27.9" r="2.4"/><circle cx="43.6" cy="-24.4" r="2.4"/><circle cx="18.1" cy="-17.3" r="5.5" class="sm-hub"/><circle cx="45.5" cy="-20.8" r="3.2"/><circle cx="18.2" cy="-72.8" r="3.8"/><circle cx="50.3" cy="-55.7" r="3.5"/><circle cx="54.6" cy="-51.4" r="3.8"/><circle cx="58.6" cy="-46.8" r="3.2"/><circle cx="47.0" cy="-17.0" r="3.5"/><circle cx="24.0" cy="-71.0" r="3.8"/><circle cx="35.3" cy="-66.2" r="2.7"/><circle cx="48.3" cy="-13.1" r="2.7"/></g><g class="sm-d" data-d="elec" style="--c:var(--rs-elec)"><line x1="19.8" y1="15.3" x2="50.0" y2="-1.0"/><line x1="19.8" y1="15.3" x2="49.9" y2="3.1"/><line x1="48.3" y1="13.1" x2="74.2" y2="10.7"/><line x1="28.7" y1="40.9" x2="43.1" y2="61.4"/><line x1="19.8" y1="15.3" x2="48.3" y2="13.1"/><line x1="19.8" y1="15.3" x2="44.6" y2="22.6"/><line x1="0.0" y1="0.0" x2="19.8" y2="15.3"/><line x1="48.3" y1="13.1" x2="73.1" y2="16.7"/><line x1="19.8" y1="15.3" x2="42.6" y2="26.2"/><line x1="49.9" y1="3.1" x2="74.9" y2="4.6"/><line x1="19.8" y1="15.3" x2="40.3" y2="29.6"/><line x1="19.8" y1="15.3" x2="36.4" y2="34.3"/><line x1="19.8" y1="15.3" x2="32.0" y2="38.4"/><line x1="19.8" y1="15.3" x2="28.7" y2="40.9"/><line x1="36.4" y1="34.3" x2="56.7" y2="49.1"/><line x1="19.8" y1="15.3" x2="25.3" y2="43.1"/><line x1="36.4" y1="34.3" x2="52.5" y2="53.6"/><line x1="19.8" y1="15.3" x2="21.7" y2="45.0"/><line x1="19.8" y1="15.3" x2="18.0" y2="46.7"/><line x1="48.3" y1="13.1" x2="71.5" y2="22.6"/><line x1="50.0" y1="-1.0" x2="75.0" y2="-1.5"/><line x1="48.3" y1="13.1" x2="69.4" y2="28.3"/><circle cx="50.0" cy="-1.0" r="3.2"/><circle cx="49.9" cy="3.1" r="2.4"/><circle cx="74.2" cy="10.7" r="3.5"/><circle cx="43.1" cy="61.4" r="2.7"/><circle cx="48.3" cy="13.1" r="3.8"/><circle cx="44.6" cy="22.6" r="2.7"/><circle cx="19.8" cy="15.3" r="5.5" class="sm-hub"/><circle cx="73.1" cy="16.7" r="3.2"/><circle cx="42.6" cy="26.2" r="3.8"/><circle cx="74.9" cy="4.6" r="2.7"/><circle cx="40.3" cy="29.6" r="2.7"/><circle cx="36.4" cy="34.3" r="3.5"/><circle cx="32.0" cy="38.4" r="3.5"/><circle cx="28.7" cy="40.9" r="2.2"/><circle cx="56.7" cy="49.1" r="3.2"/><circle cx="25.3" cy="43.1" r="2.2"/><circle cx="52.5" cy="53.6" r="3.8"/><circle cx="21.7" cy="45.0" r="3.0"/><circle cx="18.0" cy="46.7" r="3.5"/><circle cx="71.5" cy="22.6" r="3.8"/><circle cx="75.0" cy="-1.5" r="2.7"/><circle cx="69.4" cy="28.3" r="3.2"/></g><g class="sm-d" data-d="soft" style="--c:var(--rs-soft)"><line x1="-8.1" y1="49.3" x2="-3.1" y2="74.9"/><line x1="-16.3" y1="18.9" x2="6.1" y2="49.6"/><line x1="-35.0" y1="35.7" x2="-47.9" y2="57.7"/><line x1="-8.1" y1="49.3" x2="-9.2" y2="74.4"/><line x1="-16.3" y1="18.9" x2="2.0" y2="50.0"/><line x1="-16.3" y1="18.9" x2="-8.1" y2="49.3"/><line x1="-8.1" y1="49.3" x2="-15.2" y2="73.4"/><line x1="-56.7" y1="49.1" x2="-75.6" y2="65.5"/><line x1="-43.6" y1="24.4" x2="-63.9" y2="39.3"/><line x1="-8.1" y1="49.3" x2="-21.1" y2="72.0"/><line x1="-16.3" y1="18.9" x2="-18.0" y2="46.7"/><line x1="-16.3" y1="18.9" x2="-21.7" y2="45.0"/><line x1="-46.3" y1="18.9" x2="-69.4" y2="28.3"/><line x1="-28.7" y1="40.9" x2="-43.1" y2="61.4"/><line x1="-16.3" y1="18.9" x2="-25.3" y2="43.1"/><line x1="-16.3" y1="18.9" x2="-28.7" y2="40.9"/><line x1="-16.3" y1="18.9" x2="-35.0" y2="35.7"/><line x1="-35.0" y1="35.7" x2="-52.5" y2="53.6"/><line x1="-16.3" y1="18.9" x2="-40.3" y2="29.6"/><line x1="-43.6" y1="24.4" x2="-66.9" y2="33.9"/><line x1="-16.3" y1="18.9" x2="-43.6" y2="24.4"/><line x1="-16.3" y1="18.9" x2="-46.3" y2="18.9"/><line x1="-16.3" y1="18.9" x2="-47.7" y2="15.1"/><line x1="0.0" y1="0.0" x2="-16.3" y2="18.9"/><line x1="-16.3" y1="18.9" x2="-48.7" y2="11.1"/><line x1="-16.3" y1="18.9" x2="-49.5" y2="7.1"/><line x1="6.1" y1="49.6" x2="9.2" y2="74.4"/><line x1="-35.0" y1="35.7" x2="-56.7" y2="49.1"/><line x1="2.0" y1="50.0" x2="3.1" y2="74.9"/><circle cx="-3.1" cy="74.9" r="2.2"/><circle cx="6.1" cy="49.6" r="2.7"/><circle cx="-47.9" cy="57.7" r="3.2"/><circle cx="-9.2" cy="74.4" r="2.7"/><circle cx="2.0" cy="50.0" r="3.2"/><circle cx="-8.1" cy="49.3" r="3.2"/><circle cx="-15.2" cy="73.4" r="2.2"/><circle cx="-75.6" cy="65.5" r="2.4"/><circle cx="-63.9" cy="39.3" r="3.8"/><circle cx="-21.1" cy="72.0" r="3.5"/><circle cx="-18.0" cy="46.7" r="3.2"/><circle cx="-21.7" cy="45.0" r="2.2"/><circle cx="-69.4" cy="28.3" r="2.7"/><circle cx="-43.1" cy="61.4" r="3.2"/><circle cx="-25.3" cy="43.1" r="2.4"/><circle cx="-28.7" cy="40.9" r="3.0"/><circle cx="-35.0" cy="35.7" r="3.5"/><circle cx="-52.5" cy="53.6" r="3.8"/><circle cx="-40.3" cy="29.6" r="3.2"/><circle cx="-66.9" cy="33.9" r="3.2"/><circle cx="-43.6" cy="24.4" r="3.8"/><circle cx="-46.3" cy="18.9" r="2.4"/><circle cx="-47.7" cy="15.1" r="2.2"/><circle cx="-16.3" cy="18.9" r="5.5" class="sm-hub"/><circle cx="-48.7" cy="11.1" r="3.2"/><circle cx="-49.5" cy="7.1" r="2.2"/><circle cx="9.2" cy="74.4" r="3.8"/><circle cx="-56.7" cy="49.1" r="2.4"/><circle cx="3.1" cy="74.9" r="3.2"/></g><g class="sm-d" data-d="sys" style="--c:var(--rs-sys)"><line x1="-49.2" y1="-9.1" x2="-74.6" y2="-7.6"/><line x1="-49.2" y1="-9.1" x2="-73.7" y2="-13.7"/><line x1="-33.5" y1="-37.1" x2="-50.3" y2="-55.7"/><line x1="-50.3" y1="-55.7" x2="-67.0" y2="-74.2"/><line x1="-42.6" y1="-26.2" x2="-70.5" y2="-25.5"/><line x1="-21.7" y1="-12.5" x2="-49.2" y2="-9.1"/><line x1="-42.6" y1="-26.2" x2="-68.2" y2="-31.2"/><line x1="-42.6" y1="-26.2" x2="-65.5" y2="-36.6"/><line x1="-42.6" y1="-26.2" x2="-62.3" y2="-41.8"/><line x1="-42.6" y1="-26.2" x2="-58.6" y2="-46.8"/><line x1="0.0" y1="0.0" x2="-21.7" y2="-12.5"/><line x1="-21.7" y1="-12.5" x2="-42.6" y2="-26.2"/><line x1="-21.7" y1="-12.5" x2="-33.5" y2="-37.1"/><line x1="-49.2" y1="-9.1" x2="-72.4" y2="-19.7"/><line x1="-42.6" y1="-26.2" x2="-54.6" y2="-51.4"/><circle cx="-74.6" cy="-7.6" r="3.8"/><circle cx="-73.7" cy="-13.7" r="2.7"/><circle cx="-50.3" cy="-55.7" r="3.8"/><circle cx="-67.0" cy="-74.2" r="3.8"/><circle cx="-70.5" cy="-25.5" r="4.1"/><circle cx="-49.2" cy="-9.1" r="3.8"/><circle cx="-68.2" cy="-31.2" r="4.1"/><circle cx="-65.5" cy="-36.6" r="3.2"/><circle cx="-62.3" cy="-41.8" r="2.2"/><circle cx="-58.6" cy="-46.8" r="3.8"/><circle cx="-21.7" cy="-12.5" r="5.5" class="sm-hub"/><circle cx="-42.6" cy="-26.2" r="4.3"/><circle cx="-33.5" cy="-37.1" r="4.3"/><circle cx="-72.4" cy="-19.7" r="3.2"/><circle cx="-54.6" cy="-51.4" r="4.3"/></g><g class="sm-d" data-d="oth" style="--c:var(--rs-oth)"><line x1="-19.8" y1="-45.9" x2="-35.3" y2="-66.2"/><line x1="-6.7" y1="-24.1" x2="-19.8" y2="-45.9"/><line x1="-6.7" y1="-24.1" x2="-12.1" y2="-48.5"/><line x1="-19.8" y1="-45.9" x2="-29.8" y2="-68.8"/><line x1="-6.7" y1="-24.1" x2="-8.1" y2="-49.3"/><line x1="0.0" y1="0.0" x2="-6.7" y2="-24.1"/><line x1="-19.8" y1="-45.9" x2="-24.0" y2="-71.0"/><circle cx="-35.3" cy="-66.2" r="3.2"/><circle cx="-19.8" cy="-45.9" r="3.2"/><circle cx="-12.1" cy="-48.5" r="3.2"/><circle cx="-29.8" cy="-68.8" r="2.4"/><circle cx="-8.1" cy="-49.3" r="3.5"/><circle cx="-6.7" cy="-24.1" r="5.5" class="sm-hub"/><circle cx="-24.0" cy="-71.0" r="2.4"/></g></svg>
+              <span class="sm-side">
+                <ul class="sm-legend"><li data-discs="mech"><i style="background:var(--rs-mech)"></i>Mechanical<b>22</b></li><li data-discs="elec"><i style="background:var(--rs-elec)"></i>Electrical<b>21</b></li><li data-discs="soft"><i style="background:var(--rs-soft)"></i>Software<b>28</b></li><li data-discs="sys"><i style="background:var(--rs-sys)"></i>Systems<b>14</b></li><li data-discs="oth"><i style="background:var(--rs-oth)"></i>Other<b>6</b></li></ul>
+                <span class="sm-cta">Explore the skill graph <i class="bi bi-arrow-right"></i></span>
+              </span>
+            </span>
+          </a>
+          <!-- notion:skillmap:end -->
         </div>
 
       </div>
@@ -206,41 +156,46 @@
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row">
-          <div class="col-lg-8" data-aos="fade-left" data-aos-delay="200">
+          <div class="col-lg-12" data-aos="fade-left" data-aos-delay="200">
             <div class="education-section">
               <div class="section-header">
                 <h2><i class="bi bi-mortarboard"></i> Academic Experience</h2>
                 <!-- <p class="section-subtitle">Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget dolor aenean massa.</p> -->
               </div>
 
-              <div class="education-timeline">
-                <div class="timeline-track"></div>
+              <div class="edu-cards">
                 <!-- notion:education:start (generated by scripts/sync_notion.py from Notion; edit there, not here) -->
-                <div class="education-item" data-aos="slide-up" data-aos-delay="400">
-                  <div class="timeline-marker"></div>
-                  <div class="education-content">
-                    <div class="degree-header">
+                <div class="edu-card" data-aos="fade-up" data-aos-delay="200">
+                  <div class="edu-card-head">
+                    <img class="edu-logo" src="assets/img/logos/594a0e886ac9-sm.webp" srcset="assets/img/logos/594a0e886ac9-sm.webp 1x, assets/img/logos/594a0e886ac9-lg.webp 2x" alt="" loading="lazy">
+                    <div>
                       <h3>Master&#x27;s of Science in Mechanical Engineering</h3>
-                      <span class="year">2022</span>
+                      <h4>Georgia Institute of Technology (Atlanta, GA)</h4>
                     </div>
-                    <h4 class="institution">Georgia Institute of Technology (Atlanta, GA)</h4>
-                    
-                    <ul class="edu-details"><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li><li>GPA 4.0/4.0</li></ul>
-                    
                   </div>
+                  <div class="edu-card-meta">
+                    <span class="edu-year">2022</span>
+                    <span class="edu-gpa">4.0 GPA</span>
+                  </div>
+                  
+                  <ul class="edu-details"><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li></ul>
+                  
                 </div>
-                <div class="education-item" data-aos="slide-up" data-aos-delay="300">
-                  <div class="timeline-marker"></div>
-                  <div class="education-content">
-                    <div class="degree-header">
+                <div class="edu-card" data-aos="fade-up" data-aos-delay="300">
+                  <div class="edu-card-head">
+                    <img class="edu-logo" src="assets/img/logos/497094d77c88-sm.webp" srcset="assets/img/logos/497094d77c88-sm.webp 1x, assets/img/logos/497094d77c88-lg.webp 2x" alt="" loading="lazy">
+                    <div>
                       <h3>Bachelor of Science in Mechanical Engineering</h3>
-                      <span class="year">2017 - 2021</span>
+                      <h4>Georgia Institute of Technology (Atlanta, GA)</h4>
                     </div>
-                    <h4 class="institution">Georgia Institute of Technology (Atlanta, GA)</h4>
-                    
-                    <ul class="edu-details"><li>Georgia Tech Faculty Honors (2017-2021)</li><li>GPA 4.0/4.0</li></ul>
-                    
                   </div>
+                  <div class="edu-card-meta">
+                    <span class="edu-year">2017 - 2021</span>
+                    <span class="edu-gpa">4.0 GPA</span>
+                  </div>
+                  
+                  <ul class="edu-details"><li>Georgia Tech Faculty Honors (2017-2021)</li></ul>
+                  
                 </div>
                 <!-- notion:education:end -->
               </div>
@@ -258,118 +213,144 @@
                 <!-- <p class="section-subtitle">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas vestibulum tortor quam.</p> -->
               </div>
 
+              <!-- notion:timeline:start (generated by scripts/sync_notion.py from Notion's dates; edit there, not here) -->
+              <div class="tl" role="group" aria-label="Timeline of my jobs and degrees">
+                <div class="tl-axis" aria-hidden="true"><span class="tl-label"></span><span class="tl-years"><span style="left:0.00%"><b>2017</b><i>’17</i></span><span style="left:10.00%"><b>2018</b><i>’18</i></span><span style="left:20.00%"><b>2019</b><i>’19</i></span><span style="left:30.00%"><b>2020</b><i>’20</i></span><span style="left:40.00%"><b>2021</b><i>’21</i></span><span style="left:50.00%"><b>2022</b><i>’22</i></span><span style="left:60.00%"><b>2023</b><i>’23</i></span><span style="left:70.00%"><b>2024</b><i>’24</i></span><span style="left:80.00%"><b>2025</b><i>’25</i></span><span style="left:90.00%"><b>2026</b><i>’26</i></span><span class="tl-today" style="left:98.75%">Today</span></span></div>
+                <div class="tl-body">
+                  <span class="tl-grid" aria-hidden="true"><i style="left:10.00%"></i><i style="left:20.00%"></i><i style="left:30.00%"></i><i style="left:40.00%"></i><i style="left:50.00%"></i><i style="left:60.00%"></i><i style="left:70.00%"></i><i style="left:80.00%"></i><i style="left:90.00%"></i><i class="tl-today-line" style="left:98.75%"></i></span>
+                  <ol class="tl-rows"><li class="tl-row tl-row-edu"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/594a0e886ac9-sm.webp" srcset="assets/img/logos/594a0e886ac9-sm.webp 1x, assets/img/logos/594a0e886ac9-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>Education</b><small>Georgia Institute of Technology</small></span></span><span class="tl-track"><span class="tl-bar tl-edu" style="left:50.00%;width:10.00%"><span>Master&#x27;s</span></span><span class="tl-bar tl-edu" style="left:0.00%;width:50.00%"><span>Bachelor&#x27;s</span></span></span></li><li><a class="tl-row" href="#exp-4078f022083c81c98900f71fd2c5d488" title="Robotics Engineer, Relativity Space · Apr 2026 - Present (8 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/f06565c03e6c-sm.webp" srcset="assets/img/logos/f06565c03e6c-sm.webp 1x, assets/img/logos/f06565c03e6c-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>Relativity Space</b><small>Robotics Engineer</small></span></span><span class="tl-track"><span class="tl-bar tl-now" style="left:92.50%;width:6.67%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c81ff82f1e6cdc3aca8ac" title="Robotics Engineering Consultant, Motivo Engineering · Stratin Engineering · Sep 2025 - Apr 2026 (8 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/93711a72e2f8.svg" alt="" loading="lazy"><span class="tl-text"><b>Motivo Engineering · Stratin Engineering</b><small>Robotics Engineering Consultant</small></span></span><span class="tl-track"><span class="tl-bar" style="left:86.67%;width:6.67%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c81adba05e6e8ba1d20a4" title="R&amp;D Engineer II, UCLA Biomechatronics Lab · Sep 2024 - Sep 2025 (1 yr 1 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/d260b14e58cf-sm.webp" srcset="assets/img/logos/d260b14e58cf-sm.webp 1x, assets/img/logos/d260b14e58cf-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>UCLA Biomechatronics Lab</b><small>R&amp;D Engineer II</small></span></span><span class="tl-track"><span class="tl-bar" style="left:76.67%;width:10.83%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c81faaac0ddcf4dc53532" title="Test Engineer, Miso Robotics · Apr 2024 - Sep 2024 (6 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/027d39dcfc4f-sm.webp" srcset="assets/img/logos/027d39dcfc4f-sm.webp 1x, assets/img/logos/027d39dcfc4f-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>Miso Robotics</b><small>Test Engineer</small></span></span><span class="tl-track"><span class="tl-bar" style="left:72.50%;width:5.00%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c81b6bba8f56c5f519b70" title="Robotics Mechanical Engineer, NASA Jet Propulsion Laboratory · Feb 2023 - Apr 2024 (1 yr 3 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/330bdfff2896-sm.webp" srcset="assets/img/logos/330bdfff2896-sm.webp 1x, assets/img/logos/330bdfff2896-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>NASA Jet Propulsion Laboratory</b><small>Robotics Mechanical Engineer</small></span></span><span class="tl-track"><span class="tl-bar" style="left:60.83%;width:12.50%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c813e97fae0601fa65499" title="Mechanical Engineering Intern, iRobot · May 2022 - Aug 2022 (4 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/1703c22e3778-sm.webp" srcset="assets/img/logos/1703c22e3778-sm.webp 1x, assets/img/logos/1703c22e3778-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>iRobot</b><small>Mechanical Engineering Intern</small></span></span><span class="tl-track"><span class="tl-bar" style="left:53.33%;width:3.33%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c81b9b9bbccd015c21ac9" title="Mechanical Engineering Co-op, NASA Jet Propulsion Laboratory · May 2020 - Aug 2021 (1 yr 4 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/635f55e6fb25-sm.webp" srcset="assets/img/logos/635f55e6fb25-sm.webp 1x, assets/img/logos/635f55e6fb25-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>NASA Jet Propulsion Laboratory</b><small>Mechanical Engineering Co-op</small></span></span><span class="tl-track"><span class="tl-bar" style="left:33.33%;width:13.33%"></span></span></a></li><li><a class="tl-row" href="#exp-4088f022083c817aa9c4d154d119a057" title="Mechanical Engineering Intern, SharkNinja · May 2019 - Aug 2019 (4 mo)"><span class="tl-label"><img class="tl-logo" src="assets/img/logos/dd7bd6a7f960-sm.webp" srcset="assets/img/logos/dd7bd6a7f960-sm.webp 1x, assets/img/logos/dd7bd6a7f960-lg.webp 2x" alt="" loading="lazy"><span class="tl-text"><b>SharkNinja</b><small>Mechanical Engineering Intern</small></span></span><span class="tl-track"><span class="tl-bar" style="left:23.33%;width:3.33%"></span></span></a></li></ol>
+                </div>
+              </div>
+              <!-- notion:timeline:end -->
+
               <div class="experience-cards">
                 <!-- notion:experience:start (generated by scripts/sync_notion.py from Notion; edit there, not here) -->
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="500">
+                <div class="experience-card" id="exp-4078f022083c81c98900f71fd2c5d488" data-aos="zoom-in" data-aos-delay="500">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/f06565c03e6c-sm.webp" srcset="assets/img/logos/f06565c03e6c-sm.webp 1x, assets/img/logos/f06565c03e6c-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Robotics Engineer</h3>
                       <h4>Relativity Space</h4>
                     </div>
                     <span class="duration">Apr 2026 - Present</span>
+                    
                   </div>
                   <div class="card-body">
-                    <p>Industrial robotics and automation: robot arms, EtherCAT/TwinCAT controls and electrical cabinets.</p>
                     
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 4.5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47" title="Communication Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Communication Protocols</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=772257571a524cb99a05eb7abb0e0a39" title="Serial Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Serial Protocols</a><a class="rs-chip" href="skills.html#skill=2b98f022083c8008be27ede7a42be0fb" title="CAN Communication · Lv 3.5"><span class="rs-dot rs-elec"></span>CAN Communication</a><a class="rs-chip" href="skills.html#skill=3918f022083c80e7b949f46a1cd0f541" title="EtherCAT · Lv 3.5"><span class="rs-dot rs-elec"></span>EtherCAT</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=63a707011be245f4bc0ce1c4c0968c0c" title="Motors · Lv 3.5"><span class="rs-dot rs-elec"></span>Motors</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=5dcc4f8a8cf04917a44825b779c4cedf" title="ROS2 · Lv 3.5"><span class="rs-dot rs-soft"></span>ROS2</a><a class="rs-chip" href="skills.html#skill=1d552ffc3982412f8bc04215fc397393" title="Sensors · Lv 3.5"><span class="rs-dot rs-elec"></span>Sensors</a><a class="rs-chip" href="skills.html#skill=4038f022083c81ab933cca6199f6cb33" title="Automation / PLCs · Lv 3"><span class="rs-dot rs-elec"></span>Automation / PLCs</a></div><a class="rs-more" href="skills.html#item=4078f022083c81c98900f71fd2c5d488">+11 more in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47" title="Communication Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Communication Protocols</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=5dcc4f8a8cf04917a44825b779c4cedf" title="ROS2 · Lv 4"><span class="rs-dot rs-soft"></span>ROS2</a><a class="rs-chip" href="skills.html#skill=772257571a524cb99a05eb7abb0e0a39" title="Serial Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Serial Protocols</a><a class="rs-chip" href="skills.html#skill=2b98f022083c8008be27ede7a42be0fb" title="CAN Communication · Lv 3.5"><span class="rs-dot rs-elec"></span>CAN Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=63a707011be245f4bc0ce1c4c0968c0c" title="Motors · Lv 3.5"><span class="rs-dot rs-elec"></span>Motors</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=1d552ffc3982412f8bc04215fc397393" title="Sensors · Lv 3.5"><span class="rs-dot rs-elec"></span>Sensors</a><a class="rs-chip" href="skills.html#skill=4038f022083c81ab933cca6199f6cb33" title="Automation / PLCs · Lv 3"><span class="rs-dot rs-elec"></span>Automation / PLCs</a><a class="rs-chip" href="skills.html#skill=21299b93bc724631a2263b552fc6a22c" title="C++ · Lv 3"><span class="rs-dot rs-soft"></span>C++</a></div><a class="rs-more" href="skills.html#item=4078f022083c81c98900f71fd2c5d488">+9 more in the skill graph →</a>
+                    
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="400">
+                <div class="experience-card" id="exp-4088f022083c81ff82f1e6cdc3aca8ac" data-aos="zoom-in" data-aos-delay="400">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/93711a72e2f8.svg" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Robotics Engineering Consultant</h3>
                       <h4>Motivo Engineering · Stratin Engineering: Los Angeles, CA</h4>
                     </div>
                     <span class="duration">Sep 2025 - Apr 2026</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c81ff82f1e6cdc3aca8ac" aria-label="Details: Robotics Engineering Consultant, Motivo Engineering · Stratin Engineering"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Systems engineering and R&amp;D consulting for robotic products.</p>
-                    <ul class="achievements"><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>
                     
+                    <div class="exp-more" id="exp-more-4088f022083c81ff82f1e6cdc3aca8ac" hidden><ul class="achievements"><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c81adba05e6e8ba1d20a4" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/d260b14e58cf-sm.webp" srcset="assets/img/logos/d260b14e58cf-sm.webp 1x, assets/img/logos/d260b14e58cf-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>R&amp;D Engineer II</h3>
                       <h4>UCLA Biomechatronics Lab: Westwood, CA</h4>
                     </div>
                     <span class="duration">Sep 2024 - Sep 2025</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c81adba05e6e8ba1d20a4" aria-label="Details: R&amp;D Engineer II, UCLA Biomechatronics Lab"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Research and development for tactile-driven robots used in human-robot systems.</p>
-                    <ul class="achievements"><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 4.5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 4.5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=e3d3972c0ba64a6e8c455c0c7d713549" title="Python · Lv 4"><span class="rs-dot rs-soft"></span>Python</a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be" title="Requirements · Lv 4"><span class="rs-dot rs-sys"></span>Requirements</a><a class="rs-chip" href="skills.html#skill=4038f022083c814286f6d2847d2cd706" title="System Architecture &amp; Interfaces · Lv 4"><span class="rs-dot rs-sys"></span>System Architecture &amp; Interfaces</a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 4"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c81c1bb0ddb05b15f0516" title="Agile &amp; Execution · Lv 3.5"><span class="rs-dot rs-sys"></span>Agile &amp; Execution</a><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=63a707011be245f4bc0ce1c4c0968c0c" title="Motors · Lv 3.5"><span class="rs-dot rs-elec"></span>Motors</a><a class="rs-chip" href="skills.html#skill=4038f022083c8173903ad60ffbc2786f" title="Project Management · Lv 3.5"><span class="rs-dot rs-sys"></span>Project Management</a></div><a class="rs-more" href="skills.html#item=4088f022083c81adba05e6e8ba1d20a4">+14 more in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 5"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be" title="Requirements · Lv 4.5"><span class="rs-dot rs-sys"></span>Requirements</a><a class="rs-chip" href="skills.html#skill=4038f022083c81c1bb0ddb05b15f0516" title="Agile &amp; Execution · Lv 4"><span class="rs-dot rs-sys"></span>Agile &amp; Execution</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=4038f022083c8173903ad60ffbc2786f" title="Project Management · Lv 4"><span class="rs-dot rs-sys"></span>Project Management</a><a class="rs-chip" href="skills.html#skill=e3d3972c0ba64a6e8c455c0c7d713549" title="Python · Lv 4"><span class="rs-dot rs-soft"></span>Python</a><a class="rs-chip" href="skills.html#skill=5dcc4f8a8cf04917a44825b779c4cedf" title="ROS2 · Lv 4"><span class="rs-dot rs-soft"></span>ROS2</a><a class="rs-chip" href="skills.html#skill=4038f022083c814286f6d2847d2cd706" title="System Architecture &amp; Interfaces · Lv 4"><span class="rs-dot rs-sys"></span>System Architecture &amp; Interfaces</a><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a></div><a class="rs-more" href="skills.html#item=4088f022083c81adba05e6e8ba1d20a4">+9 more in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c81adba05e6e8ba1d20a4" hidden><ul class="achievements"><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c81faaac0ddcf4dc53532" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/027d39dcfc4f-sm.webp" srcset="assets/img/logos/027d39dcfc4f-sm.webp 1x, assets/img/logos/027d39dcfc4f-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Test Engineer</h3>
                       <h4>Miso Robotics: Pasadena, CA</h4>
                     </div>
                     <span class="duration">Apr 2024 - Sep 2024</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c81faaac0ddcf4dc53532" aria-label="Details: Test Engineer, Miso Robotics"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Systems engineering development and testing for future robotic kitchen solutions.</p>
-                    <ul class="achievements"><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 4.5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 4.5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=772257571a524cb99a05eb7abb0e0a39" title="Serial Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Serial Protocols</a><a class="rs-chip" href="skills.html#skill=dbf4d32d91e94753b6283dd6db02ab2b" title="Microcontrollers / Embedded Systems · Lv 3.5"><span class="rs-dot rs-elec"></span>Microcontrollers / Embedded Systems</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f19ad9d866db99d2bc" title="Data Analysis · Lv 3"><span class="rs-dot rs-oth"></span>Data Analysis</a><a class="rs-chip" href="skills.html#skill=4038f022083c81e6a2adc0c95aa35eda" title="Risk &amp; Reliability · Lv 3"><span class="rs-dot rs-sys"></span>Risk &amp; Reliability</a><a class="rs-chip" href="skills.html#skill=5c976dd32bc0479482f6ab0c6c738005" title="ROS1 · Lv 3"><span class="rs-dot rs-soft"></span>ROS1</a><a class="rs-chip" href="skills.html#skill=4038f022083c8131becdc98a5d43f3dd" title="Software Architecture · Lv 3"><span class="rs-dot rs-soft"></span>Software Architecture</a><a class="rs-chip" href="skills.html#skill=4038f022083c8168b005ee81637a068c" title="Safety &amp; Standards · Lv 1.5"><span class="rs-dot rs-sys"></span>Safety &amp; Standards</a></div><a class="rs-more" href="skills.html#item=4088f022083c81faaac0ddcf4dc53532">See these in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6" title="Systems Engineering · Lv 5"><span class="rs-dot rs-sys"></span>Systems Engineering</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=772257571a524cb99a05eb7abb0e0a39" title="Serial Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Serial Protocols</a><a class="rs-chip" href="skills.html#skill=dbf4d32d91e94753b6283dd6db02ab2b" title="Microcontrollers / Embedded Systems · Lv 3.5"><span class="rs-dot rs-elec"></span>Microcontrollers / Embedded Systems</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f19ad9d866db99d2bc" title="Data Analysis · Lv 3"><span class="rs-dot rs-oth"></span>Data Analysis</a><a class="rs-chip" href="skills.html#skill=4038f022083c81e6a2adc0c95aa35eda" title="Risk &amp; Reliability · Lv 3"><span class="rs-dot rs-sys"></span>Risk &amp; Reliability</a><a class="rs-chip" href="skills.html#skill=5c976dd32bc0479482f6ab0c6c738005" title="ROS1 · Lv 3"><span class="rs-dot rs-soft"></span>ROS1</a><a class="rs-chip" href="skills.html#skill=4038f022083c8131becdc98a5d43f3dd" title="Software Architecture · Lv 3"><span class="rs-dot rs-soft"></span>Software Architecture</a><a class="rs-chip" href="skills.html#skill=4038f022083c8168b005ee81637a068c" title="Safety &amp; Standards · Lv 1"><span class="rs-dot rs-sys"></span>Safety &amp; Standards</a></div><a class="rs-more" href="skills.html#item=4088f022083c81faaac0ddcf4dc53532">See these in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c81faaac0ddcf4dc53532" hidden><ul class="achievements"><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c81b6bba8f56c5f519b70" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/330bdfff2896-sm.webp" srcset="assets/img/logos/330bdfff2896-sm.webp 1x, assets/img/logos/330bdfff2896-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Robotics Mechanical Engineer</h3>
                       <h4>NASA Jet Propulsion Laboratory: Pasadena, CA</h4>
                     </div>
                     <span class="duration">Feb 2023 - Apr 2024</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c81b6bba8f56c5f519b70" aria-label="Details: Robotics Mechanical Engineer, NASA Jet Propulsion Laboratory"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Extreme Environment Robotics Group (347C), supporting Mars Sample Return (MSR) Capture Contain Return System (CCRS).</p>
-                    <ul class="achievements"><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 4.5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47" title="Communication Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Communication Protocols</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=e3d3972c0ba64a6e8c455c0c7d713549" title="Python · Lv 4"><span class="rs-dot rs-soft"></span>Python</a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 4"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=6b4e076b347b4e31a50148c0ac98f37a" title="Networking · Lv 3.5"><span class="rs-dot rs-soft"></span>Networking</a><a class="rs-chip" href="skills.html#skill=5dcc4f8a8cf04917a44825b779c4cedf" title="ROS2 · Lv 3.5"><span class="rs-dot rs-soft"></span>ROS2</a><a class="rs-chip" href="skills.html#skill=3518f022083c8009ba0ceca7a45f1ae0" title="Rotations · Lv 3.5"><span class="rs-dot rs-mech"></span>Rotations</a><a class="rs-chip" href="skills.html#skill=1d552ffc3982412f8bc04215fc397393" title="Sensors · Lv 3.5"><span class="rs-dot rs-elec"></span>Sensors</a></div><a class="rs-more" href="skills.html#item=4088f022083c81b6bba8f56c5f519b70">+12 more in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 5"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b" title="Verification &amp; Validation · Lv 5"><span class="rs-dot rs-sys"></span>Verification &amp; Validation</a><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47" title="Communication Protocols · Lv 4"><span class="rs-dot rs-elec"></span>Communication Protocols</a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59" title="Hardware Drivers · Lv 4"><span class="rs-dot rs-elec"></span>Hardware Drivers</a><a class="rs-chip" href="skills.html#skill=e3d3972c0ba64a6e8c455c0c7d713549" title="Python · Lv 4"><span class="rs-dot rs-soft"></span>Python</a><a class="rs-chip" href="skills.html#skill=5dcc4f8a8cf04917a44825b779c4cedf" title="ROS2 · Lv 4"><span class="rs-dot rs-soft"></span>ROS2</a><a class="rs-chip" href="skills.html#skill=3518f022083c8009ba0ceca7a45f1ae0" title="Rotations · Lv 4"><span class="rs-dot rs-mech"></span>Rotations</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=6b4e076b347b4e31a50148c0ac98f37a" title="Networking · Lv 3.5"><span class="rs-dot rs-oth"></span>Networking</a><a class="rs-chip" href="skills.html#skill=1d552ffc3982412f8bc04215fc397393" title="Sensors · Lv 3.5"><span class="rs-dot rs-elec"></span>Sensors</a></div><a class="rs-more" href="skills.html#item=4088f022083c81b6bba8f56c5f519b70">+7 more in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c81b6bba8f56c5f519b70" hidden><ul class="achievements"><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c813e97fae0601fa65499" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/1703c22e3778-sm.webp" srcset="assets/img/logos/1703c22e3778-sm.webp 1x, assets/img/logos/1703c22e3778-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Mechanical Engineering Intern</h3>
                       <h4>iRobot: Bedford, MA</h4>
                     </div>
                     <span class="duration">May 2022 - Aug 2022</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c813e97fae0601fa65499" aria-label="Details: Mechanical Engineering Intern, iRobot"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Supported development of future robotic vacuums, docks, and test fixtures.</p>
-                    <ul class="achievements"><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=4048f022083c810db38ff7605a1f794a" title="CREO · Lv 3"><span class="rs-dot rs-mech"></span>CREO</a><a class="rs-chip" href="skills.html#skill=4038f022083c81c989ddf4081df6500e" title="Dynamics · Lv 3"><span class="rs-dot rs-mech"></span>Dynamics</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a></div><a class="rs-more" href="skills.html#item=4088f022083c813e97fae0601fa65499">See these in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c81c989ddf4081df6500e" title="Dynamics · Lv 3.5"><span class="rs-dot rs-mech"></span>Dynamics</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3.5"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a><a class="rs-chip" href="skills.html#skill=4048f022083c810db38ff7605a1f794a" title="CREO · Lv 3"><span class="rs-dot rs-mech"></span>CREO</a></div><a class="rs-more" href="skills.html#item=4088f022083c813e97fae0601fa65499">See these in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c813e97fae0601fa65499" hidden><ul class="achievements"><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c81b9b9bbccd015c21ac9" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/635f55e6fb25-sm.webp" srcset="assets/img/logos/635f55e6fb25-sm.webp 1x, assets/img/logos/635f55e6fb25-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Mechanical Engineering Co-op</h3>
                       <h4>NASA Jet Propulsion Laboratory: Pasadena, CA</h4>
                     </div>
                     <span class="duration">May 2020 - Aug 2021</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c81b9b9bbccd015c21ac9" aria-label="Details: Mechanical Engineering Co-op, NASA Jet Propulsion Laboratory"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Extreme Environment Robotics Group (347C), supporting Mars Sample Return (MSR) Capture Contain Return System (CCRS), Mars Sample Return Handling (MSRH).</p>
-                    <ul class="achievements"><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href="https://ieeexplore.ieee.org/document/9438243" target="_blank" rel="noopener">paper</a> on decontamination process for MSRH</li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be" title="Requirements · Lv 4"><span class="rs-dot rs-sys"></span>Requirements</a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 4"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcab31efabe32a1350" title="BOM &amp; Cost Management · Lv 3"><span class="rs-dot rs-sys"></span>BOM &amp; Cost Management</a><a class="rs-chip" href="skills.html#skill=40b8f022083c818494dcede04a10dd09" title="MATLAB · Lv 3"><span class="rs-dot rs-soft"></span>MATLAB</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132870fd5644618d779" title="Vendor &amp; Supplier Management · Lv 3"><span class="rs-dot rs-sys"></span>Vendor &amp; Supplier Management</a><a class="rs-chip" href="skills.html#skill=80abf2a57f494da28744e9b992a02d60" title="Thermal · Lv 2"><span class="rs-dot rs-mech"></span>Thermal</a></div><a class="rs-more" href="skills.html#item=4088f022083c81b9b9bbccd015c21ac9">+2 more in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5" title="Technical Communication · Lv 5"><span class="rs-dot rs-sys"></span>Technical Communication</a><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70" title="Integration &amp; Bring-up · Lv 4.5"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up</a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be" title="Requirements · Lv 4.5"><span class="rs-dot rs-sys"></span>Requirements</a><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c8159a802f55b200deeb1" title="Kinematics · Lv 3.5"><span class="rs-dot rs-mech"></span>Kinematics</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=3fdffc9f4f1143f68b353aebeb273bb2" title="Robotic Arms · Lv 3.5"><span class="rs-dot rs-mech"></span>Robotic Arms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3.5"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a><a class="rs-chip" href="skills.html#skill=4038f022083c8132870fd5644618d779" title="Vendor &amp; Supplier Management · Lv 3"><span class="rs-dot rs-sys"></span>Vendor &amp; Supplier Management</a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcab31efabe32a1350" title="BOM &amp; Cost Management · Lv 2"><span class="rs-dot rs-sys"></span>BOM &amp; Cost Management</a><a class="rs-chip" href="skills.html#skill=80abf2a57f494da28744e9b992a02d60" title="Thermal · Lv 2"><span class="rs-dot rs-mech"></span>Thermal</a><a class="rs-chip" href="skills.html#skill=4038f022083c8106b61ac630a92beb7d" title="Path / Motion Planning · Lv 1.5"><span class="rs-dot rs-soft"></span>Path / Motion Planning</a></div><a class="rs-more" href="skills.html#item=4088f022083c81b9b9bbccd015c21ac9">+1 more in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c81b9b9bbccd015c21ac9" hidden><ul class="achievements"><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href="https://ieeexplore.ieee.org/document/9438243" target="_blank" rel="noopener">paper</a> on decontamination process for MSRH</li></ul></div>
                   </div>
                 </div>
-                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="experience-card" id="exp-4088f022083c817aa9c4d154d119a057" data-aos="zoom-in" data-aos-delay="300">
                   <div class="card-header">
+                    <img class="exp-logo" src="assets/img/logos/dd7bd6a7f960-sm.webp" srcset="assets/img/logos/dd7bd6a7f960-sm.webp 1x, assets/img/logos/dd7bd6a7f960-lg.webp 2x" alt="" loading="lazy">
                     <div class="role-info">
                       <h3>Mechanical Engineering Intern</h3>
                       <h4>SharkNinja: Needham, MA</h4>
                     </div>
                     <span class="duration">May 2019 - Aug 2019</span>
+                    <button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-4088f022083c817aa9c4d154d119a057" aria-label="Details: Mechanical Engineering Intern, SharkNinja"><i class="bi bi-chevron-down"></i></button>
                   </div>
                   <div class="card-body">
                     <p>Prototyped new Shark Robotic Vacuums in the Advanced Development group.</p>
-                    <ul class="achievements"><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>
-                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=74117136db1a419591201a04faefab03" title="Mechanisms · Lv 3"><span class="rs-dot rs-mech"></span>Mechanisms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a><a class="rs-chip" href="skills.html#skill=4038f022083c81e38b7be114e560096b" title="Manufacturing (DFM) · Lv 1.5"><span class="rs-dot rs-mech"></span>Manufacturing (DFM)</a></div><a class="rs-more" href="skills.html#item=4088f022083c817aa9c4d154d119a057">See these in the skill graph →</a>
+                    <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872" title="CAD · Lv 3.5"><span class="rs-dot rs-mech"></span>CAD</a><a class="rs-chip" href="skills.html#skill=4038f022083c816eb3f7cf99088fe3b6" title="Machine Design · Lv 3.5"><span class="rs-dot rs-mech"></span>Machine Design</a><a class="rs-chip" href="skills.html#skill=4038f022083c81f9a056fadef2c6641a" title="Shop &amp; Prototyping · Lv 3.5"><span class="rs-dot rs-mech"></span>Shop &amp; Prototyping</a><a class="rs-chip" href="skills.html#skill=74117136db1a419591201a04faefab03" title="Mechanisms · Lv 3"><span class="rs-dot rs-mech"></span>Mechanisms</a><a class="rs-chip" href="skills.html#skill=4038f022083c81e38b7be114e560096b" title="Manufacturing (DFM) · Lv 1.5"><span class="rs-dot rs-mech"></span>Manufacturing (DFM)</a></div><a class="rs-more" href="skills.html#item=4088f022083c817aa9c4d154d119a057">See these in the skill graph →</a>
+                    <div class="exp-more" id="exp-more-4088f022083c817aa9c4d154d119a057" hidden><ul class="achievements"><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul></div>
                   </div>
                 </div>
                 <!-- notion:experience:end -->
@@ -393,35 +374,35 @@
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="sk-preview">
           <div class="sk-stats">
-            <div><b>153</b>skills</div>
+            <div><b>91</b>skills</div>
             <div><b>5</b>disciplines</div>
             <div><b>8</b>jobs</div>
-            <div><b>3</b>projects</div>
+            <div><b>5</b>projects</div>
           </div>
           <div class="sk-cols">
             <div>
               <h3>Skills by discipline and level</h3>
-              <a class="sk-disc" href="skills.html#disc=sys" title="Systems: 6 at Lv 4–5, 10 at Lv 3, 1 at Lv 2, 1 at Lv 1">
+              <a class="sk-disc" href="skills.html#disc=sys" title="Systems: 10 at Lv 4–5, 2 at Lv 3, 1 at Lv 2, 1 at Lv 1">
                 <span class="sk-name"><span class="rs-dot rs-sys"></span>Systems</span>
-                <span class="sk-track"><span class="sk-mix" style="width:33%"><i style="flex:6;background:color-mix(in srgb, var(--rs-sys) 100%, var(--surface-color))" title="Lv 4–5: 6"></i><i style="flex:10;background:color-mix(in srgb, var(--rs-sys) 68%, var(--surface-color))" title="Lv 3: 10"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-sys) 42%, var(--surface-color))" title="Lv 2: 1"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-sys) 20%, var(--surface-color))" title="Lv 1: 1"></i></span></span>
-                <span class="sk-val">18</span></a><a class="sk-disc" href="skills.html#disc=elec" title="Electrical: 3 at Lv 4–5, 34 at Lv 3, 14 at Lv 2, 3 at Lv 1">
-                <span class="sk-name"><span class="rs-dot rs-elec"></span>Electrical</span>
-                <span class="sk-track"><span class="sk-mix" style="width:100%"><i style="flex:3;background:color-mix(in srgb, var(--rs-elec) 100%, var(--surface-color))" title="Lv 4–5: 3"></i><i style="flex:34;background:color-mix(in srgb, var(--rs-elec) 68%, var(--surface-color))" title="Lv 3: 34"></i><i style="flex:14;background:color-mix(in srgb, var(--rs-elec) 42%, var(--surface-color))" title="Lv 2: 14"></i><i style="flex:3;background:color-mix(in srgb, var(--rs-elec) 20%, var(--surface-color))" title="Lv 1: 3"></i></span></span>
-                <span class="sk-val">54</span></a><a class="sk-disc" href="skills.html#disc=soft" title="Software: 1 at Lv 4–5, 25 at Lv 3, 9 at Lv 2, 12 at Lv 1">
+                <span class="sk-track"><span class="sk-mix" style="width:50%"><i style="flex:10;background:color-mix(in srgb, var(--rs-sys) 100%, var(--surface-color))" title="Lv 4–5: 10"></i><i style="flex:2;background:color-mix(in srgb, var(--rs-sys) 68%, var(--surface-color))" title="Lv 3: 2"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-sys) 42%, var(--surface-color))" title="Lv 2: 1"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-sys) 20%, var(--surface-color))" title="Lv 1: 1"></i></span></span>
+                <span class="sk-val">14</span></a><a class="sk-disc" href="skills.html#disc=soft" title="Software: 4 at Lv 4–5, 11 at Lv 3, 4 at Lv 2, 9 at Lv 1">
                 <span class="sk-name"><span class="rs-dot rs-soft"></span>Software</span>
-                <span class="sk-track"><span class="sk-mix" style="width:87%"><i style="flex:1;background:color-mix(in srgb, var(--rs-soft) 100%, var(--surface-color))" title="Lv 4–5: 1"></i><i style="flex:25;background:color-mix(in srgb, var(--rs-soft) 68%, var(--surface-color))" title="Lv 3: 25"></i><i style="flex:9;background:color-mix(in srgb, var(--rs-soft) 42%, var(--surface-color))" title="Lv 2: 9"></i><i style="flex:12;background:color-mix(in srgb, var(--rs-soft) 20%, var(--surface-color))" title="Lv 1: 12"></i></span></span>
-                <span class="sk-val">47</span></a><a class="sk-disc" href="skills.html#disc=mech" title="Mechanical: 17 at Lv 3, 6 at Lv 2, 5 at Lv 1">
+                <span class="sk-track"><span class="sk-mix" style="width:100%"><i style="flex:4;background:color-mix(in srgb, var(--rs-soft) 100%, var(--surface-color))" title="Lv 4–5: 4"></i><i style="flex:11;background:color-mix(in srgb, var(--rs-soft) 68%, var(--surface-color))" title="Lv 3: 11"></i><i style="flex:4;background:color-mix(in srgb, var(--rs-soft) 42%, var(--surface-color))" title="Lv 2: 4"></i><i style="flex:9;background:color-mix(in srgb, var(--rs-soft) 20%, var(--surface-color))" title="Lv 1: 9"></i></span></span>
+                <span class="sk-val">28</span></a><a class="sk-disc" href="skills.html#disc=elec" title="Electrical: 4 at Lv 4–5, 8 at Lv 3, 6 at Lv 2, 3 at Lv 1">
+                <span class="sk-name"><span class="rs-dot rs-elec"></span>Electrical</span>
+                <span class="sk-track"><span class="sk-mix" style="width:75%"><i style="flex:4;background:color-mix(in srgb, var(--rs-elec) 100%, var(--surface-color))" title="Lv 4–5: 4"></i><i style="flex:8;background:color-mix(in srgb, var(--rs-elec) 68%, var(--surface-color))" title="Lv 3: 8"></i><i style="flex:6;background:color-mix(in srgb, var(--rs-elec) 42%, var(--surface-color))" title="Lv 2: 6"></i><i style="flex:3;background:color-mix(in srgb, var(--rs-elec) 20%, var(--surface-color))" title="Lv 1: 3"></i></span></span>
+                <span class="sk-val">21</span></a><a class="sk-disc" href="skills.html#disc=mech" title="Mechanical: 3 at Lv 4–5, 10 at Lv 3, 5 at Lv 2, 4 at Lv 1">
                 <span class="sk-name"><span class="rs-dot rs-mech"></span>Mechanical</span>
-                <span class="sk-track"><span class="sk-mix" style="width:52%"><i style="flex:17;background:color-mix(in srgb, var(--rs-mech) 68%, var(--surface-color))" title="Lv 3: 17"></i><i style="flex:6;background:color-mix(in srgb, var(--rs-mech) 42%, var(--surface-color))" title="Lv 2: 6"></i><i style="flex:5;background:color-mix(in srgb, var(--rs-mech) 20%, var(--surface-color))" title="Lv 1: 5"></i></span></span>
-                <span class="sk-val">28</span></a><a class="sk-disc" href="skills.html#disc=oth" title="Other: 4 at Lv 3, 1 at Lv 2, 1 at Lv 1">
+                <span class="sk-track"><span class="sk-mix" style="width:79%"><i style="flex:3;background:color-mix(in srgb, var(--rs-mech) 100%, var(--surface-color))" title="Lv 4–5: 3"></i><i style="flex:10;background:color-mix(in srgb, var(--rs-mech) 68%, var(--surface-color))" title="Lv 3: 10"></i><i style="flex:5;background:color-mix(in srgb, var(--rs-mech) 42%, var(--surface-color))" title="Lv 2: 5"></i><i style="flex:4;background:color-mix(in srgb, var(--rs-mech) 20%, var(--surface-color))" title="Lv 1: 4"></i></span></span>
+                <span class="sk-val">22</span></a><a class="sk-disc" href="skills.html#disc=oth" title="Other: 4 at Lv 3, 2 at Lv 1">
                 <span class="sk-name"><span class="rs-dot rs-oth"></span>Other</span>
-                <span class="sk-track"><span class="sk-mix" style="width:11%"><i style="flex:4;background:color-mix(in srgb, var(--rs-oth) 68%, var(--surface-color))" title="Lv 3: 4"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-oth) 42%, var(--surface-color))" title="Lv 2: 1"></i><i style="flex:1;background:color-mix(in srgb, var(--rs-oth) 20%, var(--surface-color))" title="Lv 1: 1"></i></span></span>
+                <span class="sk-track"><span class="sk-mix" style="width:21%"><i style="flex:4;background:color-mix(in srgb, var(--rs-oth) 68%, var(--surface-color))" title="Lv 3: 4"></i><i style="flex:2;background:color-mix(in srgb, var(--rs-oth) 20%, var(--surface-color))" title="Lv 1: 2"></i></span></span>
                 <span class="sk-val">6</span></a>
               <p class="sk-legend" aria-hidden="true"><span><i style="background:color-mix(in srgb, var(--heading-color) 100%, var(--surface-color))"></i>Lv 4–5</span><span><i style="background:color-mix(in srgb, var(--heading-color) 68%, var(--surface-color))"></i>Lv 3</span><span><i style="background:color-mix(in srgb, var(--heading-color) 42%, var(--surface-color))"></i>Lv 2</span><span><i style="background:color-mix(in srgb, var(--heading-color) 20%, var(--surface-color))"></i>Lv 1</span><span><i class="sk-none"></i>Not rated</span></p>
             </div>
             <div>
               <h3>Strongest skills</h3>
-              <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up<span class="sk-lv">4.5</span></a><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6"><span class="rs-dot rs-sys"></span>Systems Engineering<span class="sk-lv">4.5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b"><span class="rs-dot rs-sys"></span>Verification &amp; Validation<span class="sk-lv">4.5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47"><span class="rs-dot rs-elec"></span>Communication Protocols<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59"><span class="rs-dot rs-elec"></span>Hardware Drivers<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=e3d3972c0ba64a6e8c455c0c7d713549"><span class="rs-dot rs-soft"></span>Python<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be"><span class="rs-dot rs-sys"></span>Requirements<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=772257571a524cb99a05eb7abb0e0a39"><span class="rs-dot rs-elec"></span>Serial Protocols<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c814286f6d2847d2cd706"><span class="rs-dot rs-sys"></span>System Architecture &amp; Interfaces<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5"><span class="rs-dot rs-sys"></span>Technical Communication<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81c1bb0ddb05b15f0516"><span class="rs-dot rs-sys"></span>Agile &amp; Execution<span class="sk-lv">3.5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c818085cbd9ee93062872"><span class="rs-dot rs-mech"></span>CAD<span class="sk-lv">3.5</span></a></div>
+              <div class="rs-skills"><a class="rs-chip" href="skills.html#skill=2c38f022083c80bc8d3cdae9a01382e6"><span class="rs-dot rs-sys"></span>Systems Engineering<span class="sk-lv">5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81459069f73257199ab5"><span class="rs-dot rs-sys"></span>Technical Communication<span class="sk-lv">5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c8132b655ed8de12af58b"><span class="rs-dot rs-sys"></span>Verification &amp; Validation<span class="sk-lv">5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81ba9768f25892925d70"><span class="rs-dot rs-sys"></span>Integration &amp; Bring-up<span class="sk-lv">4.5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81bead96cedad1b4a0be"><span class="rs-dot rs-sys"></span>Requirements<span class="sk-lv">4.5</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81c1bb0ddb05b15f0516"><span class="rs-dot rs-sys"></span>Agile &amp; Execution<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81fcb497e468bd286f47"><span class="rs-dot rs-elec"></span>Communication Protocols<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c81ffa836f10151fd57a5"><span class="rs-dot rs-sys"></span>Diagramming &amp; Design Tools<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=1968f022083c8024b141e06108fb45d8"><span class="rs-dot rs-sys"></span>DrawIO<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=1688f022083c80b69517ee999072f11a"><span class="rs-dot rs-soft"></span>Foxglove Studios<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=4038f022083c815781aeffd54bbafc59"><span class="rs-dot rs-elec"></span>Hardware Drivers<span class="sk-lv">4</span></a><a class="rs-chip" href="skills.html#skill=12d8f022083c8047a12fdd4fd0e72dde"><span class="rs-dot rs-mech"></span>Onshape<span class="sk-lv">4</span></a></div>
             </div>
           </div>
           <a class="sk-cta" href="skills.html">Explore the full skill graph <i class="bi bi-arrow-right"></i></a>
@@ -706,6 +687,8 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="assets/js/site-popups.js?v=1"></script>
+  <script src="assets/js/resume.js?v=6"></script>
+  <script src="assets/js/skill-map.js?v=2"></script>
 
 </body>
 
