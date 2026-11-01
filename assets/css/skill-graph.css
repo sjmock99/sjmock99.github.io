@@ -103,6 +103,8 @@
 #skill-graph .sg-blurb { margin: -4px 0 0; font-size: 14px; line-height: 1.5; color: var(--sg-ink); }
 #skill-graph .sg-notion { align-self: flex-start; font: 600 13px var(--default-font); color: #fff; background: var(--sg-ink); border-radius: 6px; padding: 5px 12px; text-decoration: none; }
 #skill-graph .sg-notion:hover { background: var(--accent-color); color: #fff; }
+#skill-graph .sg-page { align-self: flex-start; font: 600 14px var(--default-font); color: var(--accent-color); text-decoration: none; }
+#skill-graph .sg-page:hover { text-decoration: underline; }
 #skill-graph .sg-updated a { color: var(--accent-color); }
 #skill-graph .sg-updated { font-family: var(--sg-mono); font-size: 11px; color: var(--sg-muted); margin: 0; }
 

@@ -64,8 +64,19 @@
   .fields label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
   .fields input[type=text], .fields input[type=url] { width: 230px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; color: var(--ink); font-size: 13px; }
   .fields input[type=month] { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; color: var(--ink); font-size: 13px; }
+  /* Needs review: pages Claude wrote or changed; "Reviewed" clears the flag. */
+  button.review { font-size: 12px; padding: 1px 8px; border-color: #e0b44a; background: #fff7e0; color: #7a5500; }
+  button.review:hover { border-color: #b8860b; }
+  #reviewBtn { border-color: #e0b44a; background: #fff7e0; color: #7a5500; font-weight: 600; }
+  #reviewBtn[aria-pressed="true"] { background: #e0b44a; color: #fff; }
+  .tab-count { display: inline-block; min-width: 18px; margin-left: 4px; padding: 0 5px; border-radius: 9px; background: #e0b44a; color: #fff; font-size: 11px; line-height: 16px; }
   .badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; border-radius: 4px; padding: 1px 6px; background: var(--faint); color: var(--muted); }
   .note { font-size: 12px; color: var(--muted); margin: 0; }
+  /* Skills tab: which projects / jobs / degrees use each skill. Click one to jump to its card. */
+  .used-in { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .used-in button { border: 0; background: none; padding: 0; font: inherit; color: var(--accent, #1f6fb8); cursor: pointer; }
+  .used-in button:hover { text-decoration: underline; }
+  .proj.flash { background: #fff7e0; transition: background .3s; }
   .title-input { font: 700 16px inherit; font-family: inherit; color: var(--ink); background: transparent; border: 1px dashed transparent; border-radius: 4px; padding: 2px 6px; margin-left: -6px; min-width: 260px; field-sizing: content; }
   .auto-title { font-size: 16px; }
   .title-input:hover { border-color: var(--line); }
@@ -83,9 +94,10 @@
       <div class="muted">Edits save to Notion as soon as you change them. Running only on this computer.</div>
     </div>
     <div class="bar">
+      <button id="reviewBtn" aria-pressed="false" title="Show only what Claude wrote or changed that you haven't checked yet" hidden>Needs review</button>
       <button id="reloadBtn" title="Fetch everything again from Notion">Reload from Notion</button>
-      <label class="muted" title="Preview only: also writes non-Public pages into skills.json and the index.html resume. Don't commit while it's on."><input type="checkbox" id="showAll"> include non-Public</label>
-      <button id="syncBtn" class="primary" title="Rebuild assets/data/skills.json for the site">Update site data</button>
+      <button id="previewBtn" title="Build a copy of the site that includes non-Public pages, only on this computer (nothing is committed)">Preview drafts</button>
+      <button id="syncBtn" class="primary" title="Rebuild the site files (skills.json, the homepage, project pages and photos) from Notion">Update site data</button>
     </div>
   </header>
   <pre id="log" hidden></pre>
@@ -163,6 +175,7 @@
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   let recs = new Map(), hubs = {}, labelToId = new Map(), idToLabel = new Map();
+  let reviewOnly = false;  // "Needs review" button: show only pages still flagged
 
   async function api(path, body) {
     const r = await fetch("/api/" + path, body === undefined ? {} : {
@@ -212,13 +225,33 @@
   const ratingSelect = (kind, value) => `<select data-act="${kind}" aria-label="${kind}">${RATING_OPTS.map(v =>
     `<option value="${v ?? ""}"${v === value ? " selected" : ""} title="${levelName(v)}">${v == null ? "—" : `${v} · ${levelName(v)}`}</option>`).join("")}</select>`;
 
+  const reviewBtn = r => r.needs_review
+    ? `<button class="review" data-act="reviewed" title="Claude wrote or changed this. Click once you've checked it.">Mark reviewed</button>` : "";
+
+  // Skill id -> the projects / jobs / degrees that list it in "Skills used" (rebuilt on every render).
+  let usedBy = new Map();
+  const isItem = r => isProject(r) || isExperience(r);
+  // Short name for an item: jobs and degrees by organization, with the start year when an organization repeats.
+  function shortName(p) {
+    if (!isExperience(p)) return p.name;
+    const org = p.organization || p.name;
+    const twins = [...recs.values()].filter(x => isExperience(x) && (x.organization || x.name) === org).length;
+    return twins > 1 && p.start ? `${org} ’${p.start.slice(2, 4)}` : org;
+  }
+  const usedInLine = (r, depth) => {
+    const items = (usedBy.get(r.id) || []).sort((a, b) => (b.start || "").localeCompare(a.start || ""));
+    if (!items.length || hubs[r.id]) return "";
+    return `<div class="used-in" style="margin-left:${Math.max(0, depth - 1) * 18 + 21}px">Used in: ${items.map(p =>
+      `<button data-act="goto" data-item="${p.id}" title="${esc(p.name)}${p.public ? "" : " (not on the site: Public is unticked)"}">${esc(shortName(p))}${p.public ? "" : " (not public)"}</button>`).join(" · ")}</div>`;
+  };
+
   function skillRow(r, depth, disc) {
     const hub = !!hubs[r.id];
     return `<tr data-id="${r.id}" class="${hub ? "hub" : ""}">
       <td><div class="name" style="padding-left:${Math.max(0, depth - 1) * 18}px">
         ${disc ? `<span class="dot" style="background:var(--c-${disc})"></span>` : ""}
-        <span>${esc(r.name)}</span>${r.url ? `<a href="${esc(r.url)}" target="_blank" title="Open in Notion">↗</a>` : ""}</div>
-        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb…" aria-label="Public blurb for ${esc(r.name)}" style="margin-left:${Math.max(0, depth - 1) * 18 + 15}px">${esc(r.blurb)}</textarea></td>
+        <span>${esc(r.name)}</span>${r.url ? `<a href="${esc(r.url)}" target="_blank" title="Open in Notion">↗</a>` : ""}${reviewBtn(r)}</div>
+        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb…" aria-label="Public blurb for ${esc(r.name)}" style="margin-left:${Math.max(0, depth - 1) * 18 + 15}px">${esc(r.blurb)}</textarea>${usedInLine(r, depth)}</td>
       <td>${hub ? "" : ratingSelect("rating", r.rating)}</td>
       <td>${hub ? "" : ratingSelect("target", r.target)}</td>
       <td>${hub ? "" : `<input class="parent-input" list="skillNames" data-act="parent" value="${esc(idToLabel.get(r.parent) || "")}" placeholder="(none)" aria-label="Parent skill">`}</td>
@@ -239,7 +272,9 @@
           ${mode === "exp" ? `<span class="badge">${edu ? "Degree" : "Job"}</span>` : ""}
           ${mode === "exp" ? `<strong class="auto-title" title="Set automatically from Organization and ${edu ? "Degree" : "Role"}">${esc(p.name)}</strong>`
             : `<input class="title-input" data-act="name" value="${esc(p.name)}" aria-label="Name" title="Rename (this is the Notion page title and the name shown on the site)">`}${p.url ? `<a href="${esc(p.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
+          ${reviewBtn(p)}
           <label class="muted"><input type="checkbox" data-act="public"${p.public ? " checked" : ""}> Public</label>
+          ${mode === "exp" ? "" : `<label class="muted" title="Featured projects come first on the homepage"><input type="checkbox" data-act="featured"${p.featured ? " checked" : ""}> Featured</label>`}
           <button class="trash" data-act="trash" title="Move ${esc(p.name)} to Notion's Trash" aria-label="Delete ${esc(p.name)}">🗑</button>
           <span class="status"></span>
         </div>
@@ -252,7 +287,7 @@
           ${mode === "exp" && !edu ? `<span class="note">(leave “To” empty if current)</span>` : ""}
         </div>
         <textarea class="blurb" data-act="blurb" rows="1" placeholder="Public blurb (one line)…" aria-label="Public blurb for ${esc(p.name)}" style="margin:0">${esc(p.blurb)}</textarea>
-        <p class="note">Detailed text on the site comes from the page's <b>🌐 Public</b> heading in ${p.url ? `<a href="${esc(p.url)}" target="_blank">Notion ↗</a>` : "Notion"}.</p>
+        <p class="note">Detailed text on the site comes from the page's <b>🌐 Public</b> heading in ${p.url ? `<a href="${esc(p.url)}" target="_blank">Notion ↗</a>` : "Notion"}${mode === "exp" ? "" : `; photos from the <b>📷 Photos</b> toggle under it (the page cover, if set, is the card image)`}.</p>
         <div class="chips">${p.skills_used.map(id => {
           const s = recs.get(id), pl = s && place(s);
           return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
@@ -263,8 +298,24 @@
 
   function render() {
     buildLabels();
+    usedBy = new Map();
+    [...recs.values()].filter(isItem).forEach(p => p.skills_used.forEach(id => {
+      if (!usedBy.has(id)) usedBy.set(id, []);
+      usedBy.get(id).push(p);
+    }));
     const q = $("#filter").value.trim().toLowerCase();
-    const match = r => !q || r.name.toLowerCase().includes(q);
+    const flagged = [...recs.values()].filter(r => r.needs_review);
+    if (!flagged.length) reviewOnly = false;
+    $("#reviewBtn").hidden = !flagged.length;
+    $("#reviewBtn").textContent = reviewOnly ? `Show everything` : `Needs review (${flagged.length})`;
+    $("#reviewBtn").setAttribute("aria-pressed", String(reviewOnly));
+    // Each tab shows how many of its pages still need a look.
+    const counts = { skills: flagged.filter(isSkill).length, projects: flagged.filter(isProject).length, experience: flagged.filter(isExperience).length };
+    document.querySelectorAll("[data-tab]").forEach(b => {
+      b.querySelector(".tab-count")?.remove();
+      if (counts[b.dataset.tab]) b.insertAdjacentHTML("beforeend", `<span class="tab-count">${counts[b.dataset.tab]}</span>`);
+    });
+    const match = r => (!reviewOnly || r.needs_review) && (!q || r.name.toLowerCase().includes(q));
     const skills = [...recs.values()].filter(isSkill);
     const kids = new Map();
     skills.forEach(s => { if (s.parent) { if (!kids.has(s.parent)) kids.set(s.parent, []); kids.get(s.parent).push(s); } });
@@ -310,11 +361,11 @@
     try {
       const rec = await api(action, { id, value, ...extra });
       recs.set(rec.id, rec);
-      const keepFocus = action === "skills-used" || action === "parent";
+      const keepFocus = action === "add-skills" || action === "remove-skills" || action === "parent";
       if (keepFocus) render();
       const row = document.querySelector(`[data-id="${rec.id}"]`);
       if (row) setStatus(row.querySelector(".status"), "ok", "saved ✓");
-      if (keepFocus && action === "skills-used") row?.querySelector('[data-act="add-skill"]')?.focus();
+      if (keepFocus && action === "add-skills") row?.querySelector('[data-act="add-skill"]')?.focus();
     } catch (e) {
       render();  // put the control back to the saved value
       const row = document.querySelector(`[data-id="${id}"]`);
@@ -335,6 +386,7 @@
     if (!act) return;
     if (act === "rating" || act === "target") save(el, act, el.value === "" ? null : Number(el.value));
     if (act === "public") save(el, "public", el.checked);
+    if (act === "featured") save(el, "featured", el.checked);
     if (act === "blurb") save(el, "blurb", el.value);
     if (act === "field") save(el, "field", el.value, { field: el.dataset.field }).then(() => {
       // Jobs / degrees: the page name follows Organization and Role, so show the new one.
@@ -362,7 +414,7 @@
       if (!id) { setStatus(el, "err", "pick a skill from the list"); return; }
       const p = recs.get(el.closest("[data-id]").dataset.id);
       if (p.skills_used.includes(id)) { el.value = ""; return; }
-      save(el, "skills-used", [...p.skills_used, id]);
+      save(el, "add-skills", [id]);
     }
   });
 
@@ -393,9 +445,20 @@
         showLog(`Moved "${r.name}" to Notion's Trash. Restore it from Trash in Notion if that was a mistake.`);
       }).catch(err => { el.disabled = false; setStatus(el, "err", err.message); });
     }
+    if (el.dataset.act === "reviewed") {
+      save(el, "needs-review", false).then(render);
+    }
     if (el.dataset.act === "remove-skill") {
       const p = recs.get(el.closest("[data-id]").dataset.id);
-      save(el, "skills-used", p.skills_used.filter(id => id !== el.dataset.skill));
+      save(el, "remove-skills", [el.dataset.skill]);
+    }
+    if (el.dataset.act === "goto") {
+      // Jump to that project / job card: switch tabs, scroll to it and flash it.
+      const p = recs.get(el.dataset.item);
+      document.querySelector(`[data-tab="${isProject(p) ? "projects" : "experience"}"]`).click();
+      const card = document.querySelector(`.proj[data-id="${p.id}"]`);
+      if (card) { card.scrollIntoView({ block: "center" }); card.classList.add("flash"); setTimeout(() => card.classList.remove("flash"), 1200); }
+      return;
     }
     if (el.dataset.tab) {
       document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b === el));
@@ -405,6 +468,7 @@
   });
 
   $("#filter").addEventListener("input", render);
+  $("#reviewBtn").onclick = () => { reviewOnly = !reviewOnly; render(); };
 
   $("#newRating").innerHTML = RATING_OPTS.map(v => `<option value="${v ?? ""}">${v == null ? "Rating —" : v}</option>`).join("");
   const addStatus = (cls, text) => { $("#addStatus").className = "status " + cls; $("#addStatus").textContent = text; };
@@ -488,11 +552,17 @@
   $("#reloadBtn").onclick = e => busy(e.target, async () => { await api("reload", {}); await load(); showLog("Reloaded from Notion."); });
   $("#syncBtn").onclick = e => busy(e.target, async () => {
     showLog("Reading Notion and rebuilding the site files…");
-    const r = await api("sync", { showAll: $("#showAll").checked });
+    const r = await api("sync", {});
     await load();  // the admin's lists now match what was just read
-    showLog(r.message + ($("#showAll").checked
-      ? "\n\n⚠ Preview only: non-Public pages are included. Click Update site data again with \"include non-Public\" off before committing."
-      : "\nRefresh the site to see it. Commit and push to put it on the live site."));
+    showLog(r.message + "\nRefresh the site to see it. Commit and push to put it on the live site.");
+  });
+  $("#previewBtn").onclick = e => busy(e.target, async () => {
+    showLog("Building a preview with drafts included (downloading any new photos)…");
+    const tab = window.open("", "sg-preview");  // opened now, while it still counts as a click, so it isn't blocked
+    const r = await api("preview", {});
+    await load();
+    if (tab) tab.location = "/preview/";
+    showLog(r.message + `\nPreview: ${location.origin}/preview/ (only on this computer; your real site files weren't touched).`);
   });
 
   load().catch(e => showLog("Couldn't load: " + e.message));

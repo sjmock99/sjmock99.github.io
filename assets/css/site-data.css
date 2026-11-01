@@ -11,9 +11,115 @@
 .rs-mech { background: var(--rs-mech); } .rs-elec { background: var(--rs-elec); } .rs-soft { background: var(--rs-soft); }
 .rs-sys { background: var(--rs-sys); } .rs-oth { background: var(--rs-oth); }
 .rs-more { display: inline-block; margin-top: 0.6rem; font-size: 0.85rem; font-weight: 500; color: var(--accent-color); }
-/* Degree details come from Notion as bullets; show them as plain lines like before. */
-.resume .education-content .edu-details { list-style: none; padding: 0; margin: 0; }
-.resume .education-content .edu-details li { color: color-mix(in srgb, var(--default-color), transparent 30%); font-size: 0.9rem; line-height: 1.5; }
+/* ---- Even spacing: every section is 40px top and bottom (80px between sections), every title sits 40px above its
+   content, and nothing inside a section adds extra space at its end (so all the gaps between sections match) ---- */
+section, .section { padding: 40px 0; }
+.section-title { padding-bottom: 40px; }
+.resume .experience-cards > .experience-card:last-child { margin-bottom: 0; }
+.about .about-content .skills-grid { margin-bottom: 0; }
+.services .service-item { height: 100%; }
+
+/* ---- Resume spacing: Education and Professional Experience share the same edges, with room between them ---- */
+.resume .education-section, .resume .experience-section { padding-left: 0; padding-right: 0; }
+.resume .education-section { margin-bottom: 3.5rem; }
+.resume .section-header { margin-bottom: 1.5rem; }
+.resume .section-header h2 { margin-bottom: 0; }
+
+/* ---- Education: compact cards side by side (one column on phones); a GPA bullet shows as a badge ---- */
+.edu-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.edu-card { background: var(--surface-color); border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%); border-radius: 12px;
+  padding: 1.4rem 1.5rem; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .3s ease; }
+.edu-card:hover { box-shadow: 0 10px 30px color-mix(in srgb, var(--default-color), transparent 92%); }
+.edu-card-head { display: flex; align-items: center; gap: 12px; }
+.edu-card h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 2px; }
+.edu-card h4 { font-size: 0.9rem; font-weight: 500; margin: 0; color: color-mix(in srgb, var(--default-color), transparent 25%); }
+.edu-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.edu-year { font-size: 0.85rem; font-weight: 600; color: var(--accent-color); background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  padding: 3px 10px; border-radius: 20px; }
+.edu-gpa { font-size: 0.85rem; font-weight: 700; color: #fff; background: var(--accent-color); padding: 3px 10px; border-radius: 20px; letter-spacing: .02em; }
+.edu-card p { margin: 0; font-size: 0.9rem; }
+.edu-card .edu-details { list-style: none; padding: 0; margin: 0; }
+.edu-card .edu-details li { color: color-mix(in srgb, var(--default-color), transparent 30%); font-size: 0.9rem; line-height: 1.5; }
+.edu-card .rs-skills { margin-top: 4px; }
+.edu-card .edu-logo { width: 44px; height: 44px; padding: 4px; margin: 0; vertical-align: 0; border-radius: 8px; }
+.edu-card .edu-logo.logo-initials { font-size: 0.85rem; }
+@media (max-width: 576px) { .edu-cards { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- Professional Experience timeline: a row per job on a shared time axis (left / width are % of it) ---- */
+.tl { --tl-label: 240px; --tl-gap: 16px; --tl-line: color-mix(in srgb, var(--default-color), transparent 88%);
+  background: var(--surface-color); border-radius: 12px; padding: 18px 22px 14px; margin-bottom: 32px;
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--default-color), transparent 92%); }
+.tl-axis, .tl-row { display: grid; grid-template-columns: var(--tl-label) minmax(0, 1fr); gap: var(--tl-gap); align-items: center; }
+.tl-years { position: relative; height: 34px; font-size: 0.75rem; color: color-mix(in srgb, var(--default-color), transparent 40%); }
+.tl-years > span { position: absolute; bottom: 0; padding-left: 4px; font-variant-numeric: tabular-nums; }
+.tl-years b { font-weight: 500; }
+.tl-years i { display: none; font-style: normal; }
+.tl-years .tl-today { top: 0; bottom: auto; padding: 0; transform: translateX(-50%); font-weight: 600; color: var(--accent-color); }
+.tl-body { position: relative; }
+.tl-grid { position: absolute; top: 0; bottom: 0; left: calc(var(--tl-label) + var(--tl-gap)); right: 0; pointer-events: none; }
+.tl-grid i { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--tl-line); }
+.tl-grid .tl-today-line { border-left: 2px solid color-mix(in srgb, var(--accent-color), transparent 55%); }
+.tl-rows { list-style: none; margin: 0; padding: 0; }
+.tl-row { padding: 6px 8px; margin: 0 -8px; border-radius: 8px; color: var(--default-color); text-decoration: none; }
+a.tl-row:hover { background: color-mix(in srgb, var(--accent-color), transparent 93%); color: var(--default-color); }
+a.tl-row:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 1px; }
+.tl-label { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.tl-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.tl-label b, .tl-label small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-label b { font-size: 0.9rem; font-weight: 600; color: var(--heading-color); }
+.tl-label small { font-size: 0.75rem; color: color-mix(in srgb, var(--default-color), transparent 35%); }
+.tl-track { position: relative; height: 12px; border-radius: 6px; background: color-mix(in srgb, var(--default-color), transparent 95%); }
+.tl-bar { position: absolute; top: 0; bottom: 0; min-width: 6px; border-radius: 6px; background: var(--accent-color); transition: filter .15s ease; }
+a.tl-row:hover .tl-bar { filter: brightness(1.15); }
+/* Current job: fades toward now, with a dot at the end. */
+.tl-now { background: linear-gradient(90deg, var(--accent-color) 55%, color-mix(in srgb, var(--accent-color), #fff 35%)); }
+.tl-now::after { content: ""; position: absolute; right: -4px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%;
+  background: #fff; border: 3px solid var(--accent-color); }
+.tl-row-edu .tl-track { height: 20px; border-radius: 6px; }
+.tl-edu { background: color-mix(in srgb, var(--accent-color), transparent 78%); border-radius: 6px; display: flex; align-items: center; overflow: hidden; }
+.tl-edu span { padding: 0 6px; font-size: 0.7rem; font-weight: 600; color: var(--heading-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 768px) {
+  .tl { --tl-label: 150px; --tl-gap: 10px; padding: 14px 14px 10px; }
+}
+/* Phones: the name goes above its bar, and years shrink to ’19. */
+@media (max-width: 576px) {
+  .tl-axis, .tl-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .tl-axis > .tl-label { display: none; }
+  .tl-grid { left: 0; }
+  .tl-text { flex-direction: row; gap: 6px; align-items: baseline; }
+  .tl-years b { display: none; }
+  .tl-years i { display: inline; }
+}
+@media (prefers-reduced-motion: reduce) { .tl-bar { transition: none; } }
+
+/* ---- Logos: each job's / school's Notion page icon, or its initials when it has none ---- */
+.exp-logo, .edu-logo, .tl-logo { flex: none; object-fit: contain; border-radius: 6px; background: #fff;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 88%); }
+.exp-logo { width: 56px; height: 56px; padding: 5px; margin-right: 16px; border-radius: 8px; }
+.edu-logo { width: 28px; height: 28px; padding: 3px; margin-right: 10px; vertical-align: -8px; border-radius: 5px; }
+.tl-logo { width: 28px; height: 28px; padding: 3px; border-radius: 5px; }
+.logo-initials { display: inline-grid; place-items: center; padding: 0; font-family: var(--heading-font); font-weight: 700; letter-spacing: -.02em;
+  color: var(--heading-color); background: color-mix(in srgb, var(--accent-color), transparent 90%); border-color: transparent; }
+.exp-logo.logo-initials { font-size: 1rem; }
+.edu-logo.logo-initials, .tl-logo.logo-initials { font-size: 0.68rem; }
+@media (max-width: 576px) { .exp-logo { width: 46px; height: 46px; margin-right: 12px; } }
+.resume .experience-card .role-info { min-width: 0; }
+
+/* ---- Job cards: the bullets fold away; a chevron in the header (or a click anywhere on the header) opens them ---- */
+.resume .experience-card { scroll-margin-top: 90px; }
+.resume .experience-card .card-header:has(.exp-toggle) { cursor: pointer; }
+/* Keep the dates on the right with the chevron beside them. */
+.resume .experience-card .card-header .duration { margin-left: auto; }
+.exp-toggle { flex: none; align-self: center; width: 30px; height: 30px; display: grid; place-items: center; margin-left: 4px; padding: 0;
+  border: 0; border-radius: 50%; background: transparent; color: color-mix(in srgb, var(--default-color), transparent 45%); cursor: pointer; }
+.exp-toggle:hover, .card-header:hover .exp-toggle { background: color-mix(in srgb, var(--accent-color), transparent 90%); color: var(--accent-color); }
+.exp-toggle:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+.exp-toggle i { transition: transform .2s ease; }
+.exp-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+.resume .experience-card .exp-more { margin-top: 1rem; }
+/* Opened from the timeline: a brief highlight so it's easy to spot. */
+.resume .experience-card.exp-flash { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 50%); transition: box-shadow .3s ease; }
+@media (prefers-reduced-motion: reduce) { .exp-toggle i { transition: none; } }
 
 /* ---- Skills section preview ---- */
 .sk-preview { max-width: 980px; margin: 0 auto; background: var(--surface-color); border-radius: 12px; padding: 28px 32px;
@@ -46,7 +152,7 @@
   .sk-cols { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---- skill graph pop-up (assets/js/skill-drawer.js) ---- */
+/* ---- pop-ups: skill graph and projects (assets/js/site-popups.js) ---- */
 html.sg-drawer-open, html.sg-drawer-open body { overflow: hidden; }
 .sg-drawer { position: fixed; inset: 0; z-index: 10000; }
 .sg-drawer-backdrop { position: absolute; inset: 0; background: rgba(10, 22, 40, .45); opacity: 0; transition: opacity .25s ease; }

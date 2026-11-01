@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01 09:51 UTC",
+ "updated": "2026-11-01 18:51 UTC",
  "source": "notion",
  "skills": [
   {
@@ -75,6 +75,22 @@
    "blurb": "Tracking every part in a build, its source and cost, and keeping the budget in check."
   },
   {
+   "id": "40b8f022083c812f9a16e8513140ff61",
+   "name": "Breadboarding & Prototyping",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Building and testing circuits on breadboards and protoboards before committing to a PCB."
+  },
+  {
+   "id": "40b8f022083c818ca917d12bbac2564c",
+   "name": "C",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 2,
+   "target": null,
+   "blurb": "The low-level language behind most firmware: pointers, memory and talking to hardware registers."
+  },
+  {
    "id": "21299b93bc724631a2263b552fc6a22c",
    "name": "C++",
    "parent": "4038f022083c81d6af80c9736fcf25ac",
@@ -107,6 +123,14 @@
    "blurb": "Computer-aided design: modeling parts and assemblies in 3D and turning them into drawings."
   },
   {
+   "id": "40b8f022083c815da7ace92459a613c6",
+   "name": "Cameras",
+   "parent": "4038f022083c81d8a94be768ea0561d1",
+   "rating": 3,
+   "target": null,
+   "blurb": "Setting up cameras used for computer vision."
+  },
+  {
    "id": "2b98f022083c8008be27ede7a42be0fb",
    "name": "CAN Communication",
    "parent": "4038f022083c81fcb497e468bd286f47",
@@ -124,11 +148,11 @@
   },
   {
    "id": "2938f022083c80c0bcf6f83ff7ebab1e",
-   "name": "Circuit Design & Prototyping",
+   "name": "Circuit Design",
    "parent": "40b8f022083c81518b5fc08e6d50f8a9",
    "rating": 2.5,
    "target": null,
-   "blurb": "Sketching schematics, breadboarding and wiring up working circuit prototypes."
+   "blurb": "Designing circuits on paper: schematics, choosing parts and values, and checking the math."
   },
   {
    "id": "40b8f022083c81518b5fc08e6d50f8a9",
@@ -419,6 +443,14 @@
    "blurb": "Designing and building wire harnesses: routing, strain relief, crimping and labeling."
   },
   {
+   "id": "40b8f022083c819cbccdcd11def13905",
+   "name": "HITL Testing",
+   "parent": "4038f022083c8132b655ed8de12af58b",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Hardware-in-the-loop testing: running real software against real hardware, with the rest of the system simulated."
+  },
+  {
    "id": "40b8f022083c8157acf8db6a25bcddbd",
    "name": "Humidity / Temperature Sensors",
    "parent": "1d552ffc3982412f8bc04215fc397393",
@@ -521,6 +553,14 @@
    "rating": 3,
    "target": null,
    "blurb": "Infrared hand-tracking camera for capturing finger and hand motion."
+  },
+  {
+   "id": "40b8f022083c81018de9d045750c63cf",
+   "name": "LEDs & Lighting",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 3,
+   "target": null,
+   "blurb": "Designing product lighting: LEDs, LED drivers and PWM dimming, with power and heat in mind."
   },
   {
    "id": "40b8f022083c8104a666fef5c2ed2967",
@@ -843,6 +883,14 @@
    "blurb": "Small single-board Linux computer used for prototypes, robots and camera projects."
   },
   {
+   "id": "40b8f022083c81daa1a0f783a628884b",
+   "name": "Regression Testing",
+   "parent": "4038f022083c8132b655ed8de12af58b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Re-running a test suite after every change to catch anything that broke what used to work."
+  },
+  {
    "id": "4038f022083c81bead96cedad1b4a0be",
    "name": "Requirements",
    "parent": "2c38f022083c80bc8d3cdae9a01382e6",
@@ -873,6 +921,14 @@
    "rating": 3.5,
    "target": null,
    "blurb": "Multi-joint manipulators: design, kinematics and control of arms that reach and grasp."
+  },
+  {
+   "id": "40b8f022083c81b08df4fcb55c9f3be8",
+   "name": "Root Cause Analysis",
+   "parent": "4038f022083c81e6a2adc0c95aa35eda",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Tracing failures back to their real cause with testing, teardown and data, then fixing it for good."
   },
   {
    "id": "5c976dd32bc0479482f6ab0c6c738005",
@@ -1005,7 +1061,7 @@
   {
    "id": "40b8f022083c81ab8a9fc6147d4220dc",
    "name": "Soldering",
-   "parent": "2938f022083c80c0bcf6f83ff7ebab1e",
+   "parent": "40b8f022083c812f9a16e8513140ff61",
    "rating": 3,
    "target": null,
    "blurb": "Joining wires and components into reliable electrical connections."
@@ -1243,6 +1299,14 @@
    "blurb": "Building websites and web apps: HTML, CSS, JavaScript and backends."
   },
   {
+   "id": "40b8f022083c81808f4afbdee0c92ed3",
+   "name": "WebRTC",
+   "parent": "6b4e076b347b4e31a50148c0ac98f37a",
+   "rating": 2,
+   "target": null,
+   "blurb": "Real-time audio and video streaming between browsers and devices, used for live teleoperation feeds."
+  },
+  {
    "id": "3fe8f022083c80e290f8c0a76f2700f0",
    "name": "Windows",
    "parent": "4038f022083c81c791e3d1d950b5750b",
@@ -1276,13 +1340,44 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "9ff7f497ae3b40dca64c9a8b8bdde978",
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c81f9a056fadef2c6641a",
-    "4038f022083c814ea232fdf49f25d945"
+    "4038f022083c814ea232fdf49f25d945",
+    "40b8f022083c81018de9d045750c63cf"
    ],
-   "details": "<p><i>(Shown on the website once Public is ticked: everything down to the next big heading. Lines in brackets like this one are hidden, so you can leave them.)</i></p><h5>What it is</h5><p><i>(one or two sentences: what it is and why you built it)</i></p><h5>What I did</h5><ul><li>(your part: design, build, code, testing)</li></ul><h5>Result</h5><ul><li>(what came out of it: numbers, a demo, what you learned)</li></ul><p><b>📷 Photos</b></p><p><i>(drag photos in here; the first one is the card image unless the page has a cover. Captions show on the site)</i></p>"
+   "cover": null,
+   "videos": 0,
+   "page": "projects/led-lamp.html",
+   "photos": 0
+  },
+  {
+   "id": "4098f022083c816989f6e5db1a98648f",
+   "name": "Sample Project (test, delete me)",
+   "blurb": "A test project with random photos to preview the new project pages.",
+   "organization": "Personal",
+   "start": "2025-03-01",
+   "end": "2025-06-01",
+   "link": "https://github.com/sjmock99",
+   "featured": true,
+   "skills": [
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81459069f73257199ab5",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c818085cbd9ee93062872",
+    "2b98f022083c8008be27ede7a42be0fb",
+    "4038f022083c81ea86e0fdc9312f1a92",
+    "4038f022083c8168b005ee81637a068c",
+    "4038f022083c815d9cafd2ef2ceed783",
+    "4038f022083c81f08e16f687f85fca7f"
+   ],
+   "cover": "assets/img/projects/sample-project-test-delete-me/f83cdca0bbec-sm.webp",
+   "videos": 3,
+   "page": "projects/sample-project-test-delete-me.html",
+   "photos": 7
   },
   {
    "id": "4038f022083c819b9fd8c2ae3ff2482c",
@@ -1292,6 +1387,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "27a1f2b53ec04b208e076c7970b6d0e5",
     "772257571a524cb99a05eb7abb0e0a39",
@@ -1300,7 +1396,10 @@
     "e3d3972c0ba64a6e8c455c0c7d713549",
     "d3501bb2ec4045a6a41da1bd32a6debe"
    ],
-   "details": "<p><i>(Shown on the website once Public is ticked: everything down to the next big heading. Lines in brackets like this one are hidden, so you can leave them.)</i></p><h5>What it is</h5><p><i>(one or two sentences: what it is and why you built it)</i></p><h5>What I did</h5><ul><li>(your part: design, build, code, testing)</li></ul><h5>Result</h5><ul><li>(what came out of it: numbers, a demo, what you learned)</li></ul><p><b>📷 Photos</b></p><p><i>(drag photos in here; the first one is the card image unless the page has a cover. Captions show on the site)</i></p>"
+   "cover": null,
+   "videos": 0,
+   "page": "projects/twitch-cam-v2.html",
+   "photos": 0
   },
   {
    "id": "b6a7eb60515248b2af7a5311dae49954",
@@ -1310,6 +1409,7 @@
    "start": null,
    "end": null,
    "link": null,
+   "featured": false,
    "skills": [
     "5dcc4f8a8cf04917a44825b779c4cedf",
     "27a1f2b53ec04b208e076c7970b6d0e5",
@@ -1325,20 +1425,23 @@
     "40b8f022083c81548ec3c1a101c1ea96",
     "1688f022083c809b8cedd86c37cc174f"
    ],
-   "details": "<p><i>(Shown on the website once Public is ticked: everything down to the next big heading. Lines in brackets like this one are hidden, so you can leave them.)</i></p><h5>What it is</h5><p><i>(one or two sentences: what it is and why you built it)</i></p><h5>What I did</h5><ul><li>(your part: design, build, code, testing)</li></ul><h5>Result</h5><ul><li>(what came out of it: numbers, a demo, what you learned)</li></ul><p><b>📷 Photos</b></p><p><i>(drag photos in here; the first one is the card image unless the page has a cover. Captions show on the site)</i></p>"
+   "cover": null,
+   "videos": 0,
+   "page": "projects/twitchcam-v1.html",
+   "photos": 0
   }
  ],
  "experience": [
   {
    "id": "4078f022083c81c98900f71fd2c5d488",
    "name": "Relativity Space — Robotics Engineer",
-   "blurb": "Industrial robotics and automation: robot arms, EtherCAT/TwinCAT controls and electrical cabinets.",
+   "blurb": "Robotics system and mechatronics engineering for Horizon Manufacturing metal 3D printers.",
    "organization": "Relativity Space",
    "start": "2026-04-01",
    "end": null,
    "kind": "work",
    "role": "Robotics Engineer",
-   "location": "",
+   "location": "Long Beach, CA",
    "skills": [
     "21299b93bc724631a2263b552fc6a22c",
     "b30c71b9be8e4be08e5b80f4b73c7705",
@@ -1346,7 +1449,6 @@
     "2c38f022083c80bc8d3cdae9a01382e6",
     "4038f022083c815781aeffd54bbafc59",
     "4038f022083c81fcb497e468bd286f47",
-    "2b98f022083c8008be27ede7a42be0fb",
     "772257571a524cb99a05eb7abb0e0a39",
     "3918f022083c80e7b949f46a1cd0f541",
     "63a707011be245f4bc0ce1c4c0968c0c",
@@ -1362,9 +1464,25 @@
     "3fdffc9f4f1143f68b353aebeb273bb2",
     "4038f022083c818c8e0cc9d9128dba95",
     "40b8f022083c81e0a120d2805cd389f5",
-    "40b8f022083c8193a3abc61df7a55e32"
+    "40b8f022083c8193a3abc61df7a55e32",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "40b8f022083c81a78333e8d368500932",
+    "40b8f022083c8104a666fef5c2ed2967",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c8132870fd5644618d779",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "40b8f022083c814690ded8a2af868d58",
+    "40b8f022083c819cbccdcd11def13905",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
-   "details": null
+   "details": "",
+   "logo": {
+    "sm": "assets/img/logos/f06565c03e6c-sm.webp",
+    "lg": "assets/img/logos/f06565c03e6c-lg.webp"
+   }
   },
   {
    "id": "4088f022083c81ff82f1e6cdc3aca8ac",
@@ -1376,8 +1494,44 @@
    "kind": "work",
    "role": "Robotics Engineering Consultant",
    "location": "Los Angeles, CA",
-   "skills": [],
-   "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>"
+   "skills": [
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81c1bb0ddb05b15f0516",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c8132870fd5644618d779",
+    "4038f022083c81e6a2adc0c95aa35eda",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "34a8f022083c801eadf6ed7f6411c2df",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "dbf4d32d91e94753b6283dd6db02ab2b",
+    "2b98f022083c8008be27ede7a42be0fb",
+    "4038f022083c815781aeffd54bbafc59",
+    "4038f022083c81ab933cca6199f6cb33",
+    "40b8f022083c814690ded8a2af868d58",
+    "40b8f022083c81518b5fc08e6d50f8a9",
+    "40b8f022083c81d2b6b7d17df4e81c23",
+    "4038f022083c81c9a227f11f5dfa1029",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81abb0d7f06e67af6607",
+    "40b8f022083c8166a286c3e7d8387e52",
+    "40b8f022083c81018de9d045750c63cf",
+    "40b8f022083c812f9a16e8513140ff61",
+    "40b8f022083c815da7ace92459a613c6",
+    "40b8f022083c81b08df4fcb55c9f3be8"
+   ],
+   "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/93711a72e2f8.svg",
+    "lg": "assets/img/logos/93711a72e2f8.svg"
+   }
   },
   {
    "id": "4088f022083c81adba05e6e8ba1d20a4",
@@ -1415,9 +1569,38 @@
     "40b8f022083c81d18cfdd39ae2089c9c",
     "1688f022083c80b69517ee999072f11a",
     "40b8f022083c8168be5cde6793dfce54",
-    "40b8f022083c81d5a279c86cead35d06"
+    "40b8f022083c81d5a279c86cead35d06",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "40b8f022083c8199ad6dce3f75da0bc9",
+    "1688f022083c809b8cedd86c37cc174f",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "4038f022083c8106b61ac630a92beb7d",
+    "40b8f022083c8123a0a7d92762c1e90e",
+    "40b8f022083c81abb0d7f06e67af6607",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c8159a802f55b200deeb1",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "1448f022083c8044886cfc83a7120b0a",
+    "4038f022083c81c9a227f11f5dfa1029",
+    "40b8f022083c81ab8a9fc6147d4220dc",
+    "40b8f022083c81d2b6b7d17df4e81c23",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c818da6a3c8a2f64bb9f3",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "40b8f022083c819cbccdcd11def13905",
+    "40b8f022083c815da7ace92459a613c6",
+    "40b8f022083c81808f4afbdee0c92ed3",
+    "b30c71b9be8e4be08e5b80f4b73c7705",
+    "40b8f022083c81e395f3e21fe9db355d",
+    "40b8f022083c81daa1a0f783a628884b"
    ],
-   "details": "<ul><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>"
+   "details": "<ul><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/d260b14e58cf-sm.webp",
+    "lg": "assets/img/logos/d260b14e58cf-lg.webp"
+   }
   },
   {
    "id": "4088f022083c81faaac0ddcf4dc53532",
@@ -1433,15 +1616,41 @@
     "2c38f022083c80bc8d3cdae9a01382e6",
     "4038f022083c8132b655ed8de12af58b",
     "4038f022083c81e6a2adc0c95aa35eda",
-    "4038f022083c8168b005ee81637a068c",
     "5c976dd32bc0479482f6ab0c6c738005",
     "dbf4d32d91e94753b6283dd6db02ab2b",
     "772257571a524cb99a05eb7abb0e0a39",
     "3fdffc9f4f1143f68b353aebeb273bb2",
     "4038f022083c8131becdc98a5d43f3dd",
-    "4038f022083c81f19ad9d866db99d2bc"
+    "4038f022083c81f19ad9d866db99d2bc",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81c1bb0ddb05b15f0516",
+    "4038f022083c8132870fd5644618d779",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "40b8f022083c81548ec3c1a101c1ea96",
+    "40b8f022083c817ea78fc6287b43196a",
+    "2938f022083c80c0bcf6f83ff7ebab1e",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c81a6803cec2e8b7a0a8f",
+    "40b8f022083c81d0907afcd081a45fa7",
+    "40b8f022083c81ba8c49f3717bf11baa",
+    "009a07fef6c54471a2fa2a8d22009c5c",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "74117136db1a419591201a04faefab03",
+    "40b8f022083c812f9a16e8513140ff61",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81b08df4fcb55c9f3be8",
+    "40b8f022083c81daa1a0f783a628884b"
    ],
-   "details": "<ul><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>"
+   "details": "<ul><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/027d39dcfc4f-sm.webp",
+    "lg": "assets/img/logos/027d39dcfc4f-lg.webp"
+   }
   },
   {
    "id": "4088f022083c81b6bba8f56c5f519b70",
@@ -1477,9 +1686,30 @@
     "40b8f022083c813b9c1ad47f43af1c3c",
     "40b8f022083c81fda889cbdf00d8be1f",
     "40b8f022083c818494dcede04a10dd09",
-    "2fc8f022083c8004b515f1a4e3ecd6eb"
+    "2fc8f022083c8004b515f1a4e3ecd6eb",
+    "40b8f022083c819cbccdcd11def13905",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c8168b005ee81637a068c",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "40b8f022083c81bea5bdec858ebab0d5",
+    "b30c71b9be8e4be08e5b80f4b73c7705",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "74117136db1a419591201a04faefab03",
+    "40b8f022083c819fa665f55d9b3383ac",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81debfadee50400d063e",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c8166a286c3e7d8387e52"
    ],
-   "details": "<ul><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>"
+   "details": "<ul><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/330bdfff2896-sm.webp",
+    "lg": "assets/img/logos/330bdfff2896-lg.webp"
+   }
   },
   {
    "id": "4088f022083c813e97fae0601fa65499",
@@ -1496,9 +1726,21 @@
     "4038f022083c818085cbd9ee93062872",
     "4048f022083c810db38ff7605a1f794a",
     "4038f022083c816eb3f7cf99088fe3b6",
-    "4038f022083c81c989ddf4081df6500e"
+    "4038f022083c81c989ddf4081df6500e",
+    "74117136db1a419591201a04faefab03",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "c84c8b0f0fd74e5f82e12c2313b29438",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
-   "details": "<ul><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>"
+   "details": "<ul><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/1703c22e3778-sm.webp",
+    "lg": "assets/img/logos/1703c22e3778-lg.webp"
+   }
   },
   {
    "id": "4088f022083c8152a326e405def4314c",
@@ -1511,7 +1753,11 @@
    "role": "Master's of Science in Mechanical Engineering",
    "location": "Atlanta, GA",
    "skills": [],
-   "details": "<ul><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li><li>GPA 4.0/4.0</li></ul>"
+   "details": "<ul><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li><li>GPA 4.0/4.0</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/594a0e886ac9-sm.webp",
+    "lg": "assets/img/logos/594a0e886ac9-lg.webp"
+   }
   },
   {
    "id": "4088f022083c81b9b9bbccd015c21ac9",
@@ -1529,7 +1775,6 @@
     "4038f022083c8106b61ac630a92beb7d",
     "4038f022083c815d9cafd2ef2ceed783",
     "4038f022083c816eb3f7cf99088fe3b6",
-    "80abf2a57f494da28744e9b992a02d60",
     "4038f022083c81bead96cedad1b4a0be",
     "4038f022083c81ba9768f25892925d70",
     "4038f022083c8132870fd5644618d779",
@@ -1537,9 +1782,24 @@
     "4038f022083c81f9a056fadef2c6641a",
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c81459069f73257199ab5",
-    "40b8f022083c818494dcede04a10dd09"
+    "40b8f022083c818494dcede04a10dd09",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "74117136db1a419591201a04faefab03",
+    "4038f022083c811e9ebcecf821d4c61b",
+    "40b8f022083c81378583e1b2e6578e63",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "40b8f022083c816bb4fbf30e033cdcd5",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c8173903ad60ffbc2786f"
    ],
-   "details": "<ul><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href=\"https://ieeexplore.ieee.org/document/9438243\" target=\"_blank\" rel=\"noopener\">paper</a> on decontamination process for MSRH</li></ul>"
+   "details": "<ul><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href=\"https://ieeexplore.ieee.org/document/9438243\" target=\"_blank\" rel=\"noopener\">paper</a> on decontamination process for MSRH</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/635f55e6fb25-sm.webp",
+    "lg": "assets/img/logos/635f55e6fb25-lg.webp"
+   }
   },
   {
    "id": "4088f022083c817aa9c4d154d119a057",
@@ -1556,9 +1816,19 @@
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c816eb3f7cf99088fe3b6",
     "74117136db1a419591201a04faefab03",
-    "4038f022083c81e38b7be114e560096b"
+    "4038f022083c81e38b7be114e560096b",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "4038f022083c81ba9768f25892925d70",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "40b8f022083c818f8f42c926d0eb2b1b",
+    "40b8f022083c812f9a16e8513140ff61",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
-   "details": "<ul><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>"
+   "details": "<ul><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/dd7bd6a7f960-sm.webp",
+    "lg": "assets/img/logos/dd7bd6a7f960-lg.webp"
+   }
   },
   {
    "id": "4088f022083c81e79a11e8f12b2d9495",
@@ -1571,7 +1841,11 @@
    "role": "Bachelor of Science in Mechanical Engineering",
    "location": "Atlanta, GA",
    "skills": [],
-   "details": "<ul><li>Georgia Tech Faculty Honors (2017-2021)</li><li>GPA 4.0/4.0</li></ul>"
+   "details": "<ul><li>Georgia Tech Faculty Honors (2017-2021)</li><li>GPA 4.0/4.0</li></ul>",
+   "logo": {
+    "sm": "assets/img/logos/497094d77c88-sm.webp",
+    "lg": "assets/img/logos/497094d77c88-lg.webp"
+   }
   }
  ]
 }

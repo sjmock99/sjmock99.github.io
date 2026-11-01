@@ -70,7 +70,8 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
+  // Optional: pages without the button would otherwise stop here, before the lightbox below is set up.
+  if (scrollTop) scrollTop.addEventListener('click', (e) => {
     e.preventDefault();
     window.scrollTo({
       top: 0,
