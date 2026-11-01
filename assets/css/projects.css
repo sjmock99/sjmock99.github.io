@@ -53,12 +53,25 @@
 .pj-figure { margin: 18px 0 !important; }
 .pj-figure a { background: color-mix(in srgb, var(--default-color), transparent 95%); }
 .pj-figure img { width: 100%; max-height: 70vh; object-fit: contain; display: block; }
+/* Videos in the text: YouTube / Vimeo players (16:9, or 9:16 for a Short) and copied clips. */
+.pj-video { margin: 18px 0 !important; }
+.pj-frame { display: block; position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
+.pj-video-tall .pj-frame { aspect-ratio: 9 / 16; max-width: 340px; margin: 0 auto; }
+.pj-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.pj-clip video { width: 100%; max-height: 70vh; display: block; border-radius: 12px; background: #000; }
 .pj-h { font-size: 1.35rem; font-weight: 700; margin: 36px 0 14px; }
 .pj-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
 .pj-thumb a { aspect-ratio: 1; border-radius: 10px !important; }
 .pj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
 .pj-thumb a:hover img { transform: scale(1.05); }
 .pj-thumb figcaption { display: none; }  /* shown in the lightbox instead */
+/* Video squares: a clip loops silently; a YouTube / Vimeo one shows its thumbnail. Both get a play button. */
+.pj-thumb a { position: relative; }
+.pj-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pj-play { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(10, 22, 40, .6); color: #fff; font-size: 1.6rem; pointer-events: none; transition: transform .2s ease; }
+.pj-thumb a:hover .pj-play { transform: scale(1.1); }
+.pj-count i + i, .pj-count .bi-play-fill { margin-left: 4px; }
 .pj-skills { margin-top: 18px; }
 .pj-skills-t { font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--default-color), transparent 40%); margin: 0 0 8px; }
 .pj-page .rs-skills { margin-top: 0; }

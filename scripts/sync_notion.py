@@ -159,6 +159,8 @@ def to_record(page):
         "target": p.get("Target", {}).get("number"),
         "public": p.get("Public", {}).get("checkbox", False),
         "featured": p.get("Featured", {}).get("checkbox", False),
+        # Ticked on pages Claude wrote or changed, until the owner has read them (only the admin uses it).
+        "needs_review": p.get("Needs review", {}).get("checkbox", False),
         "cover": page.get("cover"),  # the page's own cover image (Notion's "Add cover"), or None
         "icon": page.get("icon"),  # the page icon; an uploaded / linked image is a job's or school's logo
         # Public-facing description shown on the website (a property, separate from the private page body).
@@ -239,7 +241,7 @@ def heading_level(b):
 def blocks_html(blocks, media=None):
     """Notion blocks -> a small, safe subset of HTML (paragraphs, lists, sub-headings, quotes, dividers).
     Bracketed template hints, the 📷 Photos toggle and sub-headings with nothing under them are left out, so a
-    half-filled page still looks tidy. media(image block) -> HTML for a photo; without it photos are skipped."""
+    half-filled page still looks tidy. media(block) -> HTML for a photo, video or embed; without it they're skipped."""
     blocks = [b for b in blocks if not is_placeholder(b) and not is_photos_marker(b)]
     def empty_heading(i):
         lv = heading_level(blocks[i])
@@ -271,7 +273,7 @@ def blocks_html(blocks, media=None):
             out.append("<hr>")
         elif kind == "toggle":
             out.append(f"<p><b>{body}</b></p>")
-        elif kind == "image" and media:
+        elif kind in ("image", "video", "embed") and media:
             out.append(media(b))
         if kind in ("toggle", "quote", "paragraph") and b.get("has_children"):
             out.append(blocks_html(block_children(b["id"]), media))
@@ -317,6 +319,9 @@ MAX_BYTES = 40 * 1024 * 1024
 WEB_TYPES = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif", "image/webp": ".webp", "image/avif": ".avif",
              "image/svg+xml": ".svg"}
 KEEP_AS_IS = (".gif", ".svg")  # animations, and drawings that are already any size
+# Short clips uploaded to Notion are copied too (longer videos belong on YouTube, which embeds instead).
+VIDEO_TYPES = {"video/mp4": ".mp4", "video/webm": ".webm", "video/quicktime": ".mov"}
+VIDEO_MAX = 20 * 1024 * 1024  # git keeps every version of a file forever, so big videos would bloat the repo
 
 
 def file_source(obj):
@@ -389,13 +394,38 @@ class Photos:
             self.used.update({f"{rel}/{sm}", f"{rel}/{lg}"})
         return {"sm": f"{rel}/{sm}", "lg": f"{rel}/{lg}"}
 
+    def get_video(self, obj, rel):
+        """A video file (uploaded to Notion, or linked directly) -> its path relative to the site root, or None.
+        Copied as is; anything over VIDEO_MAX is skipped with a note to put it on YouTube instead."""
+        src = file_source(obj)
+        if not src:
+            return None
+        name = hashlib.sha1(src[1].encode()).hexdigest()[:12]
+        for base in filter(None, (self.root, self.reuse)):
+            for ext in VIDEO_TYPES.values():
+                if (base / rel / f"{name}{ext}").exists():
+                    return self.use(base, rel, f"{name}{ext}", f"{name}{ext}")["sm"]
+        try:
+            data, ctype = self.download(src[0], VIDEO_MAX, "video is over 20 MB: put it on YouTube and paste the link instead")
+            ext = VIDEO_TYPES.get(ctype) or next((x for x in VIDEO_TYPES.values() if src[1].lower().endswith(x)), None)
+            if not ext:
+                raise ValueError(f"not a video browsers can play ({ctype}); save it as MP4")
+        except (OSError, ValueError) as e:
+            self.failed.append(f"{rel.rsplit('/', 1)[-1]}: {e}")
+            return None
+        (self.root / rel).mkdir(parents=True, exist_ok=True)
+        (self.root / rel / f"{name}{ext}").write_bytes(data)
+        return self.use(self.root, rel, f"{name}{ext}", f"{name}{ext}")["sm"]
+
     @staticmethod
-    def download(url):
+    def download(url, limit=MAX_BYTES, too_big="photo is over 40 MB"):
         req = urllib.request.Request(url, headers={"User-Agent": "sjmock99.github.io photo sync"})
-        with urllib.request.urlopen(req, timeout=60) as r:
-            ctype, data = r.headers.get_content_type(), r.read(MAX_BYTES + 1)
-        if len(data) > MAX_BYTES:
-            raise ValueError("photo is over 40 MB")
+        with urllib.request.urlopen(req, timeout=120) as r:
+            if int(r.headers.get("Content-Length") or 0) > limit:  # don't fetch what we'd throw away
+                raise ValueError(too_big)
+            ctype, data = r.headers.get_content_type(), r.read(limit + 1)
+        if len(data) > limit:
+            raise ValueError(too_big)
         return data, ctype
 
     def save(self, got, rel, name, sizes):
@@ -439,28 +469,117 @@ def slugify(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:60].rstrip("-") or "project"
 
 
+def video_link(url):
+    """A YouTube or Vimeo address -> ("youtube" | "vimeo", id, tall), or None. tall: a YouTube Short (vertical)."""
+    m = re.match(r"https?://(?:www\.|m\.)?(?:youtube\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/)|youtu\.be/)([A-Za-z0-9_-]{11})", url or "")
+    if m:
+        return "youtube", m.group(1), "/shorts/" in url
+    m = re.match(r"https?://(?:www\.|player\.)?vimeo\.com/(?:video/)?(\d+)", url or "")
+    return ("vimeo", m.group(1), False) if m else None
+
+
+def block_video(b):
+    """A video / embed block -> ("link", (service, id, tall)) for YouTube / Vimeo, ("file", file object) for a
+    video file, or None."""
+    obj = b.get(b["type"]) or {}
+    url = obj.get("url") if b["type"] == "embed" else (obj.get("external") or {}).get("url")
+    link = video_link(url)
+    if link:
+        return "link", link
+    return ("file", obj) if b["type"] == "video" else None
+
+
+def media_caption(b):
+    return "".join(t["plain_text"] for t in (b.get(b["type"]) or {}).get("caption", [])).strip()
+
+
 def project_content(it, cover, photos):
-    """Fill in a project's write-up and photos from its page: "details" (HTML of the 🌐 Public section, with any
-    photos in it), "gallery" (the 📷 Photos toggle) and "cover" (the page cover, else the first gallery photo)."""
+    """Fill in a project's write-up and media from its page: "details" (HTML of the 🌐 Public section, with any photos
+    and videos in it), "gallery" (the 📷 Photos toggle: photos, clips and YouTube / Vimeo links) and "cover" (the
+    page cover, else the first gallery photo, else a video's thumbnail). "videos" counts the videos on the page."""
     section = public_section(it["id"])
     it["has_public"] = section is not None
     section = section or []
+    rel = f"{IMG_DIR}/{it['slug']}"
+    videos = 0
     def media(b):
-        ph = photos.get(b["image"], f"{IMG_DIR}/{it['slug']}", caption(b))
-        return figure(ph, "pj-figure") if ph else ""
+        nonlocal videos
+        if b["type"] == "image":
+            ph = photos.get(b["image"], rel, caption(b))
+            return figure(ph, "pj-figure") if ph else ""
+        v = block_video(b)
+        if not v:
+            return ""
+        src = photos.get_video(v[1], rel) if v[0] == "file" else None
+        if v[0] == "file" and not src:
+            return ""
+        videos += 1
+        return video_html(v[1] if v[0] == "link" else None, src, media_caption(b))
     it["details"] = blocks_html(section, media)
     marker = next((b for b in section if is_photos_marker(b)), None)
-    gallery = []
+    gallery, thumbs = [], []
     if marker and marker.get("has_children"):
         for b in block_children(marker["id"]):
             if b["type"] == "image":
-                ph = photos.get(b["image"], f"{IMG_DIR}/{it['slug']}", caption(b))
+                ph = photos.get(b["image"], rel, caption(b))
                 if ph:
-                    gallery.append(ph)
-    it["cover"] = photos.get(cover, f"{IMG_DIR}/{it['slug']}") if cover else None
-    if not it["cover"] and gallery:
-        it["cover"] = gallery.pop(0)  # the first photo leads the page instead of repeating in the grid
-    it["gallery"] = gallery
+                    gallery.append({**ph, "kind": "image"})
+            elif b["type"] in ("video", "embed"):
+                v = block_video(b)
+                if v and v[0] == "file":
+                    src = photos.get_video(v[1], rel)
+                    if src:
+                        gallery.append({"kind": "clip", "src": src, "caption": media_caption(b)})
+                elif v:
+                    service, vid, tall = v[1]
+                    # The video's own thumbnail, copied like a photo (YouTube serves one at a fixed address).
+                    thumb = photos.get({"type": "external", "external": {"url": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg"}}, rel) \
+                        if service == "youtube" else None
+                    url = f"https://www.youtube.com/watch?v={vid}" if service == "youtube" else f"https://vimeo.com/{vid}"
+                    gallery.append({"kind": "link", "url": url, "thumb": thumb, "caption": media_caption(b)})
+                    if thumb:
+                        thumbs.append(thumb)
+    videos += sum(1 for g in gallery if g["kind"] != "image")
+    it["cover"] = photos.get(cover, rel) if cover else None
+    first_photo = next((g for g in gallery if g["kind"] == "image"), None)
+    if not it["cover"] and first_photo:
+        gallery.remove(first_photo)  # the first photo leads the page instead of repeating in the grid
+        it["cover"] = first_photo
+    if not it["cover"] and thumbs:
+        it["cover"] = {**thumbs[0], "caption": ""}  # no photos at all: a video's thumbnail stands in on the card
+        it["cover_is_thumb"] = True
+    it["gallery"], it["videos"] = gallery, videos
+
+
+def video_html(link, src, cap):
+    """A video in the write-up: YouTube / Vimeo as their player (built only from the parsed id, never an arbitrary
+    address), or a copied clip as a <video> with controls."""
+    e = html.escape
+    capt = f"<figcaption>{e(cap)}</figcaption>" if cap else ""
+    if link:
+        service, vid, tall = link
+        url = (f"https://www.youtube-nocookie.com/embed/{vid}" if service == "youtube" else f"https://player.vimeo.com/video/{vid}")
+        return (f'<figure class="pj-video{" pj-video-tall" if tall else ""}"><span class="pj-frame">'
+                f'<iframe src="{url}" title="{e(cap or "Video")}" loading="lazy" allowfullscreen '
+                f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+                f'referrerpolicy="strict-origin-when-cross-origin"></iframe></span>{capt}</figure>')
+    return f'<figure class="pj-figure pj-clip"><video src="{e(src)}" controls preload="metadata" playsinline></video>{capt}</figure>'
+
+
+def gallery_item(g):
+    """One square in the photo grid: a photo, a clip that plays silently on a loop, or a video's thumbnail with a
+    play button. All open in the lightbox (GLightbox plays clips and YouTube / Vimeo itself)."""
+    e, cap = html.escape, g["caption"]
+    desc = f' data-description="{e(cap)}"' if cap else ""
+    if g["kind"] == "image":
+        return figure(g, "pj-thumb", "sm")
+    play = '<span class="pj-play" aria-hidden="true"><i class="bi bi-play-fill"></i></span>'
+    if g["kind"] == "clip":
+        return (f'<figure class="pj-thumb"><a class="glightbox" data-gallery="project" href="{e(g["src"])}"{desc} aria-label="Play video">'
+                f'<video src="{e(g["src"])}" muted loop autoplay playsinline preload="metadata"></video>{play}</a></figure>')
+    inner = f'<img src="{e(g["thumb"]["sm"])}" alt="" loading="lazy">' if g["thumb"] else '<span class="pj-ph"></span>'
+    return (f'<figure class="pj-thumb"><a class="glightbox" data-gallery="project" href="{e(g["url"])}"{desc} aria-label="Play video">'
+            f'{inner}{play}</a></figure>')
 
 
 def figure(ph, cls, size="lg"):
@@ -941,7 +1060,8 @@ def main_disc(it, by_id):
 
 
 def photo_count(it):
-    return len(it["gallery"]) + (1 if it["cover"] else 0)
+    photos = sum(1 for g in it["gallery"] if g["kind"] == "image")
+    return photos + (1 if it["cover"] and not it.get("cover_is_thumb") else 0)
 
 
 def projects_html(projects, skills):
@@ -951,14 +1071,15 @@ def projects_html(projects, skills):
         key, used = main_disc(it, by_id), used_skills(it, by_id)
         img = (f'<img src="{e(it["cover"]["sm"])}" alt="" loading="lazy">' if it["cover"] else
                f'<span class="pj-ph" style="--pj-c:var(--rs-{key})"><i class="bi {PH_ICONS[key]}"></i></span>')
-        n = photo_count(it)
+        n, v = photo_count(it), it.get("videos", 0)
+        counts = " ".join(x for x in (f'<i class="bi bi-images"></i> {n}' if n > 1 else "", f'<i class="bi bi-play-fill"></i> {v}' if v else "") if x)
         tags = "".join(f'<span><i class="rs-dot rs-{disc_key(s, by_id)}"></i>{e(s["name"])}</span>' for s in used[:4])
         if len(used) > 4:
             tags += f'<span class="pj-more">+{len(used) - 4}</span>'
         meta = " · ".join(x for x in (project_dates(it, months=False), it["organization"]) if x)
         cards.append(f"""
             <a class="pj-card" href="projects/{e(it["slug"])}.html">
-              <span class="pj-card-img">{img}{'<span class="pj-badge">Featured</span>' if it["featured"] else ""}{f'<span class="pj-count"><i class="bi bi-images"></i> {n}</span>' if n > 1 else ""}</span>
+              <span class="pj-card-img">{img}{'<span class="pj-badge">Featured</span>' if it["featured"] else ""}{f'<span class="pj-count">{counts}</span>' if counts else ""}</span>
               <span class="pj-card-body">
                 {f'<span class="pj-card-meta">{e(meta)}</span>' if meta else ""}
                 <h3>{e(it["name"])}</h3>
@@ -1000,7 +1121,7 @@ def project_page(it, prev, nxt, skills, parts):
         actions.append(f'<a class="pj-btn" href="{e(it["link"])}" target="_blank" rel="noopener"><i class="bi {icon}"></i> {label}</a>')
     if it["skills"]:
         actions.append(f'<a class="pj-btn pj-btn-ghost" href="skills.html#item={it["id"]}"><i class="bi bi-diagram-3"></i> Its skills in the skill graph</a>')
-    gallery = "".join(figure(ph, "pj-thumb", "sm") for ph in it["gallery"])
+    gallery = "".join(gallery_item(g) for g in it["gallery"])
     chips = skill_chips(it, skills, limit=None)
     nav = "".join(f'<a class="pj-nav-{side}" href="{e(p["slug"])}.html"><span>{label}</span>{e(p["name"])}</a>'
                   for side, label, p in (("prev", "← Previous", prev), ("next", "Next →", nxt)) if p)
@@ -1016,9 +1137,9 @@ def project_page(it, prev, nxt, skills, parts):
           {f'<div class="pj-actions">{"".join(actions)}</div>' if actions else ""}
           {f'<div class="pj-skills"><p class="pj-skills-t">Skills used</p>{chips}</div>' if chips else ""}
         </header>
-        {figure(it["cover"], "pj-hero") if it["cover"] else ""}
+        {figure(it["cover"], "pj-hero") if it["cover"] and not it.get("cover_is_thumb") else ""}
         {f'<div class="pj-body">{it["details"]}</div>' if it["details"] else ""}
-        {f'<h2 class="pj-h">Photos</h2><div class="pj-gallery">{gallery}</div>' if gallery else ""}
+        {f'<h2 class="pj-h">{"Photos & videos" if any(g["kind"] != "image" for g in it["gallery"]) else "Photos"}</h2><div class="pj-gallery">{gallery}</div>' if gallery else ""}
         {f'<nav class="pj-nav" aria-label="More projects">{nav}</nav>' if nav else ""}
       </div>
     </section>
@@ -1148,8 +1269,8 @@ def sync(records, show_all, preview=False):
         summary += "\nnote: Pillow isn't installed, so photos were copied at full size (pip install pillow)"
 
     # The graph only needs a project's summary; the write-up and photos live on its page.
-    projects = [{k: v for k, v in it.items() if k not in ("details", "gallery", "slug")}
-                | {"page": f"projects/{it['slug']}.html", "cover": it["cover"] and it["cover"]["sm"], "photos": photo_count(it)}
+    projects = [{k: v for k, v in it.items() if k not in ("details", "gallery", "slug", "cover_is_thumb")}
+                | {"page": f"projects/{it['slug']}.html", "cover": it["cover"] and it["cover"]["sm"], "photos": photo_count(it), "videos": it.get("videos", 0)}
                 for it in projects]
     out = root / OUT.relative_to(ROOT)
     old = json.loads(out.read_text()) if out.exists() else {}

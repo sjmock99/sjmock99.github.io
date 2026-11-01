@@ -88,9 +88,11 @@
 
     const nodeById = new Map();
     root.each(n => { if (!n.data.kind) nodeById.set(n.data.id, n); });
-    // Projects plus experience (kind "work" / "education"); all of them are "things that used skills".
+    // Projects plus experience (kind "work" / "education"); all of them are "things that used skills". A degree only
+    // shows once it has skills linked (picking one with none would show nothing); the homepage resume still lists them.
     const projects = [...data.projects.map(p => ({ ...p, kind: "project" })), ...(data.experience || [])]
-      .map(p => ({ ...p, nodes: p.skills.map(id => nodeById.get(id)).filter(Boolean) }));
+      .map(p => ({ ...p, nodes: p.skills.map(id => nodeById.get(id)).filter(Boolean) }))
+      .filter(p => p.kind !== "education" || p.nodes.length);
     const usedIn = new Map();
     projects.forEach(p => p.nodes.forEach(n => { if (!usedIn.has(n)) usedIn.set(n, []); usedIn.get(n).push(p); }));
 
@@ -123,7 +125,7 @@
     const mixLegend = () => `<p class="sg-mix-legend" aria-hidden="true">${BANDS.map((b, i) =>
       `<span><i class="${i === 4 ? "none" : ""}" style="${i < 4 ? `background:color-mix(in srgb, var(--sg-ink) ${SHADE[i]}%, var(--sg-surface))` : ""}"></i>${b}</span>`).join("")}</p>`;
     document.getElementById("sgStats").innerHTML =
-      `<div><b>${skills.length}</b>skills</div><div><b>${hubs.length}</b>disciplines</div><div><b>${projects.filter(p => p.kind === "work").length}</b>jobs</div><div><b>${projects.filter(p => p.kind === "project").length}</b>projects</div>`;
+      `<div><b>${skills.length}</b>skills</div><div><b>${hubs.length}</b>disciplines</div><div><b>${(data.experience || []).filter(p => p.kind === "work").length}</b>jobs</div><div><b>${data.projects.length}</b>projects</div>`;
     const updatedEl = document.getElementById("sgUpdated");
     if (data.updated) updatedEl.textContent = `Data from my Notion wiki, updated ${data.updated}.`;
     if (owner) {
@@ -345,11 +347,13 @@
     sheet.addEventListener("click", e => { if (sheetState === "peek" && !e.target.closest("button, a")) setSheet("open"); });
 
     // rows: which skill rows to light in the tree view (defaults to set; a level filter passes only the matches).
-    function highlight(set, focus, rows = set) {
-      svg.classed("dim", !!set.size);
+    // filtered: a filter is on, so fade everything even when nothing matches (an empty set otherwise means "no filter").
+    function highlight(set, focus, rows = set, filtered = false) {
+      const dim = !!set.size || filtered;
+      svg.classed("dim", dim);
       nodes.classed("on", d => set.has(d));
       links.classed("on", d => set.has(d.target) && set.has(d.source));
-      treeEl.classList.toggle("dim", !!set.size);
+      treeEl.classList.toggle("dim", dim);
       tileOf.forEach((el, n) => { el.classList.toggle("on", rows.has(n)); el.classList.toggle("sel", n === focus); });
       // The bars list isn't a hierarchy, so a picked skill is only marked; fading comes from the focus section (arrangeBars).
       barOf.forEach((el, n) => el.classList.toggle("sel", n === focus));
@@ -428,7 +432,8 @@
     }
     function showProject(p) {
       if (sheetState === "peek") setSheet("open");
-      highlight(ancestorsOf(p.nodes));
+      const lit = ancestorsOf(p.nodes);
+      highlight(lit, null, lit, true);  // no skills linked yet: everything fades rather than all lighting up
       setBarFocus(p.kind === "project" ? `Used in ${p.name}` : `Used at ${itemTitle(p)}`, p.nodes);
       const by = d3.group(p.nodes, n => n.data.disc);
       const meta = [p.kind !== "project" && p.role, p.kind === "project" && p.organization, dateRange(p)].filter(Boolean);
@@ -461,7 +466,7 @@
       const matches = (p ? p.nodes : skills)
         .filter(n => (!hub || n.data.disc === state.disc) && (!state.levels.size || state.levels.has(levelOf(n))))
         .sort((a, b) => (b.data.rating ?? -1) - (a.data.rating ?? -1) || a.data.name.localeCompare(b.data.name));
-      highlight(ancestorsOf(matches), null, new Set(matches));
+      highlight(ancestorsOf(matches), null, new Set(matches), true);
       // e.g. "Lv 3 + Lv 4 Software skills used at JPL"
       const what = [[...state.levels].sort().map(levelName).join(" + "), hub && hub.data.name].filter(Boolean).join(" ") + " skills";
       const where = p ? `${p.kind === "project" ? "used in" : "used at"} ${itemTitle(p)}` : "";

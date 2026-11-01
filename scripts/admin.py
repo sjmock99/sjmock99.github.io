@@ -213,6 +213,8 @@ def handle_action(action, body):
         return patch(page_id, {"Public": {"checkbox": bool(body.get("value"))}})
     if action == "featured":
         return patch(page_id, {"Featured": {"checkbox": bool(body.get("value"))}})
+    if action == "needs-review":
+        return patch(page_id, {"Needs review": {"checkbox": bool(body.get("value"))}})
     if action == "parent":
         parent = body.get("value") or None
         if parent and parent not in records:
@@ -222,6 +224,16 @@ def handle_action(action, body):
         if parent and would_cycle(page_id, parent):
             raise ValueError("that would make a skill its own ancestor")
         return patch(page_id, {"Parent skill": {"relation": [{"id": parent}] if parent else []}})
+    if action in ("add-skills", "remove-skills"):
+        # Change the page's list as Notion has it right now, not this admin's copy: that copy can be stale (Notion's
+        # database query lags a few minutes, and the page may have been edited elsewhere since it was loaded), and
+        # saving a stale full list would silently drop skills linked in the meantime.
+        ids = list(dict.fromkeys(body.get("value") or []))
+        if any(i not in records for i in ids):
+            raise ValueError("unknown skill")
+        current = notion.to_record(notion.request("GET", f"/pages/{page_id}"))["skills_used"]
+        new = list(dict.fromkeys(current + ids)) if action == "add-skills" else [i for i in current if i not in ids]
+        return patch(page_id, {"Skills used": {"relation": [{"id": i} for i in new]}})
     if action == "skills-used":
         ids = list(dict.fromkeys(body.get("value") or []))
         if any(i not in records for i in ids):

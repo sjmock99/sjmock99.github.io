@@ -1,20 +1,28 @@
 {
- "updated": "2026-11-01 05:13 UTC",
+ "updated": "2026-11-01 18:36 UTC",
  "source": "notion",
  "skills": [
   {
    "id": "9ff7f497ae3b40dca64c9a8b8bdde978",
-   "name": "3D Printing / Plastics",
+   "name": "3D Printing",
    "parent": "4038f022083c81f9a056fadef2c6641a",
    "rating": 2.5,
    "target": null,
-   "blurb": "Designing for and producing parts with FDM/resin printers and common plastics."
+   "blurb": "Designing for and producing parts with FDM and resin 3D printers."
+  },
+  {
+   "id": "4048f022083c802eaf7ff836ea404986",
+   "name": "Agentic Programming",
+   "parent": "4038f022083c8114a338c414bce9fda6",
+   "rating": 3,
+   "target": null,
+   "blurb": "Building software with AI coding agents: planning, delegating and reviewing their work."
   },
   {
    "id": "4038f022083c81c1bb0ddb05b15f0516",
    "name": "Agile & Execution",
    "parent": "4038f022083c8173903ad60ffbc2786f",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Planning work in short iterations, tracking progress and shipping on schedule."
   },
@@ -25,6 +33,14 @@
    "rating": 1,
    "target": null,
    "blurb": "Automation tool for configuring machines and deploying software over SSH with repeatable playbooks."
+  },
+  {
+   "id": "40b8f022083c818f8f42c926d0eb2b1b",
+   "name": "Arduino",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Beginner-friendly microcontroller boards and IDE for quick hardware prototypes."
   },
   {
    "id": "3af8f022083c80a283d1dc37e66276fe",
@@ -54,9 +70,25 @@
    "id": "4038f022083c81fcab31efabe32a1350",
    "name": "BOM & Cost Management",
    "parent": "4038f022083c8173903ad60ffbc2786f",
-   "rating": 2,
+   "rating": 3,
    "target": null,
    "blurb": "Tracking every part in a build, its source and cost, and keeping the budget in check."
+  },
+  {
+   "id": "40b8f022083c812f9a16e8513140ff61",
+   "name": "Breadboarding & Prototyping",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Building and testing circuits on breadboards and protoboards before committing to a PCB."
+  },
+  {
+   "id": "40b8f022083c818ca917d12bbac2564c",
+   "name": "C",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 2,
+   "target": null,
+   "blurb": "The low-level language behind most firmware: pointers, memory and talking to hardware registers."
   },
   {
    "id": "21299b93bc724631a2263b552fc6a22c",
@@ -75,12 +107,28 @@
    "blurb": "Laying out electrical enclosures: power distribution, controllers, terminals and wiring."
   },
   {
+   "id": "40b8f022083c81ba8c49f3717bf11baa",
+   "name": "Cabling",
+   "parent": "009a07fef6c54471a2fa2a8d22009c5c",
+   "rating": 2,
+   "target": null,
+   "blurb": "Choosing wire and cable, and routing and managing it cleanly through a system."
+  },
+  {
    "id": "4038f022083c818085cbd9ee93062872",
    "name": "CAD",
    "parent": "4038f022083c81189869f42fa0a06ba6",
    "rating": 3.5,
    "target": null,
    "blurb": "Computer-aided design: modeling parts and assemblies in 3D and turning them into drawings."
+  },
+  {
+   "id": "40b8f022083c815da7ace92459a613c6",
+   "name": "Cameras",
+   "parent": "4038f022083c81d8a94be768ea0561d1",
+   "rating": 3,
+   "target": null,
+   "blurb": "Setting up cameras used for computer vision."
   },
   {
    "id": "2b98f022083c8008be27ede7a42be0fb",
@@ -100,11 +148,19 @@
   },
   {
    "id": "2938f022083c80c0bcf6f83ff7ebab1e",
-   "name": "Circuit Components / Prototyping",
-   "parent": "4038f022083c813098f0e5c3d0ea5fdb",
-   "rating": 2,
+   "name": "Circuit Design",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 2.5,
    "target": null,
-   "blurb": "Choosing resistors, ICs and connectors, and building circuits on breadboards and protoboards."
+   "blurb": "Designing circuits on paper: schematics, choosing parts and values, and checking the math."
+  },
+  {
+   "id": "40b8f022083c81518b5fc08e6d50f8a9",
+   "name": "Circuits",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 3,
+   "target": null,
+   "blurb": "Designing, building and debugging electronic circuits, from breadboard to PCB."
   },
   {
    "id": "b30c71b9be8e4be08e5b80f4b73c7705",
@@ -123,18 +179,18 @@
    "blurb": "The rules devices use to talk: buses, serial links and network protocols."
   },
   {
-   "id": "009a07fef6c54471a2fa2a8d22009c5c",
-   "name": "Connectors, Cabling, and Fabrication",
-   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "id": "40b8f022083c81d2b6b7d17df4e81c23",
+   "name": "Connectors",
+   "parent": "009a07fef6c54471a2fa2a8d22009c5c",
    "rating": 2,
    "target": null,
-   "blurb": "Making reliable harnesses: crimping, connector selection, routing and strain relief."
+   "blurb": "Picking, pinning and crimping connectors for reliable power and signal connections."
   },
   {
    "id": "4038f022083c81ea86e0fdc9312f1a92",
    "name": "Control Theory",
    "parent": "4038f022083c81189869f42fa0a06ba6",
-   "rating": 3.5,
+   "rating": 3,
    "target": null,
    "blurb": "Math for making systems follow commands: feedback loops, PID, stability and tuning."
   },
@@ -163,6 +219,14 @@
    "blurb": "Cleaning, plotting and interpreting data to find what's actually going on."
   },
   {
+   "id": "40b8f022083c814c8f51d84ea16aae14",
+   "name": "DDS",
+   "parent": "6b4e076b347b4e31a50148c0ac98f37a",
+   "rating": 2,
+   "target": null,
+   "blurb": "Data Distribution Service: the publish/subscribe middleware underneath ROS 2."
+  },
+  {
    "id": "4038f022083c81c791e3d1d950b5750b",
    "name": "Dev Environment",
    "parent": "4038f022083c8114a338c414bce9fda6",
@@ -182,7 +246,7 @@
    "id": "4038f022083c81ffa836f10151fd57a5",
    "name": "Diagramming & Design Tools",
    "parent": "4038f022083c81459069f73257199ab5",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Tools for drawing architecture, wiring and flow diagrams that explain a design."
   },
@@ -195,10 +259,18 @@
    "blurb": "Packages software and its dependencies into containers that run the same anywhere."
   },
   {
+   "id": "40b8f022083c8168be5cde6793dfce54",
+   "name": "Drake",
+   "parent": "4038f022083c815d9cafd2ef2ceed783",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Toyota Research Institute's toolbox for modeling, simulating and controlling robots."
+  },
+  {
    "id": "1968f022083c8024b141e06108fb45d8",
    "name": "DrawIO",
    "parent": "4038f022083c81ffa836f10151fd57a5",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Free diagramming tool (diagrams.net) for flowcharts, block diagrams and architectures."
   },
@@ -206,9 +278,17 @@
    "id": "4038f022083c81c989ddf4081df6500e",
    "name": "Dynamics",
    "parent": "4038f022083c81189869f42fa0a06ba6",
-   "rating": 3.5,
+   "rating": 3,
    "target": null,
    "blurb": "How forces and torques make bodies move: accelerations, inertia and loads."
+  },
+  {
+   "id": "40b8f022083c81abb0d7f06e67af6607",
+   "name": "Dynamixel",
+   "parent": "40b8f022083c8102b44fe781f54d82ec",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Robotis smart servos with position, speed and torque control over a serial bus."
   },
   {
    "id": "4038f022083c8166a9b2fcd4495d12d2",
@@ -219,6 +299,22 @@
    "blurb": "Circuits, power, sensors and embedded hardware that make machines sense and move."
   },
   {
+   "id": "40b8f022083c814690ded8a2af868d58",
+   "name": "Electronic Components",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 3,
+   "target": null,
+   "blurb": "Choosing and using relays, transistors, resistors, capacitors and power supplies."
+  },
+  {
+   "id": "40b8f022083c8121b32cd847eae581f4",
+   "name": "Encoders",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Position and speed feedback from motors and joints, absolute or incremental."
+  },
+  {
    "id": "4038f022083c813ea390f5644e450c32",
    "name": "Engineering Drawings",
    "parent": "4038f022083c81189869f42fa0a06ba6",
@@ -227,18 +323,42 @@
    "blurb": "2D drawings that communicate geometry, dimensions and tolerances for manufacturing."
   },
   {
+   "id": "40b8f022083c8171a2d7c906763b765f",
+   "name": "EPDM",
+   "parent": "4038f022083c818085cbd9ee93062872",
+   "rating": 3,
+   "target": null,
+   "blurb": "SolidWorks PDM: vaulting, revisioning and releasing CAD files across a team."
+  },
+  {
+   "id": "40b8f022083c817ea78fc6287b43196a",
+   "name": "ESP32",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Wi-Fi and Bluetooth microcontroller for connected, real-time hardware projects."
+  },
+  {
    "id": "3918f022083c80e7b949f46a1cd0f541",
    "name": "EtherCAT",
    "parent": "4038f022083c81fcb497e468bd286f47",
-   "rating": 3,
+   "rating": 3.5,
    "target": null,
    "blurb": "Real-time industrial Ethernet protocol for fast, synchronized motion control."
   },
   {
+   "id": "40b8f022083c8179bba7eb33bf3b176b",
+   "name": "Excel",
+   "parent": "4038f022083c81459069f73257199ab5",
+   "rating": 2,
+   "target": null,
+   "blurb": "Spreadsheets for calculations, tracking and quick data analysis."
+  },
+  {
    "id": "1638f022083c8094bc4fdb8dc1066af5",
-   "name": "Fashion + Robotics",
+   "name": "Fashion Tech",
    "parent": "4038f022083c814ea232fdf49f25d945",
-   "rating": 1.5,
+   "rating": 2,
    "target": null,
    "blurb": "Wearables and garments that blend clothing design with electronics and motion."
   },
@@ -259,12 +379,28 @@
    "blurb": "Lightweight Python web framework for building small web apps and APIs."
   },
   {
+   "id": "40b8f022083c81f6b4d3cadb7250223d",
+   "name": "Force Torque Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Multi-axis sensors measuring the forces and torques a robot applies or feels."
+  },
+  {
    "id": "1688f022083c80b69517ee999072f11a",
    "name": "Foxglove Studios",
    "parent": "5dcc4f8a8cf04917a44825b779c4cedf",
-   "rating": 4,
+   "rating": 3,
    "target": null,
    "blurb": "Visualization tool for ROS data: plots, 3D views and log playback."
+  },
+  {
+   "id": "40b8f022083c81fdab2ed1b7a908235c",
+   "name": "Gazebo",
+   "parent": "4038f022083c815d9cafd2ef2ceed783",
+   "rating": 2,
+   "target": null,
+   "blurb": "Open-source robot simulator for testing robots and sensors in virtual worlds, often with ROS."
   },
   {
    "id": "8287e7d64ca04e7287d461bc635da4fa",
@@ -278,9 +414,17 @@
    "id": "0cff834551e0493d9aadc289902c7d9c",
    "name": "Git",
    "parent": "4038f022083c8194bfe6c41e49d56dfa",
-   "rating": 3.5,
+   "rating": 3,
    "target": null,
    "blurb": "Version control for tracking changes, branching and collaborating on code."
+  },
+  {
+   "id": "40b8f022083c810a819ffa3386e19ca7",
+   "name": "Hall Effect Sensors (3DOF)",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Magnetic field sensors measuring position or orientation along three axes."
   },
   {
    "id": "4038f022083c815781aeffd54bbafc59",
@@ -291,6 +435,46 @@
    "blurb": "Low-level code that lets software talk to motors, sensors and other devices."
   },
   {
+   "id": "009a07fef6c54471a2fa2a8d22009c5c",
+   "name": "Harnessing",
+   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "rating": 2,
+   "target": null,
+   "blurb": "Designing and building wire harnesses: routing, strain relief, crimping and labeling."
+  },
+  {
+   "id": "40b8f022083c819cbccdcd11def13905",
+   "name": "HITL Testing",
+   "parent": "4038f022083c8132b655ed8de12af58b",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Hardware-in-the-loop testing: running real software against real hardware, with the rest of the system simulated."
+  },
+  {
+   "id": "40b8f022083c8157acf8db6a25bcddbd",
+   "name": "Humidity / Temperature Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Digital environmental sensors reporting temperature and relative humidity."
+  },
+  {
+   "id": "40b8f022083c81d0907afcd081a45fa7",
+   "name": "I2C",
+   "parent": "772257571a524cb99a05eb7abb0e0a39",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Two-wire bus for connecting many sensors and chips to one controller by address."
+  },
+  {
+   "id": "40b8f022083c814cb97fc4edac960ea2",
+   "name": "IMU",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Accelerometer and gyroscope units for measuring orientation and motion."
+  },
+  {
    "id": "37b8f022083c80debd7ae981d8c5ce76",
    "name": "Industrial Wiring Diagrams",
    "parent": "4038f022083c8126a288e714033ab8f2",
@@ -299,12 +483,28 @@
    "blurb": "Schematics and ladder-style drawings that document how industrial panels are wired."
   },
   {
+   "id": "40b8f022083c8140a091e26de72a7e38",
+   "name": "Infrared Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "IR emitters and receivers for proximity, line and obstacle detection."
+  },
+  {
    "id": "4038f022083c81ba9768f25892925d70",
    "name": "Integration & Bring-up",
    "parent": "2c38f022083c80bc8d3cdae9a01382e6",
    "rating": 4.5,
    "target": null,
    "blurb": "Getting new hardware and software working together for the first time."
+  },
+  {
+   "id": "40b8f022083c8180858feeb06d277b8d",
+   "name": "Jupyter Notebook",
+   "parent": "4038f022083c81c791e3d1d950b5750b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Interactive Python notebooks for exploring data, plotting and documenting analysis."
   },
   {
    "id": "4038f022083c8159a802f55b200deeb1",
@@ -318,14 +518,62 @@
    "id": "4038f022083c81c9a227f11f5dfa1029",
    "name": "Lab Tools",
    "parent": "4038f022083c8166a9b2fcd4495d12d2",
-   "rating": 2,
+   "rating": 2.5,
    "target": null,
    "blurb": "Multimeters, oscilloscopes, power supplies and analyzers for testing electronics."
   },
   {
+   "id": "40b8f022083c81378583e1b2e6578e63",
+   "name": "LabVIEW",
+   "parent": "4038f022083c81c9a227f11f5dfa1029",
+   "rating": 2,
+   "target": null,
+   "blurb": "NI's graphical programming environment for test, measurement and control."
+  },
+  {
+   "id": "40b8f022083c81e395f3e21fe9db355d",
+   "name": "Laser Cutting",
+   "parent": "4038f022083c81f9a056fadef2c6641a",
+   "rating": 3,
+   "target": null,
+   "blurb": "Cutting and engraving flat parts from acrylic, wood and sheet stock."
+  },
+  {
+   "id": "40b8f022083c81debfadee50400d063e",
+   "name": "Laser Displacement Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Non-contact laser sensors measuring distance and displacement to the micron."
+  },
+  {
+   "id": "40b8f022083c8199ad6dce3f75da0bc9",
+   "name": "LEAP Motion",
+   "parent": "40b8f022083c81ea901ad5d755b3c14f",
+   "rating": 3,
+   "target": null,
+   "blurb": "Infrared hand-tracking camera for capturing finger and hand motion."
+  },
+  {
+   "id": "40b8f022083c81018de9d045750c63cf",
+   "name": "LEDs & Lighting",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 3,
+   "target": null,
+   "blurb": "Designing product lighting: LEDs, LED drivers and PWM dimming, with power and heat in mind."
+  },
+  {
+   "id": "40b8f022083c8104a666fef5c2ed2967",
+   "name": "Leica Scanner",
+   "parent": "40b8f022083c81ea901ad5d755b3c14f",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Leica laser scanning and tracking for precise 3D measurement."
+  },
+  {
    "id": "d3501bb2ec4045a6a41da1bd32a6debe",
    "name": "Linux",
-   "parent": "4038f022083c8114a338c414bce9fda6",
+   "parent": "4038f022083c81c791e3d1d950b5750b",
    "rating": 3,
    "target": null,
    "blurb": "The open-source OS behind most robots and servers: shell, services and system setup."
@@ -347,6 +595,14 @@
    "blurb": "Training models from data to recognize patterns and make predictions."
   },
   {
+   "id": "40b8f022083c8126af2bf7103e880705",
+   "name": "Machining",
+   "parent": "4038f022083c81f9a056fadef2c6641a",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Making parts on the mill, lathe, drill press and saws."
+  },
+  {
    "id": "4038f022083c81e38b7be114e560096b",
    "name": "Manufacturing (DFM)",
    "parent": "4038f022083c81189869f42fa0a06ba6",
@@ -361,6 +617,14 @@
    "rating": 1.5,
    "target": null,
    "blurb": "Choosing metals, plastics and composites by strength, weight, cost and process."
+  },
+  {
+   "id": "40b8f022083c818494dcede04a10dd09",
+   "name": "MATLAB",
+   "parent": "4038f022083c81d6af80c9736fcf25ac",
+   "rating": 3,
+   "target": null,
+   "blurb": "Numerical computing for simulation, kinematics, data analysis and plotting."
   },
   {
    "id": "4038f022083c81189869f42fa0a06ba6",
@@ -379,12 +643,36 @@
    "blurb": "Linkages, cams, gears and other arrangements that turn one motion into another."
   },
   {
+   "id": "40b8f022083c81548ec3c1a101c1ea96",
+   "name": "micro-ROS",
+   "parent": "5dcc4f8a8cf04917a44825b779c4cedf",
+   "rating": 3,
+   "target": null,
+   "blurb": "ROS 2 on microcontrollers, so embedded boards join the robot's topics and services."
+  },
+  {
    "id": "dbf4d32d91e94753b6283dd6db02ab2b",
    "name": "Microcontrollers / Embedded Systems",
    "parent": "4038f022083c8166a9b2fcd4495d12d2",
    "rating": 3.5,
    "target": null,
    "blurb": "Small computers inside devices that read sensors and drive hardware in real time."
+  },
+  {
+   "id": "40b8f022083c819fb52ac3fedf5b5f10",
+   "name": "Modbus TCP",
+   "parent": "4038f022083c81fcb497e468bd286f47",
+   "rating": 3,
+   "target": null,
+   "blurb": "Industrial request/response protocol over Ethernet for reading and writing device registers."
+  },
+  {
+   "id": "40b8f022083c81ea901ad5d755b3c14f",
+   "name": "Motion Capture",
+   "parent": "4038f022083c81d8a94be768ea0561d1",
+   "rating": 3,
+   "target": null,
+   "blurb": "Tracking bodies, hands and objects in 3D with cameras and sensors."
   },
   {
    "id": "63a707011be245f4bc0ce1c4c0968c0c",
@@ -395,6 +683,22 @@
    "blurb": "Selecting and driving DC, stepper, BLDC and servo motors for motion."
   },
   {
+   "id": "40b8f022083c81ebabf4c60bf9df277a",
+   "name": "MQTT",
+   "parent": "6b4e076b347b4e31a50148c0ac98f37a",
+   "rating": 3,
+   "target": null,
+   "blurb": "Lightweight publish/subscribe messaging for IoT devices."
+  },
+  {
+   "id": "40b8f022083c81098264fd15025a8811",
+   "name": "MSP430",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "TI's ultra-low-power microcontrollers, programmed close to the hardware."
+  },
+  {
    "id": "2fc8f022083c8004b515f1a4e3ecd6eb",
    "name": "Multiprocessing / Multithreading",
    "parent": "4038f022083c8191b4b1efb18f06c01e",
@@ -403,18 +707,42 @@
    "blurb": "Running work in parallel across threads and processes without stepping on each other."
   },
   {
+   "id": "40b8f022083c81d8b7d9fc231a850e62",
+   "name": "Music",
+   "parent": "4038f022083c811fb594ceb95406688b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Producing, arranging and listening to new music."
+  },
+  {
    "id": "6b4e076b347b4e31a50148c0ac98f37a",
    "name": "Networking",
-   "parent": "4038f022083c811fb594ceb95406688b",
+   "parent": "4038f022083c8114a338c414bce9fda6",
    "rating": 3.5,
    "target": null,
    "blurb": "How devices connect and talk: IP, Wi-Fi, ports and troubleshooting connections."
   },
   {
+   "id": "40b8f022083c816bb4fbf30e033cdcd5",
+   "name": "NI DAQ",
+   "parent": "4038f022083c81c9a227f11f5dfa1029",
+   "rating": 2,
+   "target": null,
+   "blurb": "National Instruments data acquisition hardware for measuring and logging signals."
+  },
+  {
+   "id": "40b8f022083c8104b32adcfca35f362d",
+   "name": "Notion",
+   "parent": "4038f022083c81459069f73257199ab5",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Productivity software for note-taking, document creation, project management, and databases."
+  },
+  {
    "id": "12d8f022083c8047a12fdd4fd0e72dde",
    "name": "Onshape",
    "parent": "4038f022083c818085cbd9ee93062872",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Cloud-based CAD for modeling and collaborating on parts and assemblies in the browser."
   },
@@ -425,6 +753,14 @@
    "rating": 3,
    "target": null,
    "blurb": "Open-source computer vision library for image processing and camera-based detection."
+  },
+  {
+   "id": "40b8f022083c81a78333e8d368500932",
+   "name": "OptiTrack",
+   "parent": "40b8f022083c81ea901ad5d755b3c14f",
+   "rating": 3,
+   "target": null,
+   "blurb": "Marker-based optical motion capture for precise 3D tracking."
   },
   {
    "id": "4038f022083c811fb594ceb95406688b",
@@ -445,7 +781,7 @@
   {
    "id": "4038f022083c813098f0e5c3d0ea5fdb",
    "name": "PCB Design",
-   "parent": "4038f022083c8166a9b2fcd4495d12d2",
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
    "rating": 1,
    "target": null,
    "blurb": "Laying out printed circuit boards: schematics, footprints, routing and fabrication files."
@@ -459,6 +795,22 @@
    "blurb": "Helping robots understand the world from cameras and sensors."
   },
   {
+   "id": "40b8f022083c818da6a3c8a2f64bb9f3",
+   "name": "PID Control",
+   "parent": "4038f022083c81ea86e0fdc9312f1a92",
+   "rating": 3,
+   "target": null,
+   "blurb": "Proportional-integral-derivative feedback control, tuned to hold a target."
+  },
+  {
+   "id": "40b8f022083c81df9e22e69a0864739b",
+   "name": "Plastics",
+   "parent": "4038f022083c81e69c7ace12f046a5f1",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Choosing and designing with common plastics: properties, processes and trade-offs."
+  },
+  {
    "id": "4038f022083c81a6803cec2e8b7a0a8f",
    "name": "PlatformIO",
    "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
@@ -469,10 +821,26 @@
   {
    "id": "2938f022083c809da0e2d19d5a48a4a2",
    "name": "Power",
-   "parent": "4038f022083c8166a9b2fcd4495d12d2",
-   "rating": 1,
+   "parent": "40b8f022083c81518b5fc08e6d50f8a9",
+   "rating": 2,
    "target": null,
    "blurb": "Supplying and distributing power safely: batteries, regulators, fusing and budgets."
+  },
+  {
+   "id": "40b8f022083c81e1a0b1eaaab0fa3b21",
+   "name": "PowerPoint",
+   "parent": "4038f022083c81459069f73257199ab5",
+   "rating": 3,
+   "target": null,
+   "blurb": "Building clear slide decks for design reviews and presentations."
+  },
+  {
+   "id": "40b8f022083c81d5a279c86cead35d06",
+   "name": "PREEMPT_RT",
+   "parent": "4038f022083c8191b4b1efb18f06c01e",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Linux kernel patches that make the kernel fully preemptible for low-latency real-time tasks."
   },
   {
    "id": "4038f022083c81d6af80c9736fcf25ac",
@@ -486,7 +854,7 @@
    "id": "4038f022083c8173903ad60ffbc2786f",
    "name": "Project Management",
    "parent": "4038f022083c816ba41df0761731bca6",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Scoping, scheduling and coordinating work so a project actually ships."
   },
@@ -499,18 +867,34 @@
    "blurb": "Versatile language for scripting, automation, data work, web backends and robotics."
   },
   {
+   "id": "40b8f022083c815dbc6bf1f1ee9e0265",
+   "name": "Quadrature Counters",
+   "parent": "40b8f022083c8121b32cd847eae581f4",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Decoders that count encoder A/B pulses into position and direction."
+  },
+  {
    "id": "27a1f2b53ec04b208e076c7970b6d0e5",
    "name": "Raspberry PI",
    "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Small single-board Linux computer used for prototypes, robots and camera projects."
+  },
+  {
+   "id": "40b8f022083c81daa1a0f783a628884b",
+   "name": "Regression Testing",
+   "parent": "4038f022083c8132b655ed8de12af58b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Re-running a test suite after every change to catch anything that broke what used to work."
   },
   {
    "id": "4038f022083c81bead96cedad1b4a0be",
    "name": "Requirements",
    "parent": "2c38f022083c80bc8d3cdae9a01382e6",
-   "rating": 4.5,
+   "rating": 4,
    "target": null,
    "blurb": "Writing down what a system must do, clearly enough to design and test against."
   },
@@ -539,6 +923,14 @@
    "blurb": "Multi-joint manipulators: design, kinematics and control of arms that reach and grasp."
   },
   {
+   "id": "40b8f022083c81b08df4fcb55c9f3be8",
+   "name": "Root Cause Analysis",
+   "parent": "4038f022083c81e6a2adc0c95aa35eda",
+   "rating": 3.5,
+   "target": null,
+   "blurb": "Tracing failures back to their real cause with testing, teardown and data, then fixing it for good."
+  },
+  {
    "id": "5c976dd32bc0479482f6ab0c6c738005",
    "name": "ROS1",
    "parent": "5dcc4f8a8cf04917a44825b779c4cedf",
@@ -550,7 +942,7 @@
    "id": "5dcc4f8a8cf04917a44825b779c4cedf",
    "name": "ROS2",
    "parent": "4038f022083c8114a338c414bce9fda6",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Modern Robot Operating System with real-time-friendly middleware for robot software."
   },
@@ -558,7 +950,7 @@
    "id": "3518f022083c8009ba0ceca7a45f1ae0",
    "name": "Rotations",
    "parent": "4038f022083c8159a802f55b200deeb1",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Representing 3D orientation with rotation matrices, Euler angles and quaternions."
   },
@@ -582,9 +974,25 @@
    "id": "4038f022083c8168b005ee81637a068c",
    "name": "Safety & Standards",
    "parent": "2c38f022083c80bc8d3cdae9a01382e6",
-   "rating": 1,
+   "rating": 1.5,
    "target": null,
    "blurb": "Designing to safety rules and industry standards so machines protect people."
+  },
+  {
+   "id": "40b8f022083c81c6ae0ed8d1bbae30ef",
+   "name": "scikit-learn",
+   "parent": "4038f022083c8196a382ece7f1ba8fff",
+   "rating": 2,
+   "target": null,
+   "blurb": "Python library for classic machine learning: regression, classification and model fitting."
+  },
+  {
+   "id": "40b8f022083c81bea5bdec858ebab0d5",
+   "name": "SCPI",
+   "parent": "4038f022083c81c9a227f11f5dfa1029",
+   "rating": 3,
+   "target": null,
+   "blurb": "The standard text command language for controlling test and measurement instruments."
   },
   {
    "id": "c84c8b0f0fd74e5f82e12c2313b29438",
@@ -611,10 +1019,18 @@
    "blurb": "UART, I2C and SPI: simple wired links between chips and boards."
   },
   {
+   "id": "40b8f022083c8102b44fe781f54d82ec",
+   "name": "Servos",
+   "parent": "63a707011be245f4bc0ce1c4c0968c0c",
+   "rating": 3,
+   "target": null,
+   "blurb": "Position-controlled motors with built-in feedback."
+  },
+  {
    "id": "4038f022083c81f9a056fadef2c6641a",
    "name": "Shop & Prototyping",
    "parent": "4038f022083c81189869f42fa0a06ba6",
-   "rating": 3.5,
+   "rating": 3,
    "target": null,
    "blurb": "Hands-on fabrication with shop tools to build and iterate on physical prototypes."
   },
@@ -622,7 +1038,7 @@
    "id": "4038f022083c815d9cafd2ef2ceed783",
    "name": "Simulation",
    "parent": "4038f022083c8114a338c414bce9fda6",
-   "rating": 1,
+   "rating": 1.5,
    "target": null,
    "blurb": "Testing robots and designs in virtual environments before building them."
   },
@@ -643,12 +1059,36 @@
    "blurb": "Structuring code into clear components and interfaces that scale and stay maintainable."
   },
   {
+   "id": "40b8f022083c81ab8a9fc6147d4220dc",
+   "name": "Soldering",
+   "parent": "40b8f022083c812f9a16e8513140ff61",
+   "rating": 3,
+   "target": null,
+   "blurb": "Joining wires and components into reliable electrical connections."
+  },
+  {
    "id": "08d6c1e61d664a9caedaaf90ebc1b985",
    "name": "Solidworks",
    "parent": "4038f022083c818085cbd9ee93062872",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Industry-standard parametric CAD for parts, assemblies and drawings."
+  },
+  {
+   "id": "40b8f022083c813894b8f21fa86b2594",
+   "name": "SPI",
+   "parent": "772257571a524cb99a05eb7abb0e0a39",
+   "rating": 3,
+   "target": null,
+   "blurb": "Fast four-wire bus for streaming data between a controller and chips like displays and ADCs."
+  },
+  {
+   "id": "40b8f022083c81d39211fb78885df0b9",
+   "name": "SSH",
+   "parent": "d3501bb2ec4045a6a41da1bd32a6debe",
+   "rating": 3,
+   "target": null,
+   "blurb": "Secure remote shell access for running and debugging headless computers and robots."
   },
   {
    "id": "4038f022083c81f08e16f687f85fca7f",
@@ -662,14 +1102,30 @@
    "id": "2bd8f022083c807a86c2c9111cb157b0",
    "name": "State Machine Diagrams",
    "parent": "4038f022083c8185876fd9f684375f77",
-   "rating": 4,
+   "rating": 3.5,
    "target": null,
    "blurb": "Drawing system behavior as states and transitions to design clear control logic."
   },
   {
+   "id": "40b8f022083c815c9f90d86cdffeaf76",
+   "name": "Steppers",
+   "parent": "63a707011be245f4bc0ce1c4c0968c0c",
+   "rating": 3,
+   "target": null,
+   "blurb": "Stepper motors and drivers for precise open-loop positioning."
+  },
+  {
+   "id": "40b8f022083c8191b5d0d303bc572b15",
+   "name": "Structured Text",
+   "parent": "4038f022083c81ab933cca6199f6cb33",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "The IEC 61131-3 text language for programming PLCs."
+  },
+  {
    "id": "0dc35f5a0b7c4ec7b8524a907c80ede8",
    "name": "Support and Connection Types",
-   "parent": "4038f022083c81c989ddf4081df6500e",
+   "parent": "4038f022083c816eb3f7cf99088fe3b6",
    "rating": 2,
    "target": null,
    "blurb": "How joints and supports constrain parts, and the reaction forces they create."
@@ -694,17 +1150,41 @@
    "id": "2c38f022083c80bc8d3cdae9a01382e6",
    "name": "Systems Engineering",
    "parent": "4038f022083c816ba41df0761731bca6",
-   "rating": 5,
+   "rating": 4.5,
    "target": null,
    "blurb": "Engineering the whole system: requirements, architecture, integration and verification."
+  },
+  {
+   "id": "40b8f022083c8183a029ef3d4bd8b92e",
+   "name": "Tactile Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Touch and pressure sensing skins and pads that give robots a sense of contact."
+  },
+  {
+   "id": "40b8f022083c81fda889cbdf00d8be1f",
+   "name": "TCP/IP",
+   "parent": "6b4e076b347b4e31a50148c0ac98f37a",
+   "rating": 3,
+   "target": null,
+   "blurb": "The internet's core protocols: addresses, ports and sockets for reliable data between devices."
   },
   {
    "id": "4038f022083c81459069f73257199ab5",
    "name": "Technical Communication",
    "parent": "4038f022083c816ba41df0761731bca6",
-   "rating": 5,
+   "rating": 4,
    "target": null,
    "blurb": "Explaining technical work clearly through docs, diagrams and presentations."
+  },
+  {
+   "id": "40b8f022083c81cb9fead63113291b42",
+   "name": "Teensy",
+   "parent": "dbf4d32d91e94753b6283dd6db02ab2b",
+   "rating": 3,
+   "target": null,
+   "blurb": "Fast, small Arduino-compatible microcontroller boards for demanding I/O."
   },
   {
    "id": "80abf2a57f494da28744e9b992a02d60",
@@ -713,6 +1193,22 @@
    "rating": 2,
    "target": null,
    "blurb": "Heat transfer and cooling: keeping motors, electronics and parts within temperature limits."
+  },
+  {
+   "id": "40b8f022083c819fa665f55d9b3383ac",
+   "name": "Thermal Controllers",
+   "parent": "80abf2a57f494da28744e9b992a02d60",
+   "rating": 3,
+   "target": null,
+   "blurb": "Closed-loop controllers that read temperature sensors and drive heaters to a setpoint."
+  },
+  {
+   "id": "40b8f022083c8166a286c3e7d8387e52",
+   "name": "Thermocouples",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Junction temperature sensors that cover wide ranges, read through amplifiers or thermal controllers."
   },
   {
    "id": "3a08f022083c807f9553c4a36404f16c",
@@ -726,9 +1222,25 @@
    "id": "35d8f022083c80debe30da654b1e075e",
    "name": "TwinCAT",
    "parent": "4038f022083c81ab933cca6199f6cb33",
-   "rating": 2,
+   "rating": 3,
    "target": null,
    "blurb": "Beckhoff's PC-based automation software for PLC programming and motion control."
+  },
+  {
+   "id": "40b8f022083c8123a0a7d92762c1e90e",
+   "name": "UART",
+   "parent": "772257571a524cb99a05eb7abb0e0a39",
+   "rating": 3,
+   "target": null,
+   "blurb": "Simple two-wire serial link, the TX/RX connection behind most debug consoles."
+  },
+  {
+   "id": "40b8f022083c816a9543f31ad136e9a1",
+   "name": "Ultrasonic Sensors",
+   "parent": "1d552ffc3982412f8bc04215fc397393",
+   "rating": 3,
+   "target": null,
+   "blurb": "Sound-pulse range finders for measuring distance to obstacles."
   },
   {
    "id": "1448f022083c8044886cfc83a7120b0a",
@@ -750,9 +1262,33 @@
    "id": "4038f022083c8132b655ed8de12af58b",
    "name": "Verification & Validation",
    "parent": "2c38f022083c80bc8d3cdae9a01382e6",
-   "rating": 5,
+   "rating": 4.5,
    "target": null,
    "blurb": "Proving a system was built right and that it's the right system."
+  },
+  {
+   "id": "40b8f022083c81e0a120d2805cd389f5",
+   "name": "VFDs",
+   "parent": "63a707011be245f4bc0ce1c4c0968c0c",
+   "rating": 3,
+   "target": null,
+   "blurb": "Variable frequency drives that control the speed and torque of AC motors."
+  },
+  {
+   "id": "40b8f022083c813b9c1ad47f43af1c3c",
+   "name": "VISA (Instrument Control)",
+   "parent": "4038f022083c81c9a227f11f5dfa1029",
+   "rating": 3,
+   "target": null,
+   "blurb": "Scripting lab instruments like power supplies and controllers with VISA and SCPI commands."
+  },
+  {
+   "id": "40b8f022083c81d18cfdd39ae2089c9c",
+   "name": "VR (Meta Quest)",
+   "parent": "40b8f022083c81ea901ad5d755b3c14f",
+   "rating": 2.5,
+   "target": null,
+   "blurb": "Meta Quest headsets for VR interfaces and head and hand tracking."
   },
   {
    "id": "2568f022083c80279651d840430f61be",
@@ -763,19 +1299,43 @@
    "blurb": "Building websites and web apps: HTML, CSS, JavaScript and backends."
   },
   {
+   "id": "40b8f022083c81808f4afbdee0c92ed3",
+   "name": "WebRTC",
+   "parent": "6b4e076b347b4e31a50148c0ac98f37a",
+   "rating": 2,
+   "target": null,
+   "blurb": "Real-time audio and video streaming between browsers and devices, used for live teleoperation feeds."
+  },
+  {
    "id": "3fe8f022083c80e290f8c0a76f2700f0",
    "name": "Windows",
    "parent": "4038f022083c81c791e3d1d950b5750b",
    "rating": 3,
    "target": null,
    "blurb": "Setting up and developing on Windows, including tooling and WSL."
+  },
+  {
+   "id": "40b8f022083c81dd8fa8f49c429d8650",
+   "name": "Word",
+   "parent": "4038f022083c81459069f73257199ab5",
+   "rating": 3,
+   "target": null,
+   "blurb": "Writing and formatting documents like procedures, reports and specs."
+  },
+  {
+   "id": "40b8f022083c8193a3abc61df7a55e32",
+   "name": "Xenomai",
+   "parent": "4038f022083c8191b4b1efb18f06c01e",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Real-time co-kernel for Linux that runs hard real-time threads alongside it."
   }
  ],
  "projects": [
   {
    "id": "4038f022083c81b39315fff75b935ede",
    "name": "LED LAMP",
-   "blurb": "",
+   "blurb": "A 3D-printed LED lamp with a single-wall printed diffuser shell.",
    "organization": "",
    "start": null,
    "end": null,
@@ -785,62 +1345,18 @@
     "9ff7f497ae3b40dca64c9a8b8bdde978",
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c81f9a056fadef2c6641a",
-    "4038f022083c814ea232fdf49f25d945"
-   ],
-   "cover": null,
-   "page": "projects/led-lamp.html",
-   "photos": 0
-  },
-  {
-   "id": "4038f022083c81de8bcac176a7735289",
-   "name": "QR Code Shirt",
-   "blurb": "",
-   "organization": "",
-   "start": null,
-   "end": null,
-   "link": null,
-   "featured": false,
-   "skills": [
-    "2568f022083c80279651d840430f61be",
-    "2948f022083c80329423daeac748615c",
-    "e3d3972c0ba64a6e8c455c0c7d713549",
-    "6b4e076b347b4e31a50148c0ac98f37a",
     "4038f022083c814ea232fdf49f25d945",
-    "1638f022083c8094bc4fdb8dc1066af5"
+    "40b8f022083c81018de9d045750c63cf"
    ],
    "cover": null,
-   "page": "projects/qr-code-shirt.html",
-   "photos": 0
-  },
-  {
-   "id": "440ded2ce41e4360bf81b57c371bcca5",
-   "name": "Robot Arm",
-   "blurb": "",
-   "organization": "",
-   "start": null,
-   "end": null,
-   "link": null,
-   "featured": false,
-   "skills": [
-    "4038f022083c816eb3f7cf99088fe3b6",
-    "74117136db1a419591201a04faefab03",
-    "12d8f022083c8047a12fdd4fd0e72dde",
-    "4038f022083c8159a802f55b200deeb1",
-    "3fdffc9f4f1143f68b353aebeb273bb2",
-    "63a707011be245f4bc0ce1c4c0968c0c",
-    "1d552ffc3982412f8bc04215fc397393",
-    "9ff7f497ae3b40dca64c9a8b8bdde978",
-    "4038f022083c815d9cafd2ef2ceed783",
-    "5dcc4f8a8cf04917a44825b779c4cedf"
-   ],
-   "cover": null,
-   "page": "projects/robot-arm.html",
+   "videos": 0,
+   "page": "projects/led-lamp.html",
    "photos": 0
   },
   {
    "id": "4038f022083c819b9fd8c2ae3ff2482c",
    "name": "Twitch Cam V2",
-   "blurb": "",
+   "blurb": "A portable redesign of TwitchCam, built around a Raspberry Pi and a servo HAT.",
    "organization": "",
    "start": null,
    "end": null,
@@ -855,13 +1371,14 @@
     "d3501bb2ec4045a6a41da1bd32a6debe"
    ],
    "cover": null,
+   "videos": 0,
    "page": "projects/twitch-cam-v2.html",
    "photos": 0
   },
   {
    "id": "b6a7eb60515248b2af7a5311dae49954",
    "name": "TwitchCam V1",
-   "blurb": "",
+   "blurb": "A pan/tilt camera robot that Twitch chat controls live, running ROS 2 on a Raspberry Pi with an ESP32 over micro-ROS.",
    "organization": "",
    "start": null,
    "end": null,
@@ -877,9 +1394,13 @@
     "63a707011be245f4bc0ce1c4c0968c0c",
     "772257571a524cb99a05eb7abb0e0a39",
     "6b4e076b347b4e31a50148c0ac98f37a",
-    "2938f022083c809da0e2d19d5a48a4a2"
+    "2938f022083c809da0e2d19d5a48a4a2",
+    "40b8f022083c817ea78fc6287b43196a",
+    "40b8f022083c81548ec3c1a101c1ea96",
+    "1688f022083c809b8cedd86c37cc174f"
    ],
    "cover": null,
+   "videos": 0,
    "page": "projects/twitchcam-v1.html",
    "photos": 0
   }
@@ -888,13 +1409,13 @@
   {
    "id": "4078f022083c81c98900f71fd2c5d488",
    "name": "Relativity Space — Robotics Engineer",
-   "blurb": "",
+   "blurb": "Robotics system engineering for Horizon Manufacturing metal 3D printers.",
    "organization": "Relativity Space",
    "start": "2026-04-01",
    "end": null,
    "kind": "work",
    "role": "Robotics Engineer",
-   "location": "",
+   "location": "Long Beach, CA",
    "skills": [
     "21299b93bc724631a2263b552fc6a22c",
     "b30c71b9be8e4be08e5b80f4b73c7705",
@@ -902,7 +1423,6 @@
     "2c38f022083c80bc8d3cdae9a01382e6",
     "4038f022083c815781aeffd54bbafc59",
     "4038f022083c81fcb497e468bd286f47",
-    "2b98f022083c8008be27ede7a42be0fb",
     "772257571a524cb99a05eb7abb0e0a39",
     "3918f022083c80e7b949f46a1cd0f541",
     "63a707011be245f4bc0ce1c4c0968c0c",
@@ -916,9 +1436,22 @@
     "d3501bb2ec4045a6a41da1bd32a6debe",
     "4038f022083c8159a802f55b200deeb1",
     "3fdffc9f4f1143f68b353aebeb273bb2",
-    "4038f022083c818c8e0cc9d9128dba95"
+    "4038f022083c818c8e0cc9d9128dba95",
+    "40b8f022083c81e0a120d2805cd389f5",
+    "40b8f022083c8193a3abc61df7a55e32",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "40b8f022083c81a78333e8d368500932",
+    "40b8f022083c8104a666fef5c2ed2967",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c8132870fd5644618d779",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "40b8f022083c814690ded8a2af868d58",
+    "40b8f022083c819cbccdcd11def13905"
    ],
-   "details": null,
+   "details": "",
    "logo": {
     "sm": "assets/img/logos/f06565c03e6c-sm.webp",
     "lg": "assets/img/logos/f06565c03e6c-lg.webp"
@@ -934,7 +1467,38 @@
    "kind": "work",
    "role": "Robotics Engineering Consultant",
    "location": "Los Angeles, CA",
-   "skills": [],
+   "skills": [
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81c1bb0ddb05b15f0516",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c8132870fd5644618d779",
+    "4038f022083c81e6a2adc0c95aa35eda",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "34a8f022083c801eadf6ed7f6411c2df",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "dbf4d32d91e94753b6283dd6db02ab2b",
+    "2b98f022083c8008be27ede7a42be0fb",
+    "4038f022083c815781aeffd54bbafc59",
+    "4038f022083c81ab933cca6199f6cb33",
+    "40b8f022083c814690ded8a2af868d58",
+    "40b8f022083c81518b5fc08e6d50f8a9",
+    "40b8f022083c81d2b6b7d17df4e81c23",
+    "4038f022083c81c9a227f11f5dfa1029",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81abb0d7f06e67af6607",
+    "40b8f022083c8166a286c3e7d8387e52",
+    "40b8f022083c81018de9d045750c63cf",
+    "40b8f022083c812f9a16e8513140ff61",
+    "40b8f022083c815da7ace92459a613c6"
+   ],
    "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>",
    "logo": {
     "sm": "assets/img/logos/93711a72e2f8.svg",
@@ -972,7 +1536,37 @@
     "4038f022083c818085cbd9ee93062872",
     "009a07fef6c54471a2fa2a8d22009c5c",
     "0cff834551e0493d9aadc289902c7d9c",
-    "e3d3972c0ba64a6e8c455c0c7d713549"
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "40b8f022083c8183a029ef3d4bd8b92e",
+    "40b8f022083c81d18cfdd39ae2089c9c",
+    "1688f022083c80b69517ee999072f11a",
+    "40b8f022083c8168be5cde6793dfce54",
+    "40b8f022083c81d5a279c86cead35d06",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "40b8f022083c8199ad6dce3f75da0bc9",
+    "1688f022083c809b8cedd86c37cc174f",
+    "4038f022083c8131becdc98a5d43f3dd",
+    "4038f022083c8106b61ac630a92beb7d",
+    "40b8f022083c8123a0a7d92762c1e90e",
+    "40b8f022083c81abb0d7f06e67af6607",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c8159a802f55b200deeb1",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "1448f022083c8044886cfc83a7120b0a",
+    "4038f022083c81c9a227f11f5dfa1029",
+    "40b8f022083c81ab8a9fc6147d4220dc",
+    "40b8f022083c81d2b6b7d17df4e81c23",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c818da6a3c8a2f64bb9f3",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "40b8f022083c819cbccdcd11def13905",
+    "40b8f022083c815da7ace92459a613c6",
+    "40b8f022083c81808f4afbdee0c92ed3",
+    "b30c71b9be8e4be08e5b80f4b73c7705",
+    "40b8f022083c81e395f3e21fe9db355d",
+    "40b8f022083c81daa1a0f783a628884b"
    ],
    "details": "<ul><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>",
    "logo": {
@@ -994,13 +1588,35 @@
     "2c38f022083c80bc8d3cdae9a01382e6",
     "4038f022083c8132b655ed8de12af58b",
     "4038f022083c81e6a2adc0c95aa35eda",
-    "4038f022083c8168b005ee81637a068c",
     "5c976dd32bc0479482f6ab0c6c738005",
     "dbf4d32d91e94753b6283dd6db02ab2b",
     "772257571a524cb99a05eb7abb0e0a39",
     "3fdffc9f4f1143f68b353aebeb273bb2",
     "4038f022083c8131becdc98a5d43f3dd",
-    "4038f022083c81f19ad9d866db99d2bc"
+    "4038f022083c81f19ad9d866db99d2bc",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81c1bb0ddb05b15f0516",
+    "4038f022083c8132870fd5644618d779",
+    "e3d3972c0ba64a6e8c455c0c7d713549",
+    "6b4e076b347b4e31a50148c0ac98f37a",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "d3501bb2ec4045a6a41da1bd32a6debe",
+    "40b8f022083c81548ec3c1a101c1ea96",
+    "40b8f022083c817ea78fc6287b43196a",
+    "2938f022083c80c0bcf6f83ff7ebab1e",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c81a6803cec2e8b7a0a8f",
+    "40b8f022083c81d0907afcd081a45fa7",
+    "40b8f022083c81ba8c49f3717bf11baa",
+    "009a07fef6c54471a2fa2a8d22009c5c",
+    "12d8f022083c8047a12fdd4fd0e72dde",
+    "74117136db1a419591201a04faefab03",
+    "40b8f022083c812f9a16e8513140ff61",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81b08df4fcb55c9f3be8",
+    "40b8f022083c81daa1a0f783a628884b"
    ],
    "details": "<ul><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>",
    "logo": {
@@ -1037,7 +1653,29 @@
     "6b4e076b347b4e31a50148c0ac98f37a",
     "5dcc4f8a8cf04917a44825b779c4cedf",
     "4038f022083c8131becdc98a5d43f3dd",
-    "4038f022083c81f19ad9d866db99d2bc"
+    "4038f022083c81f19ad9d866db99d2bc",
+    "40b8f022083c819fb52ac3fedf5b5f10",
+    "40b8f022083c813b9c1ad47f43af1c3c",
+    "40b8f022083c81fda889cbdf00d8be1f",
+    "40b8f022083c818494dcede04a10dd09",
+    "2fc8f022083c8004b515f1a4e3ecd6eb",
+    "40b8f022083c819cbccdcd11def13905",
+    "0cff834551e0493d9aadc289902c7d9c",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c8168b005ee81637a068c",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "40b8f022083c81bea5bdec858ebab0d5",
+    "b30c71b9be8e4be08e5b80f4b73c7705",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "74117136db1a419591201a04faefab03",
+    "40b8f022083c819fa665f55d9b3383ac",
+    "4038f022083c81f9a056fadef2c6641a",
+    "40b8f022083c81debfadee50400d063e",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c8166a286c3e7d8387e52"
    ],
    "details": "<ul><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>",
    "logo": {
@@ -1060,7 +1698,15 @@
     "4038f022083c818085cbd9ee93062872",
     "4048f022083c810db38ff7605a1f794a",
     "4038f022083c816eb3f7cf99088fe3b6",
-    "4038f022083c81c989ddf4081df6500e"
+    "4038f022083c81c989ddf4081df6500e",
+    "74117136db1a419591201a04faefab03",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "c84c8b0f0fd74e5f82e12c2313b29438",
+    "40b8f022083c814690ded8a2af868d58",
+    "4038f022083c81ba9768f25892925d70",
+    "4038f022083c8132b655ed8de12af58b",
+    "40b8f022083c8171a2d7c906763b765f",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
    "details": "<ul><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>",
    "logo": {
@@ -1101,14 +1747,25 @@
     "4038f022083c8106b61ac630a92beb7d",
     "4038f022083c815d9cafd2ef2ceed783",
     "4038f022083c816eb3f7cf99088fe3b6",
-    "80abf2a57f494da28744e9b992a02d60",
     "4038f022083c81bead96cedad1b4a0be",
     "4038f022083c81ba9768f25892925d70",
     "4038f022083c8132870fd5644618d779",
     "4038f022083c81fcab31efabe32a1350",
     "4038f022083c81f9a056fadef2c6641a",
     "4038f022083c818085cbd9ee93062872",
-    "4038f022083c81459069f73257199ab5"
+    "4038f022083c81459069f73257199ab5",
+    "40b8f022083c818494dcede04a10dd09",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "3518f022083c8009ba0ceca7a45f1ae0",
+    "74117136db1a419591201a04faefab03",
+    "4038f022083c811e9ebcecf821d4c61b",
+    "40b8f022083c81378583e1b2e6578e63",
+    "63a707011be245f4bc0ce1c4c0968c0c",
+    "40b8f022083c816bb4fbf30e033cdcd5",
+    "2bd8f022083c807a86c2c9111cb157b0",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c8173903ad60ffbc2786f"
    ],
    "details": "<ul><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href=\"https://ieeexplore.ieee.org/document/9438243\" target=\"_blank\" rel=\"noopener\">paper</a> on decontamination process for MSRH</li></ul>",
    "logo": {
@@ -1131,7 +1788,13 @@
     "4038f022083c818085cbd9ee93062872",
     "4038f022083c816eb3f7cf99088fe3b6",
     "74117136db1a419591201a04faefab03",
-    "4038f022083c81e38b7be114e560096b"
+    "4038f022083c81e38b7be114e560096b",
+    "08d6c1e61d664a9caedaaf90ebc1b985",
+    "4038f022083c81ba9768f25892925d70",
+    "9ff7f497ae3b40dca64c9a8b8bdde978",
+    "40b8f022083c818f8f42c926d0eb2b1b",
+    "40b8f022083c812f9a16e8513140ff61",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
    "details": "<ul><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>",
    "logo": {
