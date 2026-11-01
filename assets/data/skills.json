@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01 18:36 UTC",
+ "updated": "2026-11-01 18:51 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1354,6 +1354,32 @@
    "photos": 0
   },
   {
+   "id": "4098f022083c816989f6e5db1a98648f",
+   "name": "Sample Project (test, delete me)",
+   "blurb": "A test project with random photos to preview the new project pages.",
+   "organization": "Personal",
+   "start": "2025-03-01",
+   "end": "2025-06-01",
+   "link": "https://github.com/sjmock99",
+   "featured": true,
+   "skills": [
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81459069f73257199ab5",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c818085cbd9ee93062872",
+    "2b98f022083c8008be27ede7a42be0fb",
+    "4038f022083c81ea86e0fdc9312f1a92",
+    "4038f022083c8168b005ee81637a068c",
+    "4038f022083c815d9cafd2ef2ceed783",
+    "4038f022083c81f08e16f687f85fca7f"
+   ],
+   "cover": "assets/img/projects/sample-project-test-delete-me/f83cdca0bbec-sm.webp",
+   "videos": 3,
+   "page": "projects/sample-project-test-delete-me.html",
+   "photos": 7
+  },
+  {
    "id": "4038f022083c819b9fd8c2ae3ff2482c",
    "name": "Twitch Cam V2",
    "blurb": "A portable redesign of TwitchCam, built around a Raspberry Pi and a servo HAT.",
@@ -1409,7 +1435,7 @@
   {
    "id": "4078f022083c81c98900f71fd2c5d488",
    "name": "Relativity Space — Robotics Engineer",
-   "blurb": "Robotics system engineering for Horizon Manufacturing metal 3D printers.",
+   "blurb": "Robotics system and mechatronics engineering for Horizon Manufacturing metal 3D printers.",
    "organization": "Relativity Space",
    "start": "2026-04-01",
    "end": null,
@@ -1449,7 +1475,8 @@
     "e3d3972c0ba64a6e8c455c0c7d713549",
     "0cff834551e0493d9aadc289902c7d9c",
     "40b8f022083c814690ded8a2af868d58",
-    "40b8f022083c819cbccdcd11def13905"
+    "40b8f022083c819cbccdcd11def13905",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
    "details": "",
    "logo": {
@@ -1497,7 +1524,8 @@
     "40b8f022083c8166a286c3e7d8387e52",
     "40b8f022083c81018de9d045750c63cf",
     "40b8f022083c812f9a16e8513140ff61",
-    "40b8f022083c815da7ace92459a613c6"
+    "40b8f022083c815da7ace92459a613c6",
+    "40b8f022083c81b08df4fcb55c9f3be8"
    ],
    "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>",
    "logo": {
