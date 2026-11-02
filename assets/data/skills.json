@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02 00:00 UTC",
+ "updated": "2026-11-02 04:50 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1527,7 +1527,7 @@
     "40b8f022083c815da7ace92459a613c6",
     "40b8f022083c81b08df4fcb55c9f3be8"
    ],
-   "details": "<ul><li><b>Systems Engineer</b>, Motivo Engineering</li><li><b>Robotics Engineer</b>, Walt Disney Imagineering R&amp;D via Stratin Engineering</li></ul>",
+   "details": "<ul><li>Maintenance and assembly of animatronic robot systems</li><li>Solicited system requirements from clients for aerospace, automotive, and consumer robotics applications including standards such as NFPA 70, DO-160 to enable tracability, risk reduction, and tracability.</li><li>Developed system architecture for IoT robotic application to coordinate system interfaces between multiple stakeholder software stacks </li><li>Integration and bring up for robotic prototypes involving Jetson Nano, perception, audio and lighting systems for client stakeholder demo  </li><li>Developed CAN-bus hardware drivers for control of 10+ LEDs and animation via web protocols </li><li>Designed and delivered test systems to mitigate thermal cycle risk and enable software development in the field</li><li>Taught entire company engineering fundamentals on V&amp;V and extensible test design  </li></ul>",
    "logo": {
     "sm": "assets/img/logos/93711a72e2f8.svg",
     "lg": "assets/img/logos/93711a72e2f8.svg"
