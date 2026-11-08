@@ -730,8 +730,10 @@ def experience_html(items, skills):
                       <h3>{e(it["role"] or it["name"])}</h3>
                       <h4>{e(org)}</h4>
                     </div>
-                    <span class="duration">{e(date_range(it))}</span>
-                    {toggle(it) if bullets else ""}
+                    <div class="exp-side">
+                      <span class="duration">{e(date_range(it))}</span>
+                      {toggle(it) if bullets else ""}
+                    </div>
                   </div>
                   <div class="card-body">
                     {f"<p>{e(it['blurb'])}</p>" if it["blurb"] else ""}
@@ -758,10 +760,11 @@ def logo_html(it, cls):
 
 
 def toggle(it):
-    """The chevron that opens a job's bullets (assets/js/resume.js)."""
-    label = html.escape(f"Details: {it['role']}, {it['organization']}")
-    return (f'<button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-{it["id"]}" '
-            f'aria-label="{label}"><i class="bi bi-chevron-down"></i></button>')
+    """The "See more ⌄" / "See less ⌃" button under a job's dates that opens its bullets (assets/js/resume.js)."""
+    label = html.escape(f"{it['role']}, {it['organization']}")
+    return (f'<button class="exp-toggle" type="button" aria-expanded="false" aria-controls="exp-more-{it["id"]}" title="{label}">'
+            f'<span class="exp-show">See more</span><span class="exp-hide">See less</span>'
+            f'<i class="bi bi-chevron-down" aria-hidden="true"></i></button>')
 
 
 def education_html(items, skills):

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07 18:56 UTC",
+ "updated": "2026-11-08 06:57 UTC",
  "source": "notion",
  "skills": [
   {
@@ -249,6 +249,14 @@
    "rating": 3.5,
    "target": null,
    "blurb": "Tools for drawing architecture, wiring and flow diagrams that explain a design."
+  },
+  {
+   "id": "4128f022083c81d181cbf2d6b0e5b69d",
+   "name": "DO-160",
+   "parent": "4038f022083c8168b005ee81637a068c",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "Environmental test standard for airborne equipment: temperature, vibration, EMI and power."
   },
   {
    "id": "11b8f022083c8041bd4df52dc526ef4d",
@@ -721,6 +729,14 @@
    "rating": 3.5,
    "target": null,
    "blurb": "How devices connect and talk: IP, Wi-Fi, ports and troubleshooting connections."
+  },
+  {
+   "id": "4128f022083c81d3803dca015ed529ee",
+   "name": "NFPA 70",
+   "parent": "4038f022083c8168b005ee81637a068c",
+   "rating": 1.5,
+   "target": null,
+   "blurb": "The U.S. National Electrical Code, covering safe wiring and electrical installation."
   },
   {
    "id": "40b8f022083c816bb4fbf30e033cdcd5",
@@ -1478,7 +1494,11 @@
     "40b8f022083c819cbccdcd11def13905",
     "40b8f022083c81b08df4fcb55c9f3be8"
    ],
+<<<<<<< HEAD
    "details": "<ul><li></li></ul>",
+=======
+   "details": "<ul><li>Responsible Engineer for drive software and bring-up of a synchronized dual-motor axis on the company&#x27;s largest WAAM positioner (12,000 lb), enabling delivery of customer contracts</li><li>Led integration of a dual-axis positioner into an existing WAAM flight cell with 6-DoF KUKA robots, validating safety, calibration and kinematics through system-level testing</li><li>Developed a real-time Linux C++ driver for Bosch VFDs over EtherCAT with FSoE safety using Acontis</li><li>Reduced EtherCAT cycle drift and added graceful frame-loss handling in the real-time Linux / Acontis stack, stabilizing motion control</li><li>Built a Beckhoff-based HIL motor testbench with configurable sim/real hardware, de-risking software development and validating hardware before full system delivery</li><li>Commissioned and tuned Bosch and SEW servo drives, and integrated Bosch and Beckhoff drives into EtherCAT motion systems using TwinCAT and Bosch drive software</li><li>Built an OptiTrack-based regression test framework to characterize robot path accuracy and motion control performance over time</li></ul>",
+>>>>>>> dfb8ab0 (Resume 'See more' toggle, sync skills and experience from Notion)
    "logo": {
     "sm": "assets/img/logos/f06565c03e6c-sm.webp",
     "lg": "assets/img/logos/f06565c03e6c-lg.webp"
@@ -1525,9 +1545,16 @@
     "40b8f022083c81018de9d045750c63cf",
     "40b8f022083c812f9a16e8513140ff61",
     "40b8f022083c815da7ace92459a613c6",
-    "40b8f022083c81b08df4fcb55c9f3be8"
+    "40b8f022083c81b08df4fcb55c9f3be8",
+    "40b8f022083c819cbccdcd11def13905",
+    "4128f022083c81d181cbf2d6b0e5b69d",
+    "4128f022083c81d3803dca015ed529ee"
    ],
+<<<<<<< HEAD
    "details": "<ul><li>Designed the system state machine and ICDs for an IoT robotic platform, defining interfaces across 3 stakeholder software stacks</li><li>Elicited system requirements for aerospace, automotive and consumer robotics clients per DO-160 and NFPA 70, ensuring traceability and reducing risk</li><li>Led integration and bring-up of robotic prototypes spanning perception, audio and lighting for client demos</li><li>Led delivery of a HIL testbench and thermal test systems, enabling early software development and qualifying the robot for 8+ hours of outdoor operation</li><li>Developed CAN-bus drivers for 10+ microcontroller nodes, enabling LED animations controlled over WebSockets</li><li>Trained 40 engineers in V&amp;V and extensible test design, shifting team culture toward [test-early practices]</li><li>Assembled and maintained animatronic robot systems</li></ul>",
+=======
+   "details": "<ul><li>Designed the system state machine and ICDs for an IoT robotic platform, defining interfaces across 3 stakeholder software stacks</li><li>Elicited system requirements for aerospace, automotive and consumer robotics clients, incorporating standards such as DO-160 and NFPA 70 to ensure traceability</li><li>Led integration and bring-up of robotic prototypes spanning perception, audio and lighting for client demos</li><li>Led delivery of a HIL testbench and thermal test systems, enabling early software development and qualifying the robot for 8+ hours of outdoor operation</li><li>Developed CAN-bus drivers for 7 microcontroller nodes, enabling LED animations controlled over WebSockets</li><li>Trained 40 engineers in V&amp;V and extensible test design, shifting team culture toward requirements-driven verification practices</li><li>Assembled and maintained animatronic robot systems</li></ul>",
+>>>>>>> dfb8ab0 (Resume 'See more' toggle, sync skills and experience from Notion)
    "logo": {
     "sm": "assets/img/logos/93711a72e2f8.svg",
     "lg": "assets/img/logos/93711a72e2f8.svg"
@@ -1748,7 +1775,7 @@
    "blurb": "",
    "organization": "Georgia Institute of Technology",
    "start": "2022-01-01",
-   "end": null,
+   "end": "2022-12-01",
    "kind": "education",
    "role": "Master's of Science in Mechanical Engineering",
    "location": "Atlanta, GA",

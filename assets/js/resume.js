@@ -1,7 +1,7 @@
 /**
- * Resume (index.html #resume): each job's bullets start folded. The chevron in the card's header, or a click
- * anywhere on the header, opens or closes them; a timeline row, a "Worked at" logo or any #exp-<id> link scrolls
- * to the job and opens it.
+ * Resume (index.html #resume): each job's bullets start folded behind a "See more ⌄" button under its dates.
+ * The button, or a click anywhere on the card's header, opens or closes them; a timeline row, a "Worked at" logo or
+ * any #exp-<id> link scrolls to the job and opens it.
  */
 (function () {
   "use strict";
@@ -41,10 +41,10 @@
       }
       return;
     }
-    // The chevron, or anywhere else on the header (links inside it, if any, still work).
-    const head = e.target.closest(".experience-card .card-header");
-    if (head && !e.target.closest("a")) {
-      const card = head.closest(".experience-card"), btn = card.querySelector(".exp-toggle");
+    // The "See more" button, or anywhere on the card's header (links inside it, if any, still work).
+    const hit = e.target.closest(".experience-card .exp-toggle") || (!e.target.closest("a") && e.target.closest(".experience-card .card-header"));
+    if (hit) {
+      const card = hit.closest(".experience-card"), btn = card.querySelector(".exp-toggle");
       if (btn) setOpen(card, btn.getAttribute("aria-expanded") !== "true");
     }
   });

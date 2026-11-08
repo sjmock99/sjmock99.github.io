@@ -105,18 +105,32 @@ a.tl-row:hover .tl-bar { filter: brightness(1.15); }
 @media (max-width: 576px) { .exp-logo { width: 46px; height: 46px; margin-right: 12px; } }
 .resume .experience-card .role-info { min-width: 0; }
 
-/* ---- Job cards: the bullets fold away; a chevron in the header (or a click anywhere on the header) opens them ---- */
+/* ---- Job cards: the bullets fold away behind a "See more ⌄" button under the dates; clicking the header works too ---- */
 .resume .experience-card { scroll-margin-top: 90px; }
-.resume .experience-card .card-header:has(.exp-toggle) { cursor: pointer; }
-/* Keep the dates on the right with the chevron beside them. */
-.resume .experience-card .card-header .duration { margin-left: auto; }
-.exp-toggle { flex: none; align-self: center; width: 30px; height: 30px; display: grid; place-items: center; margin-left: 4px; padding: 0;
-  border: 0; border-radius: 50%; background: transparent; color: color-mix(in srgb, var(--default-color), transparent 45%); cursor: pointer; }
-.exp-toggle:hover, .card-header:hover .exp-toggle { background: color-mix(in srgb, var(--accent-color), transparent 90%); color: var(--accent-color); }
-.exp-toggle:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
-.exp-toggle i { transition: transform .2s ease; }
+.resume .experience-card:has(.exp-toggle) .card-header { cursor: pointer; }
+/* Dates and "See more" stacked in the top-right corner. */
+.resume .experience-card .exp-side { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; }
+/* An outlined pill in the accent colour, so it reads as a button next to the date pill. */
+.exp-toggle { display: inline-flex; align-items: center; gap: 5px; padding: 3px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 55%); background: var(--surface-color);
+  font-size: 0.82rem; font-weight: 600; color: var(--accent-color); transition: background .2s ease, border-color .2s ease; }
+.exp-toggle:hover, .card-header:hover .exp-toggle { background: color-mix(in srgb, var(--accent-color), transparent 90%); border-color: var(--accent-color); }
+.exp-toggle[aria-expanded="true"] { background: color-mix(in srgb, var(--accent-color), transparent 90%); }
+.exp-toggle:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 4px; border-radius: 4px; }
+.exp-toggle i { transition: transform .2s ease; font-size: 0.85em; }
 .exp-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+.exp-toggle .exp-hide, .exp-toggle[aria-expanded="true"] .exp-show { display: none; }
+.exp-toggle[aria-expanded="true"] .exp-hide { display: inline; }
 .resume .experience-card .exp-more { margin-top: 1rem; }
+/* Phones: logo beside the title and company, dates on their own line under the title. */
+@media (max-width: 768px) {
+  .resume .experience-section .experience-cards .experience-card .card-header { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; row-gap: 8px; align-items: center; }
+  .resume .experience-card .card-header .exp-logo { margin: 0; grid-row: span 2; align-self: start; }
+  .resume .experience-card .card-header .role-info { grid-column: 2; }
+  .resume .experience-card .exp-side { grid-column: 2; margin-left: 0; flex-direction: row; align-items: center; flex-wrap: wrap; justify-self: start; }
+  .resume .experience-card .card-header:not(:has(.exp-logo)) { grid-template-columns: minmax(0, 1fr); }
+  .resume .experience-card .card-header:not(:has(.exp-logo)) .role-info, .resume .experience-card .card-header:not(:has(.exp-logo)) .exp-side { grid-column: 1; }
+}
 /* Opened from the timeline: a brief highlight so it's easy to spot. */
 .resume .experience-card.exp-flash { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 50%); transition: box-shadow .3s ease; }
 @media (prefers-reduced-motion: reduce) { .exp-toggle i { transition: none; } }
