@@ -23,6 +23,8 @@
     let u;
     try { u = new URL(href, location.href); } catch (e) { return null; }
     if (u.origin !== location.origin || !u.pathname.startsWith(ROOT.pathname)) return null;
+    // A jump within this same page (e.g. a project's "Documentation" button, #doc-1) just scrolls.
+    if (u.pathname === location.pathname && u.search === location.search && u.hash) return null;
     const rel = u.pathname.slice(ROOT.pathname.length), m = rel.match(/^projects\/([a-z0-9-]+)\.html$/);
     return rel === "skills.html" ? { kind: "skills", hash: u.hash } : m ? { kind: "project", slug: m[1] } : null;
   }
