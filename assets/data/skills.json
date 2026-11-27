@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27 06:24 UTC",
+ "updated": "2026-11-27 07:02 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1364,6 +1364,10 @@
     "2ba8f022083c80568714dce327b6773b",
     "4038f022083c814ea232fdf49f25d945"
    ],
+   "interests": [
+    "4258f022083c810c805ef6ef84ab7363",
+    "4258f022083c816b909bef9f0fb3239c"
+   ],
    "cover": "assets/img/projects/feeling-small/1cad2a737fa0-sm.webp",
    "videos": 1,
    "page": "projects/feeling-small.html",
@@ -1391,37 +1395,14 @@
     "4038f022083c814ea232fdf49f25d945",
     "40b8f022083c81018de9d045750c63cf"
    ],
+   "interests": [
+    "4258f022083c811387c3e2a25c36390a",
+    "4258f022083c81299acbe58376ce08e6"
+   ],
    "cover": "assets/img/projects/led-led-lamp/fe5e59de8d45-sm.webp",
    "videos": 3,
    "page": "projects/led-led-lamp.html",
    "photos": 14,
-   "docs": []
-  },
-  {
-   "id": "4098f022083c816989f6e5db1a98648f",
-   "name": "Sample Project (test, delete me)",
-   "blurb": "A test project with random photos to preview the new project pages.",
-   "organization": "Personal",
-   "start": "2025-03-01",
-   "end": "2025-06-01",
-   "link": "https://github.com/sjmock99",
-   "featured": true,
-   "skills": [
-    "2c38f022083c80bc8d3cdae9a01382e6",
-    "4038f022083c81459069f73257199ab5",
-    "4038f022083c8132b655ed8de12af58b",
-    "4038f022083c814286f6d2847d2cd706",
-    "4038f022083c818085cbd9ee93062872",
-    "2b98f022083c8008be27ede7a42be0fb",
-    "4038f022083c81ea86e0fdc9312f1a92",
-    "4038f022083c8168b005ee81637a068c",
-    "4038f022083c815d9cafd2ef2ceed783",
-    "4038f022083c81f08e16f687f85fca7f"
-   ],
-   "cover": "assets/img/projects/sample-project-test-delete-me/f83cdca0bbec-sm.webp",
-   "videos": 3,
-   "page": "projects/sample-project-test-delete-me.html",
-   "photos": 7,
    "docs": []
   },
   {
@@ -1445,6 +1426,9 @@
     "4048f022083c802eaf7ff836ea404986",
     "2568f022083c80279651d840430f61be",
     "0cff834551e0493d9aadc289902c7d9c"
+   ],
+   "interests": [
+    "4258f022083c816b909bef9f0fb3239c"
    ],
    "cover": "assets/img/projects/syseng-toolkit/035b1ebeb647-sm.webp",
    "videos": 0,
@@ -1484,6 +1468,12 @@
     "40b8f022083c818f8f42c926d0eb2b1b",
     "4038f022083c814286f6d2847d2cd706",
     "4038f022083c81bead96cedad1b4a0be"
+   ],
+   "interests": [
+    "4258f022083c816b88dfdaf6e92452b8",
+    "4258f022083c81fc8d0fe7b832ab34c7",
+    "4258f022083c81299acbe58376ce08e6",
+    "4258f022083c811387c3e2a25c36390a"
    ],
    "cover": "assets/img/projects/twitchcam-v1/0116630a0039-sm.webp",
    "videos": 2,
@@ -1544,6 +1534,9 @@
     "40b8f022083c819cbccdcd11def13905",
     "40b8f022083c81b08df4fcb55c9f3be8"
    ],
+   "interests": [
+    "4258f022083c814aab65e3254c3acf92"
+   ],
    "details": "<ul><li>Responsible Engineer for drive software and bring-up of a synchronized dual-motor axis on the company&#x27;s largest WAAM positioner (12,000 lb), enabling delivery of customer contracts</li><li>Led integration of a dual-axis positioner into an existing WAAM flight cell with 6-DoF KUKA robots, validating safety, calibration and kinematics through system-level testing</li><li>Developed a real-time Linux C++ driver for Bosch VFDs over EtherCAT with FSoE safety using Acontis</li><li>Reduced EtherCAT cycle drift and added graceful frame-loss handling in the real-time Linux / Acontis stack, stabilizing motion control</li><li>Built a Beckhoff-based HIL motor testbench with configurable sim/real hardware, de-risking software development and validating hardware before full system delivery</li><li>Commissioned and tuned Bosch and SEW servo drives, and integrated Bosch and Beckhoff drives into EtherCAT motion systems using TwinCAT and Bosch drive software</li><li>Built an OptiTrack-based regression test framework to characterize robot path accuracy and motion control performance over time</li></ul>",
    "logo": {
     "sm": "assets/img/logos/f06565c03e6c-sm.webp",
@@ -1595,6 +1588,10 @@
     "40b8f022083c819cbccdcd11def13905",
     "4128f022083c81d181cbf2d6b0e5b69d",
     "4128f022083c81d3803dca015ed529ee"
+   ],
+   "interests": [
+    "4258f022083c811387c3e2a25c36390a",
+    "4258f022083c81fc8d0fe7b832ab34c7"
    ],
    "details": "<ul><li>Designed the system state machine and ICDs for an IoT robotic platform, defining interfaces across 3 stakeholder software stacks</li><li>Elicited system requirements for aerospace, automotive and consumer robotics clients, incorporating standards such as DO-160 and NFPA 70 to ensure traceability</li><li>Led integration and bring-up of robotic prototypes spanning perception, audio and lighting for client demos</li><li>Led delivery of a HIL testbench and thermal test systems, enabling early software development and qualifying the robot for 8+ hours of outdoor operation</li><li>Developed CAN-bus drivers for 7 microcontroller nodes, enabling LED animations controlled over WebSockets</li><li>Trained 40 engineers in V&amp;V and extensible test design, shifting team culture toward requirements-driven verification practices</li><li>Assembled and maintained animatronic robot systems</li></ul>",
    "logo": {
@@ -1665,6 +1662,9 @@
     "40b8f022083c81e395f3e21fe9db355d",
     "40b8f022083c81daa1a0f783a628884b"
    ],
+   "interests": [
+    "4258f022083c816b88dfdaf6e92452b8"
+   ],
    "details": "<ul><li>Responsible engineer for system delivery of teleoperated HIL (human in the loop) bimanual robotic system with tactile sensors and neural haptics used for human-robot shared embodiment research</li><li>Responsible engineer for system delivery of portable teleoperated HIL robotic system with gripper, tactile sensors, and neural haptics, presented at UN AI for Good 2025 conference to demonstrate robotics with touch</li><li>Managed program execution of UCLA robotic system and portable demo, leading team of 8 and 6 respectively, while coordinating multi-institutional collaboration between four universities</li><li>Released complete robotic system including hardware, software, requirements, interface control documents, GUI, Bill of Materials, and standard operating procedures, ensuring integration across university partners</li><li>Designed and implemented ROS2-based HITL (Hardware-in-the-Loop) unit test framework, creating 200+ test cases to verify system functionality pre-deployment</li><li>Worked with PhD students to implement advanced control algorithms and designed unit test framework to evaluate robot controller design within both simulation and hardware</li><li>Developed robot hardware, including grippers, cable management solutions, and electronics</li><li>Designed and implemented ROS2 software drivers including robot arms, grippers, motors, and tactile sensors</li><li>Designed and implemented algorithms for hand mapping and stimulation using tactile sensors, neural haptics, and hand tracking devices to enhance shared autonomy experience</li><li>Designed, managed, and trained students in proper hardware (PDM) and software (Git) release management systems, enabling effective multi-institute collaboration</li></ul>",
    "logo": {
     "sm": "assets/img/logos/d260b14e58cf-sm.webp",
@@ -1714,6 +1714,9 @@
     "4038f022083c81f9a056fadef2c6641a",
     "40b8f022083c81b08df4fcb55c9f3be8",
     "40b8f022083c81daa1a0f783a628884b"
+   ],
+   "interests": [
+    "4258f022083c811387c3e2a25c36390a"
    ],
    "details": "<ul><li>Designed and developed two HITL test fixtures for root cause analysis and durability testing of a robotic gripper and 6DoF robotic arm, leveraging ROS1, rosserial, and embedded systems</li><li>Conducted testing and contributed to the design of robotic arm peripherals, focusing on field reliability and food safety compliance</li><li>Designed end-to-end test framework connecting hardware to cloud, automating DUT traceability, JIRA Xray issue reporting, and structured data aggregation in Amazon Athena</li></ul>",
    "logo": {
@@ -1774,6 +1777,9 @@
     "40b8f022083c8171a2d7c906763b765f",
     "40b8f022083c8166a286c3e7d8387e52"
    ],
+   "interests": [
+    "4258f022083c814aab65e3254c3acf92"
+   ],
    "details": "<ul><li><b>Cognizant V&amp;V Engineer</b>, 2nd gen MSR Prototype End Effector Testbed <ul><li>Oversaw and conducted verification and validation (V&amp;V) to deliver testbed system</li><li>Ensured functional testbed operations by developing and conducting 8 detailed procedures</li><li>Designed and assembled laser nest assembly to characterize testbed stiffness using 7 single-axis lasers</li><li>Created MATLAB script for stiffness characterization using coordinate frame transformations and inverse kinematics to track deformation in 6DoF</li></ul></li><li><b>Mechanical Support Engineer</b>, 3rd gen MSR End Effector TVAC Testbed <ul><li>Conducted bearing and bolt hand-calculations for component sizing using JPL flight design principles</li><li>Contributed to testbed heat loss calculations and design of a redundant heating system with thermal controllers, heaters, and thermocouples for temperature-critical components</li></ul></li><li><b>Software Development Support Engineer</b>, 4th gen MSR End Effector TVAC Testbed <ul><li>Verified redundant heating system concept of operations by assembling and testing thermal system benchtop prototype for 15 different fault scenarios</li><li>Wrote Python drivers for asynchronous interfacing with 16 thermal controllers and 3 power supplies using Async IO Modbus TCP, VISA TCP/IP, and USB</li><li>Designed and tested ROS2 software architecture for thermal controller and power supply telemetry logging and service calls for operator interfacing</li><li>Deployed testbed and conducted MATLAB data analysis of testbed fault protection response time</li></ul></li></ul>",
    "logo": {
     "sm": "assets/img/logos/330bdfff2896-sm.webp",
@@ -1805,6 +1811,9 @@
     "40b8f022083c8171a2d7c906763b765f",
     "40b8f022083c81b08df4fcb55c9f3be8"
    ],
+   "interests": [
+    "4258f022083c811387c3e2a25c36390a"
+   ],
    "details": "<ul><li>Designed and assembled 7 benchtop prototypes of new robot dock product with 30+ components for software testing</li><li>Designed and tested a modular wheel traction fixture to improve tread effectiveness for a new robot product using Creo and top-down assembly modeling</li><li>Assisted with prototype build, root cause investigation and free body analysis to improve dock product</li></ul>",
    "logo": {
     "sm": "assets/img/logos/1703c22e3778-sm.webp",
@@ -1822,6 +1831,7 @@
    "role": "Master's of Science in Mechanical Engineering",
    "location": "Atlanta, GA",
    "skills": [],
+   "interests": [],
    "details": "<ul><li>Concentration in Robotics and Automation</li><li>Georgia Tech Faculty Honors (2022)</li><li>GPA 4.0/4.0</li></ul>",
    "logo": {
     "sm": "assets/img/logos/594a0e886ac9-sm.webp",
@@ -1864,6 +1874,9 @@
     "4038f022083c814286f6d2847d2cd706",
     "4038f022083c8173903ad60ffbc2786f"
    ],
+   "interests": [
+    "4258f022083c814aab65e3254c3acf92"
+   ],
    "details": "<ul><li>Conceptualized, procured, and assembled automated testbed ($100K) to characterize and evaluate misalignment error for MSR robotic arm end effector in 6 degrees of freedom (DOF)</li><li>Designed second iteration testbed ($500K) to undergo thermal vacuum requirements (-70C, high vacuum) and higher load/stroke operations</li><li>Created MATLAB simulation for inverse/forward kinematics for MSR Robotic Arm testbed operations</li><li>Wrote code to minimize MSR Robotic Arm link length and joint torques, perform basic path planning and clearance/tolerance checking</li><li>Designed custom tools to mount, cut, extract Mars samples from tubes when returned to Earth</li><li>Co-authored IEEE Aerospace <a href=\"https://ieeexplore.ieee.org/document/9438243\" target=\"_blank\" rel=\"noopener\">paper</a> on decontamination process for MSRH</li></ul>",
    "logo": {
     "sm": "assets/img/logos/635f55e6fb25-sm.webp",
@@ -1893,6 +1906,9 @@
     "40b8f022083c812f9a16e8513140ff61",
     "40b8f022083c81b08df4fcb55c9f3be8"
    ],
+   "interests": [
+    "4258f022083c811387c3e2a25c36390a"
+   ],
    "details": "<ul><li>Implemented solutions to improve robot docking; design was manufactured and sold</li><li>Performed root cause analysis to apply mechanical solutions for robots going to mass production</li></ul>",
    "logo": {
     "sm": "assets/img/logos/dd7bd6a7f960-sm.webp",
@@ -1910,11 +1926,62 @@
    "role": "Bachelor of Science in Mechanical Engineering",
    "location": "Atlanta, GA",
    "skills": [],
+   "interests": [],
    "details": "<ul><li>Georgia Tech Faculty Honors (2017-2021)</li><li>GPA 4.0/4.0</li></ul>",
    "logo": {
     "sm": "assets/img/logos/497094d77c88-sm.webp",
     "lg": "assets/img/logos/497094d77c88-lg.webp"
    }
+  }
+ ],
+ "interests": [
+  {
+   "id": "4258f022083c811387c3e2a25c36390a",
+   "name": "Consumer Products",
+   "blurb": "Developing products for everyday consumers",
+   "icon": "bi-house-heart"
+  },
+  {
+   "id": "4258f022083c814aab65e3254c3acf92",
+   "name": "Aerospace",
+   "blurb": "Exploring space and extreme environments",
+   "icon": "bi-rocket-takeoff"
+  },
+  {
+   "id": "4258f022083c816b88dfdaf6e92452b8",
+   "name": "Human Robot Interaction (HRI)",
+   "blurb": "Defining how humans and robots work together",
+   "icon": "bi-people"
+  },
+  {
+   "id": "4258f022083c81fc8d0fe7b832ab34c7",
+   "name": "Internet of Things (IoT)",
+   "blurb": "Connecting everyday systems to the internet",
+   "icon": "bi-wifi"
+  },
+  {
+   "id": "4258f022083c81299acbe58376ce08e6",
+   "name": "Interactive Media",
+   "blurb": "Linking humans with technology for new media experiences",
+   "icon": "bi-hand-index-thumb"
+  },
+  {
+   "id": "4258f022083c810c805ef6ef84ab7363",
+   "name": "Fashion Technology",
+   "blurb": "Fusing fashion and technology to create new experiences and design",
+   "icon": "bi-smartwatch"
+  },
+  {
+   "id": "4258f022083c8187b86ef2d3e4cf1efe",
+   "name": "Music",
+   "blurb": "Producing, arranging, and listening to new music",
+   "icon": "bi-music-note-beamed"
+  },
+  {
+   "id": "4258f022083c816b909bef9f0fb3239c",
+   "name": "Content & Education",
+   "blurb": "Creating engaging content to teach and inspire the next generation",
+   "icon": "bi-youtube"
   }
  ]
 }
