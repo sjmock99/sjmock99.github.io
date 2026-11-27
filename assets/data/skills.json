@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27 05:20 UTC",
+ "updated": "2026-11-27 05:22 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1398,26 +1398,31 @@
    "docs": []
   },
   {
-   "id": "4038f022083c819b9fd8c2ae3ff2482c",
-   "name": "Twitch Cam V2",
-   "blurb": "A portable redesign of TwitchCam, built around a Raspberry Pi and a servo HAT.",
+   "id": "4248f022083c810fbc30e6bed7128adc",
+   "name": "SysEng Toolkit",
+   "blurb": "Free systems engineering templates for small hardware teams.",
    "organization": "",
-   "start": null,
+   "start": "2026-11-24",
    "end": null,
-   "link": null,
+   "link": "https://github.com/syseng-toolkit/syseng-toolkit.github.io",
    "featured": false,
    "skills": [
-    "27a1f2b53ec04b208e076c7970b6d0e5",
-    "772257571a524cb99a05eb7abb0e0a39",
-    "63a707011be245f4bc0ce1c4c0968c0c",
-    "4038f022083c815781aeffd54bbafc59",
-    "e3d3972c0ba64a6e8c455c0c7d713549",
-    "d3501bb2ec4045a6a41da1bd32a6debe"
+    "2c38f022083c80bc8d3cdae9a01382e6",
+    "4038f022083c81bead96cedad1b4a0be",
+    "4038f022083c8132b655ed8de12af58b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81fcab31efabe32a1350",
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c81459069f73257199ab5",
+    "40b8f022083c8179bba7eb33bf3b176b",
+    "4048f022083c802eaf7ff836ea404986",
+    "2568f022083c80279651d840430f61be",
+    "0cff834551e0493d9aadc289902c7d9c"
    ],
-   "cover": null,
+   "cover": "assets/img/projects/syseng-toolkit/035b1ebeb647-sm.webp",
    "videos": 0,
-   "page": "projects/twitch-cam-v2.html",
-   "photos": 0,
+   "page": "projects/syseng-toolkit.html",
+   "photos": 1,
    "docs": []
   },
   {
