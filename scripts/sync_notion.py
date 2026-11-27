@@ -408,6 +408,21 @@ class Photos:
             self.used.update({f"{rel}/{sm}", f"{rel}/{lg}"})
         return {"sm": f"{rel}/{sm}", "lg": f"{rel}/{lg}"}
 
+    def is_wide(self, path, limit=1.7):
+        """Is the saved image (path relative to the site root) wider than limit:1? Such images (screenshots of sheets,
+        dashboards) show whole in a gallery square instead of being cropped to a strip. False if it can't tell."""
+        if not Image:
+            return False
+        for base in filter(None, (self.root, self.reuse)):
+            f = base / path
+            if f.is_file():
+                try:
+                    with Image.open(f) as im:
+                        return im.width > im.height * limit
+                except Exception:
+                    return False
+        return False
+
     def get_instagram_thumb(self, vid, rel):
         """An Instagram post's preview image -> {"sm", "lg", "caption"}, or None. Only fetched the first time."""
         name = hashlib.sha1(f"instagram:{vid}".encode()).hexdigest()[:12]
@@ -589,7 +604,7 @@ def project_content(it, cover, photos):
             if b["type"] == "image":
                 ph = photos.get(b["image"], rel, caption(b))
                 if ph:
-                    gallery.append({**ph, "kind": "image", "link": caption_link(b)})
+                    gallery.append({**ph, "kind": "image", "link": caption_link(b), "wide": photos.is_wide(ph["sm"])})
             elif b["type"] in ("video", "embed"):
                 v = block_video(b)
                 if v and v[0] == "file":
@@ -685,11 +700,11 @@ def gallery_item(g):
         ig = "instagram.com" in g["link"]
         badge = f'<span class="pj-ext" aria-hidden="true"><i class="bi {"bi-instagram" if ig else "bi-box-arrow-up-right"}"></i></span>'
         label = "View on Instagram" if ig else "Open link"
-        return (f'<figure class="pj-thumb"><a href="{e(g["link"])}" target="_blank" rel="noopener" '
+        return (f'<figure class="pj-thumb{" pj-fit" if g.get("wide") else ""}"><a href="{e(g["link"])}" target="_blank" rel="noopener" '
                 f'aria-label="{e(label + (": " + cap if cap else ""))}">'
                 f'<img src="{e(g["sm"])}" alt="{e(cap)}" loading="lazy">{badge}</a></figure>')
-    if g["kind"] == "image":
-        return figure(g, "pj-thumb", "sm")
+    if g["kind"] == "image":  # a very wide one (pj-fit) shows whole instead of cropped
+        return figure(g, "pj-thumb pj-fit" if g.get("wide") else "pj-thumb", "sm")
     play = '<span class="pj-play" aria-hidden="true"><i class="bi bi-play-fill"></i></span>'
     if g["kind"] == "clip":
         return (f'<figure class="pj-thumb"><a class="glightbox" data-gallery="project" href="{e(g["src"])}"{desc} aria-label="Play video">'
