@@ -87,6 +87,9 @@
 .pj-play { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; display: grid; place-items: center;
   border-radius: 50%; background: rgba(10, 22, 40, .6); color: #fff; font-size: 1.6rem; pointer-events: none; transition: transform .2s ease; }
 .pj-thumb a:hover .pj-play { transform: scale(1.1); }
+/* A photo that links out (a link in its Notion caption): small badge in the corner instead of opening the lightbox. */
+.pj-ext { position: absolute; right: 8px; top: 8px; width: 30px; height: 30px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(10, 22, 40, .6); color: #fff; font-size: .95rem; pointer-events: none; }
 .pj-count i + i, .pj-count .bi-play-fill { margin-left: 4px; }
 .pj-skills { margin-top: 18px; }
 .pj-skills-t { font-size: 0.75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--default-color), transparent 40%); margin: 0 0 8px; }

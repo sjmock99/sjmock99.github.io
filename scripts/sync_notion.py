@@ -201,6 +201,13 @@ def caption(b):
     return "".join(t["plain_text"] for t in b["image"].get("caption", [])).strip()
 
 
+def caption_link(b):
+    """The first web link in an image's caption, or None. In the 📷 Photos toggle it makes the photo open that page
+    (e.g. its Instagram post) instead of the lightbox."""
+    return next((t["href"] for t in b["image"].get("caption", [])
+                 if (t.get("href") or "").startswith(("http://", "https://"))), None)
+
+
 def is_public_marker(b):
     return b["type"] in ("heading_1", "heading_2", "heading_3", "toggle") and re.search(r"🌐\s*public", block_text(b), re.I)
 
@@ -579,7 +586,7 @@ def project_content(it, cover, photos):
             if b["type"] == "image":
                 ph = photos.get(b["image"], rel, caption(b))
                 if ph:
-                    gallery.append({**ph, "kind": "image"})
+                    gallery.append({**ph, "kind": "image", "link": caption_link(b)})
             elif b["type"] in ("video", "embed"):
                 v = block_video(b)
                 if v and v[0] == "file":
@@ -667,9 +674,17 @@ def instagram_html(vid, thumb, cap):
 def gallery_item(g):
     """One square in the photo grid: a photo, a clip that plays silently on a loop, or a video's thumbnail with a
     play button. All open in the lightbox (GLightbox plays clips and YouTube / Vimeo itself), except an Instagram
-    video, which opens the post in a new tab: Instagram's embeds won't play videos on other sites."""
+    video, which opens the post in a new tab: Instagram's embeds won't play videos on other sites. A photo whose
+    caption has a link opens that link in a new tab, with a small badge in the corner."""
     e, cap = html.escape, g["caption"]
     desc = f' data-description="{e(cap)}"' if cap else ""
+    if g["kind"] == "image" and g.get("link"):
+        ig = "instagram.com" in g["link"]
+        badge = f'<span class="pj-ext" aria-hidden="true"><i class="bi {"bi-instagram" if ig else "bi-box-arrow-up-right"}"></i></span>'
+        label = "View on Instagram" if ig else "Open link"
+        return (f'<figure class="pj-thumb"><a href="{e(g["link"])}" target="_blank" rel="noopener" '
+                f'aria-label="{e(label + (": " + cap if cap else ""))}">'
+                f'<img src="{e(g["sm"])}" alt="{e(cap)}" loading="lazy">{badge}</a></figure>')
     if g["kind"] == "image":
         return figure(g, "pj-thumb", "sm")
     play = '<span class="pj-play" aria-hidden="true"><i class="bi bi-play-fill"></i></span>'
