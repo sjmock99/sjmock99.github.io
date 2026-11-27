@@ -1,0 +1,31 @@
+/* Top navigation bar on laptops and wider (992 px+): name on the left, section links on the right, pinned while
+   scrolling; the current section's link is highlighted by main.js (navmenuScrollspy adds .active). Below 992 px the
+   template's burger menu and slide-in panel stay exactly as they were. Loaded after main.css on every page that has
+   the site header (index.html, skills.html, the generated project pages). */
+@media (min-width: 992px) {
+  :root { --topnav-h: 64px; }
+
+  .header { padding: 0; height: var(--topnav-h);
+    background: color-mix(in srgb, var(--surface-color), transparent 6%); backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%); }
+  .header > .container-fluid > .logo { display: none; }  /* the template's empty spare logo */
+  .mobile-nav-toggle { display: none !important; }
+
+  .navmenu { position: static; width: 100%; height: var(--topnav-h); right: auto; overflow: visible; background: none;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+  .navmenu .profile-img, .navmenu .social-links { display: none; }  /* the About section has these now */
+  .navmenu .logo { margin: 0; justify-content: flex-start !important; }
+  .navmenu .logo h1 { color: var(--heading-color); font-size: 21px; }
+
+  .navmenu ul { display: flex; align-items: center; gap: 2px; padding: 0; margin: 0; overflow: visible; list-style: none; }
+  .navmenu ul li { display: block; }
+  .navmenu ul a, .navmenu ul a:focus { padding: 8px 13px; border-radius: 8px; font-size: 15px; font-weight: 500;
+    color: var(--nav-color); background: none; transition: color .2s ease, background .2s ease; }
+  .navmenu ul a:hover { color: var(--accent-color); background: color-mix(in srgb, var(--accent-color), transparent 93%); }
+  .navmenu ul a.active, .navmenu ul a.active:focus { color: var(--accent-color); background: color-mix(in srgb, var(--accent-color), transparent 88%); }
+  .navmenu ul a:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+
+  /* Room for the bar: content starts below it, and jumping to a section doesn't hide its title under it. */
+  html:not(.pj-embed):not(.sg-embed) body { padding-top: var(--topnav-h); }
+  html { scroll-padding-top: calc(var(--topnav-h) + 12px); }
+}

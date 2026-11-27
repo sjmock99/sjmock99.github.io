@@ -1120,7 +1120,7 @@ def skill_map_html(skills):
                      f'<b>{sum(1 for s in skills if key.get(s["id"]) == key[h["id"]] and s is not h)}</b></li>' for h in hubs)
     return f"""
           <a class="intro-panel skill-map" href="skills.html" data-aos="fade-up" data-aos-delay="250" aria-label="Open my skill graph">
-            <p class="intro-panel-t">Skill map</p>
+            <p class="intro-panel-t">Skill graph</p>
             <span class="sm-body">
               <svg class="sm-svg" viewBox="-108 -108 216 216" aria-hidden="true"><circle class="sm-root" r="3"/>{"".join(groups)}</svg>
               <span class="sm-side">
