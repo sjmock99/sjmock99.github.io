@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27 12:52 UTC",
+ "updated": "2026-11-27 16:36 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1490,14 +1490,14 @@
  "experience": [
   {
    "id": "4078f022083c81c98900f71fd2c5d488",
-   "name": "Relativity Space — Robotics Engineer",
-   "blurb": "Robotics system and mechatronics engineering for Horizon Manufacturing metal 3D printers.",
-   "organization": "Relativity Space",
+   "name": "An aerospace company — Robotics Engineer",
+   "blurb": "Robotics system and mechatronics engineering for novel manufacturing systems.",
+   "organization": "An aerospace company",
    "start": "2026-04-01",
    "end": null,
    "kind": "work",
    "role": "Robotics Engineer",
-   "location": "Long Beach, CA",
+   "location": "Los Angeles, CA",
    "skills": [
     "21299b93bc724631a2263b552fc6a22c",
     "b30c71b9be8e4be08e5b80f4b73c7705",
@@ -1537,10 +1537,10 @@
    "interests": [
     "4258f022083c814aab65e3254c3acf92"
    ],
-   "details": "<ul><li>Responsible Engineer for drive software and bring-up of a synchronized dual-motor axis on the company&#x27;s largest WAAM positioner (12,000 lb), enabling delivery of customer contracts</li><li>Led integration of a dual-axis positioner into an existing WAAM flight cell with 6-DoF KUKA robots, validating safety, calibration and kinematics through system-level testing</li><li>Developed a real-time Linux C++ driver for Bosch VFDs over EtherCAT with FSoE safety using Acontis</li><li>Reduced EtherCAT cycle drift and added graceful frame-loss handling in the real-time Linux / Acontis stack, stabilizing motion control</li><li>Built a Beckhoff-based HIL motor testbench with configurable sim/real hardware, de-risking software development and validating hardware before full system delivery</li><li>Commissioned and tuned Bosch and SEW servo drives, and integrated Bosch and Beckhoff drives into EtherCAT motion systems using TwinCAT and Bosch drive software</li><li>Built an OptiTrack-based regression test framework to characterize robot path accuracy and motion control performance over time</li></ul>",
+   "details": "<ul><li>Responsible Engineer for drive software and bring-up of a synchronized dual-motor axis on the company&#x27;s largest part positioner (12,000 lb), enabling delivery of customer contracts</li><li>Led integration of a dual-axis positioner into an existing manufacturing cell with 6-DoF KUKA robots, validating safety, calibration and kinematics through system-level testing</li><li>Developed a real-time Linux C++ driver for Bosch VFDs over EtherCAT with FSoE safety using Acontis</li><li>Reduced EtherCAT cycle drift and added graceful frame-loss handling in the real-time Linux / Acontis stack, stabilizing motion control</li><li>Built a Beckhoff-based HIL motor testbench with configurable sim/real hardware, de-risking software development and validating hardware before full system delivery</li><li>Commissioned and tuned Bosch and SEW servo drives, and integrated Bosch and Beckhoff drives into EtherCAT motion systems using TwinCAT and Bosch drive software</li><li>Built an OptiTrack-based regression test framework to characterize robot path accuracy and motion control performance over time</li></ul>",
    "logo": {
-    "sm": "assets/img/logos/6a4db132a278-sm.webp",
-    "lg": "assets/img/logos/6a4db132a278-lg.webp"
+    "sm": "assets/img/logos/3d8fd2b0d321.svg",
+    "lg": "assets/img/logos/3d8fd2b0d321.svg"
    }
   },
   {
@@ -1595,8 +1595,8 @@
    ],
    "details": "<ul><li>Designed the system state machine and ICDs for an IoT robotic platform, defining interfaces across 3 stakeholder software stacks</li><li>Elicited system requirements for aerospace, automotive and consumer robotics clients, incorporating standards such as DO-160 and NFPA 70 to ensure traceability</li><li>Led integration and bring-up of robotic prototypes spanning perception, audio and lighting for client demos</li><li>Led delivery of a HIL testbench and thermal test systems, enabling early software development and qualifying the robot for 8+ hours of outdoor operation</li><li>Developed CAN-bus drivers for 7 microcontroller nodes, enabling LED animations controlled over WebSockets</li><li>Trained 40 engineers in V&amp;V and extensible test design, shifting team culture toward requirements-driven verification practices</li><li>Assembled and maintained animatronic robot systems</li></ul>",
    "logo": {
-    "sm": "assets/img/logos/93711a72e2f8.svg",
-    "lg": "assets/img/logos/93711a72e2f8.svg"
+    "sm": "assets/img/logos/9f65e16daddc.svg",
+    "lg": "assets/img/logos/9f65e16daddc.svg"
    }
   },
   {
