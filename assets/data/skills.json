@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27 07:02 UTC",
+ "updated": "2026-11-27 07:33 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1433,13 +1433,13 @@
    "cover": "assets/img/projects/syseng-toolkit/035b1ebeb647-sm.webp",
    "videos": 0,
    "page": "projects/syseng-toolkit.html",
-   "photos": 1,
+   "photos": 4,
    "docs": []
   },
   {
    "id": "b6a7eb60515248b2af7a5311dae49954",
    "name": "TwitchCam V1",
-   "blurb": "A pan/tilt camera robot that Twitch chat controls live: ROS 2 on a Raspberry Pi, with a Teensy running micro-ROS to drive the servos.",
+   "blurb": "A pan/tilt camera robot that constantly livestreams while Twitch chat controls the experience.",
    "organization": "",
    "start": "2024-01-01",
    "end": "2024-03-15",
