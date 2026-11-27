@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skill Graph Admin</title>
+<!-- The site's icon font (served from the repo by admin.py), for the interest icons. -->
+<link rel="stylesheet" href="/preview/assets/vendor/bootstrap-icons/bootstrap-icons.css">
 <style>
   :root {
     --bg: #f7faff; --surface: #fff; --ink: #13253a; --muted: #5d6f84; --line: #d6e0ec; --faint: #eef3f9;
@@ -83,6 +85,13 @@
   .title-input:focus { background: var(--surface); border: 1px solid var(--accent); }
   .note a { color: var(--accent); }
   .levels { margin: 0; font-size: 12.5px; }
+  /* Interests: tile icon preview, and interest chips on project / job cards */
+  .icon-preview { font-size: 22px; color: var(--accent); width: 28px; text-align: center; }
+  .chip.interest { border-color: #c9d9ee; background: #f3f8ff; }
+  .chip.interest .bi { color: var(--accent); }
+  .chip .goto { border: 0; background: none; padding: 0; font: inherit; color: var(--ink); cursor: pointer; }
+  .chip .goto:hover { text-decoration: underline; }
+  .row-label { font-size: 12px; color: var(--muted); min-width: 62px; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -107,6 +116,7 @@
       <button role="tab" data-tab="skills" aria-selected="true">Skills</button>
       <button role="tab" data-tab="projects" aria-selected="false">Projects</button>
       <button role="tab" data-tab="experience" aria-selected="false">Experience</button>
+      <button role="tab" data-tab="interests" aria-selected="false">Interests</button>
     </div>
     <input type="search" id="filter" placeholder="Filter by name…" style="flex:1;min-width:180px">
   </div>
@@ -158,9 +168,25 @@
     </form>
     <div class="card" id="expList"></div>
   </section>
+
+  <section id="interestsTab" hidden>
+    <form class="add-form" id="addInterestForm" autocomplete="off">
+      <strong>New interest</strong>
+      <input id="newIntName" placeholder="Interest name" required style="width:240px" aria-label="New interest name">
+      <i class="bi icon-preview" id="newIntPreview" aria-hidden="true"></i>
+      <input id="newIntIcon" list="iconNames" placeholder="Icon, e.g. bi-rocket-takeoff" style="width:220px" aria-label="Icon">
+      <label class="muted"><input type="checkbox" id="newIntPublic" checked> Public</label>
+      <button class="primary" id="addIntBtn">Add to Notion</button>
+      <span class="status" id="addIntStatus"></span>
+      <span class="muted" style="flex-basis:100%;font-size:12px">Each interest is a chip in the homepage's Interests section; clicking it shows the projects and jobs tagged with it. Icons: any name from <a href="https://icons.getbootstrap.com/" target="_blank">icons.getbootstrap.com</a>. Chips keep the order interests were made in.</span>
+    </form>
+    <div class="card" id="interestList"></div>
+  </section>
 </div>
 
 <datalist id="skillNames"></datalist>
+<datalist id="workNames"></datalist>
+<datalist id="iconNames"></datalist>
 
 <script>
 (() => {
@@ -197,6 +223,13 @@
   const isSkill = r => r.types.includes("Reference") || (!r.types.length && !!r.parent);
   const isProject = r => r.types.includes("Project") && !r.name.toLowerCase().startsWith("[old - delete]");
   const isExperience = r => r.types.includes("Experience") || r.types.includes("Education");
+  const isInterest = r => r.types.includes("Interest");
+  const ICON_RE = /^bi-[a-z0-9-]{1,60}$/;
+  // Interests in chip order (the order the pages were made, as on the site).
+  const interestList = () => [...recs.values()].filter(isInterest).sort((a, b) => (a.created || "").localeCompare(b.created || ""));
+  const iconOf = r => ICON_RE.test(r.site_icon || "") ? r.site_icon : "bi-stars";
+  // "Add work" list on interest cards: label -> project / job id.
+  let workToId = new Map();
 
   // Walk up Parent skill to find the hub; returns {disc, depth} or null if it doesn't reach one.
   function place(r) {
@@ -293,7 +326,65 @@
           return `<span class="chip">${pl ? `<span class="dot" style="background:var(--c-${pl.disc})"></span>` : ""}${esc(s ? s.name : "(unknown page)")}<button data-act="remove-skill" data-skill="${id}" aria-label="Remove">×</button></span>`;
         }).join("") || `<span class="muted">No skills linked yet.</span>`}</div>
         <div class="bar"><input list="skillNames" data-act="add-skill" placeholder="Add a skill…" style="width:260px" aria-label="Add a skill"></div>
+        ${interestRow(p)}
       </div>`;
+  }
+
+  // On a project / job card: its interests, removable, and a dropdown to add one.
+  function interestRow(p) {
+    const all = interestList(), have = new Set(p.interests || []);
+    const chips = (p.interests || []).map(id => {
+      const i = recs.get(id);
+      return i ? `<span class="chip interest"><i class="bi ${iconOf(i)}"></i>${esc(i.name)}<button data-act="remove-interest" data-interest="${id}" aria-label="Remove ${esc(i.name)}">×</button></span>` : "";
+    }).join("");
+    const options = all.filter(i => !have.has(i.id)).map(i => `<option value="${i.id}">${esc(i.name)}</option>`).join("");
+    return `<div class="bar"><span class="row-label">Interests</span>${chips}
+      ${options ? `<select data-act="add-interest" aria-label="Add an interest"><option value="">+ Add an interest…</option>${options}</select>`
+        : all.length ? "" : `<span class="muted">Make interests in the Interests tab first.</span>`}</div>`;
+  }
+
+  // One card per interest: its tile (name, icon, description) and the work tagged with it.
+  function interestCard(r) {
+    const work = [...recs.values()].filter(p => isItem(p) && (p.interests || []).includes(r.id))
+      .sort((a, b) => Number(isExperience(a)) - Number(isExperience(b)) || (b.start || "").localeCompare(a.start || ""));
+    const chips = work.map(p => `<span class="chip interest"><span class="badge">${isProject(p) ? "Project" : p.types.includes("Education") ? "Degree" : "Job"}</span>
+      <button class="goto" data-act="goto" data-item="${p.id}" title="${esc(p.name)}${p.public ? "" : " (not on the site: Public is unticked)"}">${esc(shortName(p))}${p.public ? "" : " (not public)"}</button>
+      <button data-act="untag" data-item="${p.id}" aria-label="Remove ${esc(p.name)}">×</button></span>`).join("");
+    return `
+      <div class="proj" data-id="${r.id}">
+        <div class="proj-head">
+          <i class="bi ${iconOf(r)} icon-preview" aria-hidden="true"></i>
+          <input class="title-input" data-act="name" value="${esc(r.name)}" aria-label="Name" title="Rename (shown on the chip)">${r.url ? `<a href="${esc(r.url)}" target="_blank" title="Open in Notion" style="color:var(--muted);text-decoration:none">↗</a>` : ""}
+          ${reviewBtn(r)}
+          <label class="muted"><input type="checkbox" data-act="public"${r.public ? " checked" : ""}> Public</label>
+          <button class="trash" data-act="trash" title="Move ${esc(r.name)} to Notion's Trash" aria-label="Delete ${esc(r.name)}">🗑</button>
+          <span class="status"></span>
+        </div>
+        <div class="fields">
+          <label>Icon<input type="text" list="iconNames" data-act="site-icon" value="${esc(r.site_icon)}" placeholder="bi-stars" style="width:220px"></label>
+          <span class="note"><a href="https://icons.getbootstrap.com/" target="_blank">Browse icons ↗</a></span>
+        </div>
+        <textarea class="blurb" data-act="blurb" rows="1" placeholder="Description (shown when the chip is opened)…" aria-label="Description for ${esc(r.name)}" style="margin:0">${esc(r.blurb)}</textarea>
+        <div class="chips">${chips || `<span class="muted">Nothing tagged yet. It still shows on the site.</span>`}</div>
+        <div class="bar"><input list="workNames" data-act="tag-work" placeholder="Add a project or job…" style="width:300px" aria-label="Add a project or job"></div>
+      </div>`;
+  }
+
+  // Tag / untag work from an interest card: the change is saved on the project / job page.
+  async function setWork(el, itemId, interestId, add) {
+    const card = el.closest("[data-id]");
+    setStatus(card, "busy", "saving…");
+    try {
+      const rec = await api(add ? "add-interests" : "remove-interests", { id: itemId, value: [interestId] });
+      recs.set(rec.id, rec);
+      render();
+      const again = document.querySelector(`#interestList [data-id="${interestId}"]`);
+      if (again) { setStatus(again, "ok", "saved ✓"); if (add) again.querySelector('[data-act="tag-work"]').focus(); }
+    } catch (e) {
+      render();
+      const again = document.querySelector(`#interestList [data-id="${interestId}"]`);
+      if (again) setStatus(again, "err", e.message);
+    }
   }
 
   function render() {
@@ -310,7 +401,8 @@
     $("#reviewBtn").textContent = reviewOnly ? `Show everything` : `Needs review (${flagged.length})`;
     $("#reviewBtn").setAttribute("aria-pressed", String(reviewOnly));
     // Each tab shows how many of its pages still need a look.
-    const counts = { skills: flagged.filter(isSkill).length, projects: flagged.filter(isProject).length, experience: flagged.filter(isExperience).length };
+    const counts = { skills: flagged.filter(isSkill).length, projects: flagged.filter(isProject).length,
+                     experience: flagged.filter(isExperience).length, interests: flagged.filter(isInterest).length };
     document.querySelectorAll("[data-tab]").forEach(b => {
       b.querySelector(".tab-count")?.remove();
       if (counts[b.dataset.tab]) b.insertAdjacentHTML("beforeend", `<span class="tab-count">${counts[b.dataset.tab]}</span>`);
@@ -347,6 +439,18 @@
       .sort((a, b) => (b.start || "9999").localeCompare(a.start || "9999") || a.name.localeCompare(b.name));
     $("#expList").innerHTML = exp.map(p => itemCard(p, "exp")).join("")
       || `<p class="muted" style="padding:14px 16px;margin:0">No experience yet.</p>`;
+
+    // Interests tab, and the "Add a project or job" list its cards use.
+    workToId = new Map();
+    [...recs.values()].filter(isItem).forEach(p => {
+      const kind = isProject(p) ? "Project" : p.types.includes("Education") ? "Degree" : "Job";
+      let label = `${kind}: ${isProject(p) ? p.name : p.role ? `${p.role} · ${shortName(p)}` : shortName(p)}`;
+      while (workToId.has(label)) label += " ";
+      workToId.set(label, p.id);
+    });
+    $("#workNames").innerHTML = [...workToId.keys()].sort((a, b) => a.localeCompare(b)).map(l => `<option value="${esc(l)}">`).join("");
+    $("#interestList").innerHTML = interestList().filter(match).map(interestCard).join("")
+      || `<p class="muted" style="padding:14px 16px;margin:0">No interests yet.</p>`;
     autosizeAll();
   }
 
@@ -361,7 +465,7 @@
     try {
       const rec = await api(action, { id, value, ...extra });
       recs.set(rec.id, rec);
-      const keepFocus = action === "add-skills" || action === "remove-skills" || action === "parent";
+      const keepFocus = ["add-skills", "remove-skills", "parent", "add-interests", "remove-interests", "site-icon"].includes(action);
       if (keepFocus) render();
       const row = document.querySelector(`[data-id="${rec.id}"]`);
       if (row) setStatus(row.querySelector(".status"), "ok", "saved ✓");
@@ -409,6 +513,19 @@
       if (label && !labelToId.has(label)) { setStatus(el, "err", "pick a skill from the list"); return; }
       save(el, "parent", label ? labelToId.get(label) : null);
     }
+    if (act === "add-interest" && el.value) save(el, "add-interests", [el.value]);
+    if (act === "site-icon") {
+      const icon = el.value.trim();
+      if (icon && !ICON_RE.test(icon)) { setStatus(el, "err", "use a name like bi-rocket-takeoff"); return; }
+      save(el, "site-icon", icon);
+    }
+    if (act === "tag-work") {
+      const itemId = workToId.get(el.value);
+      if (!itemId) { setStatus(el, "err", "pick a project or job from the list"); return; }
+      const interestId = el.closest("[data-id]").dataset.id;
+      if ((recs.get(itemId).interests || []).includes(interestId)) { el.value = ""; return; }
+      setWork(el, itemId, interestId, true);
+    }
     if (act === "add-skill") {
       const id = labelToId.get(el.value.trim());
       if (!id) { setStatus(el, "err", "pick a skill from the list"); return; }
@@ -440,7 +557,10 @@
       el.disabled = true; setStatus(el, "busy", "deleting…");
       api("trash", { id }).then(r => {
         recs.delete(id);
-        recs.forEach(p => { if (p.skills_used.includes(id)) p.skills_used = p.skills_used.filter(x => x !== id); });
+        recs.forEach(p => {
+          if (p.skills_used.includes(id)) p.skills_used = p.skills_used.filter(x => x !== id);
+          if ((p.interests || []).includes(id)) p.interests = p.interests.filter(x => x !== id);
+        });
         render();
         showLog(`Moved "${r.name}" to Notion's Trash. Restore it from Trash in Notion if that was a mistake.`);
       }).catch(err => { el.disabled = false; setStatus(el, "err", err.message); });
@@ -452,6 +572,8 @@
       const p = recs.get(el.closest("[data-id]").dataset.id);
       save(el, "remove-skills", [el.dataset.skill]);
     }
+    if (el.dataset.act === "remove-interest") save(el, "remove-interests", [el.dataset.interest]);
+    if (el.dataset.act === "untag") setWork(el, el.dataset.item, el.closest("[data-id]").dataset.id, false);
     if (el.dataset.act === "goto") {
       // Jump to that project / job card: switch tabs, scroll to it and flash it.
       const p = recs.get(el.dataset.item);
@@ -462,7 +584,7 @@
     }
     if (el.dataset.tab) {
       document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b === el));
-      ["skills", "projects", "experience"].forEach(t => $(`#${t}Tab`).hidden = el.dataset.tab !== t);
+      ["skills", "projects", "experience", "interests"].forEach(t => $(`#${t}Tab`).hidden = el.dataset.tab !== t);
       autosizeAll();
     }
   });
@@ -514,6 +636,42 @@
       st("err", err.message);
     } finally {
       $("#addExpBtn").disabled = false;
+    }
+  });
+
+  // Icon previews follow what's typed (the new-interest form, and each interest card's Icon field).
+  document.addEventListener("input", e => {
+    const el = e.target;
+    const preview = el.id === "newIntIcon" ? $("#newIntPreview")
+      : el.dataset.act === "site-icon" ? el.closest("[data-id]").querySelector(".icon-preview") : null;
+    if (preview) preview.className = `bi icon-preview ${ICON_RE.test(el.value.trim()) ? el.value.trim() : "bi-stars"}`;
+  });
+  // Autocomplete for icon names, from the site's copy of Bootstrap Icons.
+  fetch("/preview/assets/vendor/bootstrap-icons/bootstrap-icons.json").then(r => r.ok ? r.json() : {}).then(names => {
+    $("#iconNames").innerHTML = Object.keys(names).map(n => `<option value="bi-${esc(n)}">`).join("");
+  }).catch(() => {});
+  $("#newIntPreview").className = "bi icon-preview bi-stars";
+
+  $("#addInterestForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const st = (cls, text) => { $("#addIntStatus").className = "status " + cls; $("#addIntStatus").textContent = text; };
+    const name = $("#newIntName").value.trim(), icon = $("#newIntIcon").value.trim();
+    if (!name) return st("err", "give it a name");
+    if (icon && !ICON_RE.test(icon)) return st("err", "the icon is a name like bi-rocket-takeoff");
+    $("#addIntBtn").disabled = true; st("busy", "adding…");
+    try {
+      const rec = await api("create-interest", { name, icon, public: $("#newIntPublic").checked });
+      recs.set(rec.id, rec);
+      $("#filter").value = "";
+      render();
+      $("#newIntName").value = ""; $("#newIntIcon").value = ""; $("#newIntPreview").className = "bi icon-preview bi-stars";
+      st("ok", `added "${rec.name}" ✓`);
+      const card = document.querySelector(`#interestList [data-id="${rec.id}"]`);
+      if (card) { card.scrollIntoView({ block: "center" }); card.querySelector('[data-act="blurb"]').focus(); }
+    } catch (err) {
+      st("err", err.message);
+    } finally {
+      $("#addIntBtn").disabled = false;
     }
   });
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local admin for the Skill Graph: edit skills, projects and experience (jobs, degrees) in Notion.
+"""Local admin for the Skill Graph: edit skills, projects, experience (jobs, degrees) and interests in Notion.
 
     python3 scripts/admin.py          # then open http://localhost:8001
 
@@ -28,7 +28,8 @@ PORT = int(os.environ.get("ADMIN_PORT", "8001"))
 PAGE = Path(__file__).resolve().parent / "admin.html"
 ALLOWED_HOSTS = {f"localhost:{PORT}", f"127.0.0.1:{PORT}"}
 RATINGS = {x / 2 for x in range(2, 11)}  # 1, 1.5, ... 5
-LABELS = {"Reference": "skill", "Project": "project", "Experience": "job", "Education": "degree"}
+LABELS = {"Reference": "skill", "Project": "project", "Experience": "job", "Education": "degree", "Interest": "interest"}
+ICON_RE = re.compile(r"^bi-[a-z0-9-]{1,60}$")  # a Bootstrap icon name, for an interest's tile
 TEXT_FIELDS = {"role": "Role", "organization": "Organization", "location": "Location"}
 # Jobs and degrees are named "Organization — Role" automatically (two JPL roles stay distinct in Notion).
 auto_title = lambda org, role: " — ".join(x for x in (org, role) if x)
@@ -101,7 +102,15 @@ def create_page(kind, body):
         "parent": {"type": "data_source_id", "data_source_id": notion.DATA_SOURCE_ID},
         "properties": props,
     }
-    if template:  # Notion fills in the template's content a moment after the page is created
+    if kind == "Interest":
+        icon = str(body.get("icon") or "").strip()
+        if icon and not ICON_RE.match(icon):
+            raise ValueError("the icon is a Bootstrap icon name like bi-rocket-takeoff")
+        props["Site icon"] = {"rich_text": [{"text": {"content": icon}}] if icon else []}
+        req["children"] = [{"type": "paragraph", "paragraph": {"rich_text": [{"text": {"content":
+            "An interest tile on the website. Tag projects and experience with it through their Interests property; "
+            "they show up under Work."}}]}}]
+    elif template:  # Notion fills in the template's content a moment after the page is created
         req["template"] = {"type": "template_id", "template_id": template}
     elif kind != "Reference":
         req["children"] = PUBLIC_SECTION
@@ -153,6 +162,8 @@ def handle_action(action, body):
         return create_page("Reference", body)
     if action == "create-project":
         return create_page("Project", body)
+    if action == "create-interest":
+        return create_page("Interest", body)
     if action == "create-experience":
         kind = body.get("kind")
         if kind not in ("Experience", "Education"):
@@ -234,6 +245,20 @@ def handle_action(action, body):
         current = notion.to_record(notion.request("GET", f"/pages/{page_id}"))["skills_used"]
         new = list(dict.fromkeys(current + ids)) if action == "add-skills" else [i for i in current if i not in ids]
         return patch(page_id, {"Skills used": {"relation": [{"id": i} for i in new]}})
+    if action in ("add-interests", "remove-interests"):
+        # On a project / job page. Same as skills: change the list Notion has now, not this admin's copy.
+        ids = list(dict.fromkeys(body.get("value") or []))
+        with lock:
+            if any(i not in records or "Interest" not in records[i]["types"] for i in ids):
+                raise ValueError("unknown interest")
+        current = notion.to_record(notion.request("GET", f"/pages/{page_id}"))["interests"]
+        new = list(dict.fromkeys(current + ids)) if action == "add-interests" else [i for i in current if i not in ids]
+        return patch(page_id, {"Interests": {"relation": [{"id": i} for i in new]}})
+    if action == "site-icon":
+        icon = str(body.get("value") or "").strip()
+        if icon and not ICON_RE.match(icon):
+            raise ValueError("use a Bootstrap icon name like bi-rocket-takeoff")
+        return patch(page_id, {"Site icon": {"rich_text": [{"text": {"content": icon}}] if icon else []}})
     if action == "skills-used":
         ids = list(dict.fromkeys(body.get("value") or []))
         if any(i not in records for i in ids):

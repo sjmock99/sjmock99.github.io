@@ -1214,7 +1214,7 @@ def interests_html(interests, projects, experience):
             f'{len(ex)} role{"s" if len(ex) != 1 else ""}' if ex else "") if x)
         chips.append(f"""
           <button type="button" class="in-chip" data-interest="{it["id"]}" aria-expanded="false" aria-controls="in-{it["id"]}">
-            <i class="bi {it["icon"]}" aria-hidden="true"></i><span class="in-name">{e(it["name"])}</span>{f'<span class="in-count">{count}</span>' if count else ""}
+            <i class="bi {it["icon"]}" aria-hidden="true"></i><span class="in-text"><span class="in-name">{e(it["name"])}</span><span class="in-count">{count or "Coming soon"}</span></span>
           </button>""")
         cards = "".join(
             f'<a class="in-card" href="projects/{e(p["slug"])}.html">'
@@ -1226,8 +1226,7 @@ def interests_html(interests, projects, experience):
           {f'<p class="in-blurb">{e(it["blurb"])}</p>' if it["blurb"] else ""}
           {f'<div class="in-cards">{cards}</div>' if cards else ""}
           {f'<ul class="in-roles">{roles}</ul>' if roles else ""}
-          {"" if cards or roles else '<p class="in-none">Nothing here on the site yet.</p>'}
-        </div>""")
+          {"" if cards or roles else '<p class="in-none">Nothing here on the site yet.</p>'}        </div>""")
     return f"""
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="in-chips">{"".join(chips)}
