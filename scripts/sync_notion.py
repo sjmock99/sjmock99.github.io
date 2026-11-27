@@ -168,6 +168,9 @@ def to_record(page):
         # Public-facing description shown on the website (a property, separate from the private page body).
         "blurb": plain(p, "Blurb"),
         "skills_used": relation_ids(page, "Skills used"),
+        "interests": relation_ids(page, "Interests"),  # on projects / jobs: the Interest pages they belong to
+        "site_icon": plain(p, "Site icon"),  # on Interest pages: the Bootstrap icon for the tile (bi-…)
+        "created": page.get("created_time", ""),  # Interest tiles keep the order the pages were made in
         # Projects / Experience / Education
         "role": plain(p, "Role"),
         "organization": plain(p, "Organization"),
@@ -743,11 +746,20 @@ def build(records, show_all):
         for r in candidates.values() if reaches_hub(r["id"])
     ]
     skill_ids = {s["id"] for s in skills}
+    # Interests: the tiles on the homepage, each linking to the projects and jobs tagged with it.
+    interests = [
+        {"id": r["id"], "name": r["name"], "blurb": r["blurb"],
+         "icon": r["site_icon"] if re.fullmatch(r"bi-[a-z0-9-]+", r["site_icon"] or "") else "bi-stars"}
+        for r in sorted(records, key=lambda r: r["created"])
+        if "Interest" in r["types"] and visible(r)
+    ]
+    interest_ids = {i["id"] for i in interests}
 
     def item(r, **extra):
         return {"id": r["id"], "name": r["name"], "blurb": r["blurb"], "organization": r["organization"],
                 "start": r["start"], "end": r["end"], **extra,
-                "skills": [s for s in r["skills_used"] if s in skill_ids]}
+                "skills": [s for s in r["skills_used"] if s in skill_ids],
+                "interests": [i for i in r["interests"] if i in interest_ids]}
     projects = [
         item(r, link=r["link"], featured=r["featured"])
         for r in records
@@ -769,7 +781,7 @@ def build(records, show_all):
     skills.sort(key=lambda s: s["name"].lower())
     projects.sort(key=lambda p: p["name"].lower())
     experience.sort(key=lambda e: e["start"] or "", reverse=True)
-    return skills, projects, experience
+    return skills, projects, experience, interests
 
 
 # ---- Homepage resume + skills preview: written into index.html between <!-- notion:<name>:start ... --> and <!-- notion:<name>:end --> ----
@@ -1185,6 +1197,63 @@ def photo_count(it):
     return photos + (1 if it["cover"] and not it.get("cover_is_thumb") else 0)
 
 
+def interests_html(interests, projects, experience):
+    """The Interests section: a row of chips, one per Interest page (in the order the pages were made). Clicking one
+    opens its panel (assets/js/interests.js): its description, the projects tagged with it as small cards (they open
+    in the project pop-up) and the jobs / degrees as links to the resume. Interests with nothing tagged still show."""
+    e = html.escape
+    if not interests:
+        return """
+      <div class="container"><p class="pj-empty">Interests are on their way.</p></div>"""
+    chips, panels = [], []
+    for it in interests:
+        pj = [p for p in ordered_projects(projects) if it["id"] in p["interests"]]
+        ex = [x for x in experience if it["id"] in x["interests"]]
+        count = " · ".join(x for x in (
+            f'{len(pj)} project{"s" if len(pj) != 1 else ""}' if pj else "",
+            f'{len(ex)} role{"s" if len(ex) != 1 else ""}' if ex else "") if x)
+        chips.append(f"""
+          <button type="button" class="in-chip" data-interest="{it["id"]}" aria-expanded="false" aria-controls="in-{it["id"]}">
+            <i class="bi {it["icon"]}" aria-hidden="true"></i><span class="in-name">{e(it["name"])}</span>{f'<span class="in-count">{count}</span>' if count else ""}
+          </button>""")
+        cards = "".join(
+            f'<a class="in-card" href="projects/{e(p["slug"])}.html">'
+            + (f'<img src="{e(p["cover"]["sm"])}" alt="" loading="lazy">' if p["cover"] else '<span class="in-card-ph"><i class="bi bi-image"></i></span>')
+            + f'<span>{e(p["name"])}</span></a>' for p in pj)
+        roles = "".join(role_link(x) for x in ex)
+        panels.append(f"""
+        <div class="in-panel" id="in-{it["id"]}" hidden>
+          {f'<p class="in-blurb">{e(it["blurb"])}</p>' if it["blurb"] else ""}
+          {f'<div class="in-cards">{cards}</div>' if cards else ""}
+          {f'<ul class="in-roles">{roles}</ul>' if roles else ""}
+          {"" if cards or roles else '<p class="in-none">Nothing here on the site yet.</p>'}
+        </div>""")
+    return f"""
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="in-chips">{"".join(chips)}
+        </div>{"".join(panels)}
+      </div>"""
+
+
+def role_link(x):
+    """A job (to its resume card) or a degree (to the resume) in an interest's panel."""
+    e, work = html.escape, x["kind"] == "work"
+    href = "#exp-" + x["id"] if work else "#resume"
+    label = e(x["role"] or x["name"])
+    if x["role"]:
+        label += " · " + e(x["organization"] or x["name"])
+    icon = "bi-briefcase" if work else "bi-mortarboard"
+    return f'<li><a href="{href}"><i class="bi {icon}" aria-hidden="true"></i>{label}</a></li>'
+
+
+def interest_chips(it, interests):
+    """Interest chips for a project page; each opens that interest on the homepage."""
+    e, by_id = html.escape, {i["id"]: i for i in interests}
+    used = [by_id[i] for i in it["interests"] if i in by_id]
+    return "".join(f'<a class="rs-chip in-tag" href="index.html#interest={i["id"]}" target="_top">'
+                   f'<i class="bi {i["icon"]}"></i>{e(i["name"])}</a>' for i in used)
+
+
 def projects_html(projects, skills):
     e, by_id = html.escape, {s["id"]: s for s in skills}
     cards = []
@@ -1236,8 +1305,9 @@ def site_parts(index_html):
             "scripts": "\n  ".join(up(m) for m in re.findall(r'<script src="assets/(?:vendor/[^"]+|js/main\.js|js/site-popups\.js[^"]*)"></script>', index_html))}
 
 
-def project_page(it, prev, nxt, skills, parts):
+def project_page(it, prev, nxt, skills, parts, interests=()):
     e = html.escape
+    ichips = interest_chips(it, interests)
     kicker = " · ".join(x for x in ("Project", it["organization"], project_dates(it)) if x)
     actions = []
     if it["link"]:
@@ -1262,6 +1332,7 @@ def project_page(it, prev, nxt, skills, parts):
           <h1>{e(it["name"])}</h1>
           {f'<p class="pj-lede">{e(it["blurb"])}</p>' if it["blurb"] else ""}
           {f'<div class="pj-actions">{"".join(actions)}</div>' if actions else ""}
+          {f'<div class="pj-skills"><p class="pj-skills-t">Interests</p><div class="rs-skills">{ichips}</div></div>' if ichips else ""}
           {f'<div class="pj-skills"><p class="pj-skills-t">Skills used</p>{chips}</div>' if chips else ""}
         </header>
         {figure(it["cover"], "pj-hero") if it["cover"] and not it.get("cover_is_thumb") else ""}
@@ -1300,11 +1371,11 @@ def project_page(it, prev, nxt, skills, parts):
 """
 
 
-def write_projects(root, projects, skills, index_html):
+def write_projects(root, projects, skills, index_html, interests=()):
     """Write projects/<slug>.html for each project and delete pages of projects that are gone. Returns how many changed."""
     d, order, parts = root / "projects", ordered_projects(projects), site_parts(index_html)
     wanted = {f"{it['slug']}.html": project_page(it, order[i - 1] if i else None, order[i + 1] if i + 1 < len(order) else None,
-                                                 skills, parts) for i, it in enumerate(order)}
+                                                 skills, parts, interests) for i, it in enumerate(order)}
     changed = 0
     if wanted:
         d.mkdir(parents=True, exist_ok=True)
@@ -1320,11 +1391,12 @@ def write_projects(root, projects, skills, index_html):
     return changed
 
 
-def write_index(root, skills, projects, experience):
+def write_index(root, skills, projects, experience, interests=()):
     """Fill the generated regions of index.html (the repo's copy is the source; root is where it's written).
     Returns (changed, the page)."""
     page = INDEX.read_text(encoding="utf-8")
-    for name, body in (("skillmap", skill_map_html(skills)),
+    for name, body in (("interests", interests_html(interests, projects, experience)),
+                       ("skillmap", skill_map_html(skills)),
                        ("logos", logos_html(experience)),
                        ("timeline", timeline_html(experience)),
                        ("experience", experience_html(experience, skills)),
@@ -1349,7 +1421,7 @@ def sync(records, show_all, preview=False):
     preview: include drafts (non-Public pages) and write into .preview/ instead of the site."""
     root = PREVIEW if preview else ROOT
     show_all = show_all or preview
-    skills, projects, experience = build(records, show_all)
+    skills, projects, experience, interests = build(records, show_all)
     # The detailed write-up for each project / job comes from its page body (the 🌐 Public section).
     missing, no_photos = [], []
     photos = Photos(root, reuse=ROOT if preview else None)
@@ -1383,10 +1455,10 @@ def sync(records, show_all, preview=False):
         summary += f"\nwarning: expected {len(HUBS)} hubs; check the integration can see every hub page"
 
     root.mkdir(exist_ok=True)
-    index_changed, index_page = write_index(root, skills, projects, experience)
+    index_changed, index_page = write_index(root, skills, projects, experience, interests)
     if index_changed:
         summary += f"\nupdated {INDEX.name}"
-    pages = write_projects(root, projects, skills, index_page)
+    pages = write_projects(root, projects, skills, index_page, interests)
     if pages:
         summary += f"\nupdated {pages} project page{'s' if pages > 1 else ''}"
     gone = photos.remove_unused()
@@ -1403,7 +1475,7 @@ def sync(records, show_all, preview=False):
     out = root / OUT.relative_to(ROOT)
     old = json.loads(out.read_text()) if out.exists() else {}
     if (old.get("source") == "notion" and old.get("skills") == skills and old.get("projects") == projects
-            and old.get("experience") == experience):
+            and old.get("experience") == experience and old.get("interests") == interests):
         return summary + "\nno changes to skills.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({
@@ -1412,6 +1484,7 @@ def sync(records, show_all, preview=False):
         "skills": skills,
         "projects": projects,
         "experience": experience,
+        "interests": interests,
     }, indent=1, ensure_ascii=False) + "\n")
     return summary + f"\nwrote {out}"
 

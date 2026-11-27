@@ -29,9 +29,20 @@
     return rel === "skills.html" ? { kind: "skills", hash: u.hash } : m ? { kind: "project", slug: m[1] } : null;
   }
 
+  // A project page's Interests chips (index.html#interest=<id>): the homepage closes its pop-ups and opens that interest.
+  const interestOf = href => {
+    const m = href.match(/#interest=([0-9a-f]{32})$/), u = new URL(href, location.href);
+    return m && u.origin === ROOT.origin && u.pathname.replace(/index\.html$/, "") === ROOT.pathname ? m[1] : null;
+  };
+
   if (embedded) {
     document.addEventListener("click", e => {
       const a = e.target.closest("a[href]");
+      const interest = a && plainClick(e) && interestOf(a.href);
+      if (interest) {
+        e.preventDefault();
+        return window.parent.postMessage({ sgInterest: interest }, location.origin);
+      }
       if (!a || a.target === "_blank" || !plainClick(e) || !route(a.href)) return;
       e.preventDefault();
       window.parent.postMessage({ sgOpen: a.href }, location.origin);
@@ -149,6 +160,12 @@
   window.addEventListener("message", e => {
     if (e.origin !== location.origin) return;
     if (e.data === "sg-close") return close();
+    if (e.data && /^[0-9a-f]{32}$/.test(e.data.sgInterest || "")) {
+      render([]);
+      history.replaceState(null, "", location.pathname + location.search);
+      location.hash = "interest=" + e.data.sgInterest;  // interests.js opens it (hashchange)
+      return;
+    }
     if (e.data && typeof e.data.sgOpen === "string") {
       const r = route(e.data.sgOpen);
       if (r && POPUPS[r.kind]) open(r);

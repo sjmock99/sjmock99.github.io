@@ -36,8 +36,13 @@ them: the deck and the code are where the real facts are.
 Properties: **Page** (title), **Type** = Project, **Blurb** (one sentence; the card text and the page's lede),
 **Date** (start, and end if it's over), **Link** (the main button: GitHub shows "Code on GitHub", YouTube "Watch
 the video", anything else "Visit the link"), **Organization** (optional, shown next to the date), **Skills used**
-(relations to skill pages in the same wiki), **Featured**, **Public** (leave unticked for the user to tick), and
-**Needs review** (tick it on anything Claude wrote).
+(relations to skill pages in the same wiki), **Interests** (relations to the Interest pages: the chips in the
+homepage's Interests section and on the project page; jobs can be tagged too), **Featured**, **Public** (leave
+unticked for the user to tick), and **Needs review** (tick it on anything Claude wrote).
+
+Interest pages themselves are wiki pages with Type = Interest, a Blurb (the panel's text), **Site icon** (a
+Bootstrap icon name such as `bi-rocket-takeoff`) and Public ticked. Their chips keep the order the pages were made
+in; an interest with nothing tagged still shows.
 
 Body, from the wiki's Project template:
 
@@ -113,8 +118,12 @@ Content changes need no commit: once the user ticks **Public**, the next sync pu
 
 ## Known gotchas
 
-- **Creating a wiki page through the Notion connector can drop all its properties** (title included). Afterwards,
-  set them again with `update_properties` and check them through the API (`sync_notion.to_record`).
+- **Creating a wiki page through the Notion connector with a data-source parent drops all its properties** (title
+  included): in a wiki the connector wants the wiki page itself as the parent. Simplest is the REST API through
+  `sync_notion.request("POST", "/pages", {"parent": {"type": "data_source_id", "data_source_id": DATA_SOURCE_ID},
+  ...})`, which keeps properties. Either way, check them afterwards with `sync_notion.to_record`.
+- Changing a select / multi-select option list (e.g. adding a Type) replaces the whole list: fetch the data source
+  first and list every existing option with its colour, or the missing ones are deleted.
 - **The connector's markdown can't target image blocks** (an image line won't match as `old_str` or an anchor). To
   change an image's caption or link use `scripts/upload_to_notion.py caption`; to move an image, anchor on the
   caption text next to it. After any move, check the image still exists.

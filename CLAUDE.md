@@ -1,13 +1,14 @@
 # sjmock99.github.io
 
 Personal portfolio site (GitHub Pages, plain HTML/CSS/JS from a Bootstrap template). Most content is generated from
-the owner's Notion **Engineering Wiki** by `scripts/sync_notion.py`: skills, experience, the homepage project grid and
-one page per project in `projects/`. A GitHub Action (`.github/workflows/sync-skills.yml`) runs it every 30 minutes
+the owner's Notion **Engineering Wiki** by `scripts/sync_notion.py`: skills, experience, the Interests chips (Interest
+pages, linked to projects and jobs through their Interests relation), the homepage project grid and one page per
+project in `projects/`. A GitHub Action (`.github/workflows/sync-skills.yml`) runs it every 30 minutes
 and commits the result.
 
 - **Adding or changing a project**: use the `add-project` skill (`.claude/skills/add-project/SKILL.md`). Content is
   edited in Notion, not in the HTML.
-- **Generated, never edit by hand**: the `<!-- notion:… -->` regions of `index.html`, `projects/*.html`,
+- **Generated, never edit by hand**: the `<!-- notion:… -->` regions of `index.html` (including the Interests section), `projects/*.html`,
   `assets/data/skills.json`, `assets/img/projects/`, `assets/img/logos/`, `assets/docs/projects/`. The sync
   overwrites them and deletes unused files in those folders. Don't commit locally generated copies either; let the
   Action produce them.
