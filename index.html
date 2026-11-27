@@ -26,10 +26,11 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/topnav.css?v=1" rel="stylesheet">
   <link href="assets/css/site-data.css?v=18" rel="stylesheet">
   <link href="assets/css/projects.css?v=9" rel="stylesheet">
   <link href="assets/css/interests.css?v=2" rel="stylesheet">
-  <link href="assets/css/about.css?v=8" rel="stylesheet">
+  <link href="assets/css/about.css?v=9" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Style
@@ -100,8 +101,12 @@
           </div>
           <div class="intro-text">
             <h2>Hi, I'm Stephen Mock</h2>
-            <p>I'm a robotics engineer with a strong systems engineering background: a "Swiss army knife" who works at the interface of hardware and software. In my free time I experiment with robotics and look for ways to build new systems into everyday life (IoT). My goal is to improve people's lives through robotics and get others excited about technology.</p>
-            <p>I'm most interested in robotics for consumer products, human-robot interaction (HRI), art and technology, and aerospace, but I'm always open to trying new things!</p>
+            <p>I'm a robotics engineer who works between hardware and software, with a strong emphasis on systems engineering. I've built robots for Mars sample return, home robots, kitchens and factories, and I take products from first sketch to final system and delivery.</p>
+            <p>Outside work I apply creativity through engineering: I build connected devices, interactive objects and art that brings technology into everyday life. My goal is to make robots that genuinely improve people's lives, and to excite others about technology.</p>
+            <p class="intro-next">Check out the cards below to learn more about me <i class="bi bi-arrow-down"></i></p>
+          </div>
+          <!-- Side column, small: quick facts and contact (right of the text; under the photo on smaller screens) -->
+          <div class="intro-side">
             <!-- Quick facts: add or remove an <li> (icons: https://icons.getbootstrap.com) -->
             <ul class="intro-facts">
               <li><i class="bi bi-geo-alt-fill"></i>Based in Los Angeles, CA</li>
@@ -109,13 +114,22 @@
               <li><i class="bi bi-person-badge-fill"></i>MBTI: ENTJ</li>
             </ul>
             <div class="intro-links">
-              <a class="intro-cta" href="mailto:sjmock99@gmail.com"><i class="bi bi-envelope-fill"></i> Email me</a>
-              <a class="intro-icon" href="https://www.linkedin.com/in/stephenjmock/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-              <a class="intro-icon" href="https://github.com/sjmock99" target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
-              <a class="intro-icon" href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a class="intro-icon" href="mailto:sjmock99@gmail.com" aria-label="Email me" title="Email me"><i class="bi bi-envelope-fill"></i></a>
+              <a class="intro-icon" href="https://www.linkedin.com/in/stephenjmock/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+              <a class="intro-icon" href="https://github.com/sjmock99" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><i class="bi bi-github"></i></a>
+              <a class="intro-icon" href="https://www.youtube.com/channel/UCGEj8oX4HYpiRGQEBP7As9Q" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><i class="bi bi-youtube"></i></a>
             </div>
           </div>
         </div>
+
+        <!-- Where to go: one small card per part of the site (assets/css/about.css .intro-guide) -->
+        <nav class="intro-guide" aria-label="Explore the site" data-aos="fade-up" data-aos-delay="100">
+          <a href="#resume"><i class="bi bi-briefcase"></i><span><b>Experience</b></span></a>
+          <a href="#projects"><i class="bi bi-tools"></i><span><b>Projects</b></span></a>
+          <a href="skills.html"><i class="bi bi-diagram-3"></i><span><b>Skill graph</b></span></a>
+          <a href="#interests"><i class="bi bi-heart"></i><span><b>Interests</b></span></a>
+          <a href="#portfolio"><i class="bi bi-journal-richtext"></i><span><b>Portfolio</b></span></a>
+        </nav>
 
         <!-- What I do (left) and the skill map (right), side by side; stacked on phones -->
         <div class="intro-row">
