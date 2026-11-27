@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27 05:22 UTC",
+ "updated": "2026-11-27 06:24 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1348,6 +1348,33 @@
   }
  ],
  "projects": [
+  {
+   "id": "4258f022083c816cab9cda2baf4034c6",
+   "name": "Feeling Small",
+   "blurb": "a clothing brand I co-created - if not now, when?",
+   "organization": "",
+   "start": "2023-06-03",
+   "end": null,
+   "link": "https://feeling-small.webflow.io/",
+   "featured": false,
+   "skills": [
+    "4038f022083c8173903ad60ffbc2786f",
+    "4038f022083c8132870fd5644618d779",
+    "1638f022083c8094bc4fdb8dc1066af5",
+    "2ba8f022083c80568714dce327b6773b",
+    "4038f022083c814ea232fdf49f25d945"
+   ],
+   "cover": "assets/img/projects/feeling-small/1cad2a737fa0-sm.webp",
+   "videos": 1,
+   "page": "projects/feeling-small.html",
+   "photos": 15,
+   "docs": [
+    {
+     "src": "assets/docs/projects/feeling-small/c540a2c94ea3.pdf",
+     "title": "feeling small brand deck: what it means, the mission, audience, colors, mood boards and the summer and fall drops"
+    }
+   ]
+  },
   {
    "id": "4038f022083c81b39315fff75b935ede",
    "name": "LED “LED” LAMP",
