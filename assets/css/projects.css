@@ -75,6 +75,15 @@
 .pj-doc-bar a:hover { text-decoration: underline; }
 .pj-doc-frame { display: block; width: 100%; height: 75vh; min-height: 480px; border: 0; background: #525659; }
 @media (max-width: 767px) { .pj-doc-frame { display: none; } }
+/* Live Google Sheets (same look as a PDF): tabs between the bar and the frame; Google's view is white. */
+.pj-sheet .pj-doc-frame { background: #fff; height: 70vh; }
+.pj-sheet-tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  background: color-mix(in srgb, var(--default-color), transparent 97%); }
+.pj-sheet-tabs a { padding: 6px 12px; border-radius: 8px 8px 0 0; font-size: 0.86rem; font-weight: 500; text-decoration: none;
+  color: color-mix(in srgb, var(--default-color), transparent 25%); border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; }
+.pj-sheet-tabs a:hover { color: var(--accent-color); }
+.pj-sheet-tabs a[aria-current="true"] { background: #fff; color: var(--accent-color); border-color: color-mix(in srgb, var(--default-color), transparent 85%); }
+@media (max-width: 767px) { .pj-sheet-tabs { display: none; } }
 .pj-h { font-size: 1.35rem; font-weight: 700; margin: 36px 0 14px; }
 .pj-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
 .pj-thumb a { aspect-ratio: 1; border-radius: 10px !important; }

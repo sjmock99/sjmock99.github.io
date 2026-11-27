@@ -250,11 +250,41 @@ def heading_level(b):
     return int(b["type"][-1]) if b["type"].startswith("heading_") and not b[b["type"]].get("is_toggleable") else None
 
 
+SHEET_RE = re.compile(r"https://docs\.google\.com/spreadsheets/d/([A-Za-z0-9_-]{20,80})(?:[/?#][^\s]*)?$")
+
+
+def sheet_ref(b):
+    """An embed / bookmark / link preview of a Google Sheet -> (sheet id, tab gid, caption), else None.
+    The tab is the link's gid (…#gid=103 or ?gid=103), else the first tab."""
+    obj = b.get(b["type"]) or {}
+    m = SHEET_RE.match(obj.get("url") or "") if b["type"] in ("embed", "bookmark", "link_preview") else None
+    if not m:
+        return None
+    gid = re.search(r"[?#&]gid=(\d+)", obj["url"])
+    return m.group(1), gid.group(1) if gid else "0", media_caption(b)
+
+
+def group_sheets(blocks):
+    """Consecutive embeds of the same Google Sheet become one {"type": "sheet_group"} block: one viewer with a tab
+    for each (see sheet_html)."""
+    out = []
+    for b in blocks:
+        ref = sheet_ref(b)
+        if ref and out and out[-1]["type"] == "sheet_group" and out[-1]["sheet"] == ref[0]:
+            out[-1]["tabs"].append(ref)
+        elif ref:
+            out.append({"type": "sheet_group", "sheet": ref[0], "tabs": [ref]})
+        else:
+            out.append(b)
+    return out
+
+
 def blocks_html(blocks, media=None):
     """Notion blocks -> a small, safe subset of HTML (paragraphs, lists, sub-headings, quotes, dividers).
     Bracketed template hints, the 📷 Photos toggle and sub-headings with nothing under them are left out, so a
-    half-filled page still looks tidy. media(block) -> HTML for a photo, video or embed; without it they're skipped."""
-    blocks = [b for b in blocks if not is_placeholder(b) and not is_photos_marker(b)]
+    half-filled page still looks tidy. media(block) -> HTML for a photo, video, embed or live Google Sheet; without
+    it they're skipped."""
+    blocks = group_sheets([b for b in blocks if not is_placeholder(b) and not is_photos_marker(b)])
     def empty_heading(i):
         lv = heading_level(blocks[i])
         if lv is None:
@@ -285,7 +315,7 @@ def blocks_html(blocks, media=None):
             out.append("<hr>")
         elif kind == "toggle":
             out.append(f"<p><b>{body}</b></p>")
-        elif kind in ("image", "video", "embed", "pdf", "file") and media:
+        elif kind in ("image", "video", "embed", "pdf", "file", "sheet_group") and media:
             out.append(media(b))
         if kind in ("toggle", "quote", "paragraph") and b.get("has_children"):
             out.append(blocks_html(block_children(b["id"]), media))
@@ -574,8 +604,12 @@ def project_content(it, cover, photos):
     section = section or []
     rel = f"{IMG_DIR}/{it['slug']}"
     videos, docs = 0, []
+    sheets = 0
     def media(b):
-        nonlocal videos
+        nonlocal videos, sheets
+        if b["type"] == "sheet_group":
+            sheets += 1
+            return sheet_html(b, sheets)
         if b["type"] in ("pdf", "file"):
             obj, title = block_pdf(b)
             doc = photos.get_doc(obj, f"{DOC_DIR}/{it['slug']}") if obj else None
@@ -648,6 +682,33 @@ def block_pdf(b):
 
 def doc_size(n):
     return f"{n / 1024 / 1024:.1f} MB" if n >= 1024 * 1024 else f"{max(1, round(n / 1024))} KB"
+
+
+def sheet_html(group, n):
+    """A live, view-only Google Sheet in the write-up, styled like the PDF viewer: a bar with Open / Make a copy over
+    Google's own read-only view (htmlview), with a tab per embed when there are several. Built only from the parsed
+    sheet id and tab numbers, never an arbitrary address. Captions "Title: Tab" give the viewer's title and the tab's
+    label. The tabs are plain links into the frame (no script needed). Phones get just the bar."""
+    e, sid, tabs = html.escape, group["sheet"], group["tabs"]
+    view = lambda gid: f"https://docs.google.com/spreadsheets/d/{sid}/htmlview?widget=true&headers=false&gid={gid}"
+    split = [cap.split(": ", 1) if ": " in cap else [None, cap] for _, _, cap in tabs]
+    title = next((t for t, _ in split if t), None) or (split[0][1] if len(tabs) == 1 else "") or "Live spreadsheet"
+    frame = f"sheet-{n}"
+    # Clicking a tab marks it as the current one (the frame itself follows the link's target).
+    mark = ("this.parentNode.querySelectorAll('a').forEach(a=>a.removeAttribute('aria-current'));"
+            "this.setAttribute('aria-current','true')")
+    links = []
+    for i, ((_, gid, _), (_, label)) in enumerate(zip(tabs, split)):
+        current = ' aria-current="true"' if i == 0 else ""
+        links.append(f'<a href="{e(view(gid))}" target="{frame}"{current} onclick="{mark}">{e(label or "Tab " + str(i + 1))}</a>')
+    tab_bar = '<nav class="pj-sheet-tabs" aria-label="Sheet tabs">' + "".join(links) + "</nav>" if len(tabs) > 1 else ""
+    first = tabs[0][1]
+    return (f'<figure class="pj-doc pj-sheet" id="sheet-{n}"><div class="pj-doc-bar"><i class="bi bi-table"></i>'
+            f'<span class="pj-doc-t">{e(title)}<small>Google Sheets · live, view only</small></span>'
+            f'<a href="https://docs.google.com/spreadsheets/d/{sid}/edit#gid={first}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Open</a>'
+            f'<a href="https://docs.google.com/spreadsheets/d/{sid}/copy" target="_blank" rel="noopener"><i class="bi bi-files"></i> Make a copy</a></div>'
+            f'{tab_bar}'
+            f'<iframe class="pj-doc-frame" name="{frame}" src="{e(view(first))}" title="{e(title)}" loading="lazy"></iframe></figure>')
 
 
 def doc_html(doc, n):
