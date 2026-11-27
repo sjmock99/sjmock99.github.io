@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08 06:57 UTC",
+ "updated": "2026-11-27 05:20 UTC",
  "source": "notion",
  "skills": [
   {
@@ -1350,12 +1350,12 @@
  "projects": [
   {
    "id": "4038f022083c81b39315fff75b935ede",
-   "name": "LED LAMP",
-   "blurb": "A 3D-printed LED lamp with a single-wall printed diffuser shell.",
+   "name": "LED “LED” LAMP",
+   "blurb": "A lamp shaped like a giant LED, in white or multicolor.",
    "organization": "",
-   "start": null,
+   "start": "2026-11-15",
    "end": null,
-   "link": null,
+   "link": "https://prettygoodengineering.co/led-lamp/",
    "featured": false,
    "skills": [
     "9ff7f497ae3b40dca64c9a8b8bdde978",
@@ -1364,10 +1364,11 @@
     "4038f022083c814ea232fdf49f25d945",
     "40b8f022083c81018de9d045750c63cf"
    ],
-   "cover": null,
-   "videos": 0,
-   "page": "projects/led-lamp.html",
-   "photos": 0
+   "cover": "assets/img/projects/led-led-lamp/fe5e59de8d45-sm.webp",
+   "videos": 3,
+   "page": "projects/led-led-lamp.html",
+   "photos": 14,
+   "docs": []
   },
   {
    "id": "4098f022083c816989f6e5db1a98648f",
@@ -1393,7 +1394,8 @@
    "cover": "assets/img/projects/sample-project-test-delete-me/f83cdca0bbec-sm.webp",
    "videos": 3,
    "page": "projects/sample-project-test-delete-me.html",
-   "photos": 7
+   "photos": 7,
+   "docs": []
   },
   {
    "id": "4038f022083c819b9fd8c2ae3ff2482c",
@@ -1415,16 +1417,17 @@
    "cover": null,
    "videos": 0,
    "page": "projects/twitch-cam-v2.html",
-   "photos": 0
+   "photos": 0,
+   "docs": []
   },
   {
    "id": "b6a7eb60515248b2af7a5311dae49954",
    "name": "TwitchCam V1",
-   "blurb": "A pan/tilt camera robot that Twitch chat controls live, running ROS 2 on a Raspberry Pi with an ESP32 over micro-ROS.",
+   "blurb": "A pan/tilt camera robot that Twitch chat controls live: ROS 2 on a Raspberry Pi, with a Teensy running micro-ROS to drive the servos.",
    "organization": "",
-   "start": null,
-   "end": null,
-   "link": null,
+   "start": "2024-01-01",
+   "end": "2024-03-15",
+   "link": "https://github.com/sjmock99/twitch_cam",
    "featured": false,
    "skills": [
     "5dcc4f8a8cf04917a44825b779c4cedf",
@@ -1433,18 +1436,33 @@
     "4038f022083c81a6803cec2e8b7a0a8f",
     "d3501bb2ec4045a6a41da1bd32a6debe",
     "e3d3972c0ba64a6e8c455c0c7d713549",
-    "63a707011be245f4bc0ce1c4c0968c0c",
     "772257571a524cb99a05eb7abb0e0a39",
     "6b4e076b347b4e31a50148c0ac98f37a",
     "2938f022083c809da0e2d19d5a48a4a2",
-    "40b8f022083c817ea78fc6287b43196a",
     "40b8f022083c81548ec3c1a101c1ea96",
-    "1688f022083c809b8cedd86c37cc174f"
+    "1688f022083c809b8cedd86c37cc174f",
+    "40b8f022083c81cb9fead63113291b42",
+    "40b8f022083c8102b44fe781f54d82ec",
+    "40b8f022083c815da7ace92459a613c6",
+    "40b8f022083c8123a0a7d92762c1e90e",
+    "40b8f022083c81d39211fb78885df0b9",
+    "2fc8f022083c8004b515f1a4e3ecd6eb",
+    "40b8f022083c814c8f51d84ea16aae14",
+    "21299b93bc724631a2263b552fc6a22c",
+    "40b8f022083c818f8f42c926d0eb2b1b",
+    "4038f022083c814286f6d2847d2cd706",
+    "4038f022083c81bead96cedad1b4a0be"
    ],
-   "cover": null,
-   "videos": 0,
+   "cover": "assets/img/projects/twitchcam-v1/0116630a0039-sm.webp",
+   "videos": 2,
    "page": "projects/twitchcam-v1.html",
-   "photos": 0
+   "photos": 3,
+   "docs": [
+    {
+     "src": "assets/docs/projects/twitchcam-v1/fd148c0c70cc.pdf",
+     "title": "TwitchCam V1 slides: requirements, design, system diagram and ROS architecture"
+    }
+   ]
   }
  ],
  "experience": [
