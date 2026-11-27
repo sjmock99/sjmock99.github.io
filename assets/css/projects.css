@@ -81,6 +81,9 @@
 .pj-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
 .pj-thumb a:hover img { transform: scale(1.05); }
 .pj-thumb figcaption { display: none; }  /* shown in the lightbox instead */
+/* Very wide images (screenshots of sheets, dashboards): the whole image, scaled into the square on a light ground. */
+.pj-thumb.pj-fit a { background: color-mix(in srgb, var(--default-color), transparent 95%); border: 1px solid color-mix(in srgb, var(--default-color), transparent 88%); }
+.pj-thumb.pj-fit img { object-fit: contain; padding: 8px; }
 /* Video squares: a clip loops silently; a YouTube / Vimeo one shows its thumbnail. Both get a play button. */
 .pj-thumb a { position: relative; }
 .pj-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
