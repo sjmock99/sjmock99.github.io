@@ -1,5 +1,5 @@
 # Refreshes the site's generated files from the Notion Engineering Wiki (assets/data/skills.json, the generated
-# parts of index.html, the project pages in projects/, their photos in assets/img/projects/ and job / school logos
+# parts of index.html, the project pages in projects/, their photos in assets/img/projects/, their PDFs in assets/docs/projects/ and job / school logos
 # in assets/img/logos/) and commits them
 # if they changed.
 # Needs repo secret NOTION_API (the Notion integration key). Optional repo variable SHOW_ALL=true to ignore the Public checkbox.
@@ -34,7 +34,7 @@ jobs:
         run: python3 scripts/sync_notion.py
       - name: Commit if changed
         run: |
-          git add -A -- assets/data/skills.json index.html projects assets/img/projects assets/img/logos
+          git add -A -- assets/data/skills.json index.html projects assets/img/projects assets/img/logos assets/docs/projects
           if git diff --cached --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
