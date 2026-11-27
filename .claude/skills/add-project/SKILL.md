@@ -75,6 +75,7 @@ changing it, because they often edit it in between.
 | Instagram post / reel embed | Its preview image with an Instagram icon, opening the post. Instagram won't let videos play on other sites; put videos on YouTube for real playback |
 | Uploaded video file (≤ 20 MB) | Copied in; plays on the page; loops silently in the grid |
 | PDF (or a .pdf file block) | Where it sits: title bar with Open / Download over a viewer (bar only on phones); a "Documentation" button in the header; ≤ 15 MB |
+| Google Sheet link (embed / bookmark), shared "anyone with the link can view" | A live, view-only viewer like the PDF one, with Open and Make a copy. Consecutive links to the same sheet become one viewer with a tab each; the link's `#gid=` picks the tab, a caption "Title: Tab" names both. Wide spreadsheet screenshots in the 📷 Photos grid show whole instead of cropped |
 
 Good habits:
 
